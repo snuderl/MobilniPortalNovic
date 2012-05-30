@@ -6,12 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovic.Helpers;
 using System.Web.Security;
+using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovic.Controllers
 {
     public class FeedController : Controller
     {
-        MobilniPortalNovicLib.Models.MobilniPortalNovicContext12 context = new MobilniPortalNovicLib.Models.MobilniPortalNovicContext12();
+        MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
         //
         // GET: /Feed/
 
@@ -22,6 +23,20 @@ namespace MobilniPortalNovic.Controllers
             var feed = new SyndicationFeed("Novice", "Your source to knowledge", new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
 
             return new FeedResult(new Rss20FeedFormatter(feed));
+        }
+
+        [HttpPost]
+        public String Click(ClickCounter click)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Clicks.Add(click);
+                context.SaveChanges();
+                return "Click saved";
+            }
+
+
+            return "Bad info";
         }
 
     }

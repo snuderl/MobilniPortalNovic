@@ -48,6 +48,8 @@ namespace MobilniPortalNovicLib.Migrations
                 new Feed { CategoryId = 4, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=trendi" },
                 new Feed { CategoryId = 5, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" }
             );
+
+            context.Users.AddOrUpdate(new User { Username = "snuderl" });
         }
     }
 }
