@@ -10,7 +10,6 @@
 *.edmx
 *.diagram
 *.designer
-*.designer.cs
 *.dgml
 *DataModel.Designer.cs
 

@@ -28,6 +28,26 @@ namespace MobilniPortalNovicLib.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            context.Categories.AddOrUpdate(
+               new Category { CategoryId = 1, Name = "Šport" },
+               new Category { CategoryId = 2, Name = "Scena" },
+               new Category { CategoryId = 3, Name = "Avtomoto" },
+               new Category { CategoryId = 4, Name = "Trendi" },
+               new Category { CategoryId = 5, Name = "Kultura" }
+               );
+
+            context.NewsSites.AddOrUpdate(
+                new NewsSite { Name = "Siol.net", SiteId = 1 }
+                );
+
+            context.Feeds.AddOrUpdate(
+                new Feed { CategoryId = 1, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=sportal" },
+                new Feed { CategoryId = 2, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=scena" },
+                new Feed { CategoryId = 3, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=avtomoto" },
+                new Feed { CategoryId = 4, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=trendi" },
+                new Feed { CategoryId = 5, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" }
+            );
         }
     }
 }
