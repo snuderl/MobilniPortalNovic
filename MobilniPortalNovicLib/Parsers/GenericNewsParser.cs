@@ -37,6 +37,7 @@ namespace MobilniPortalNovicLib.Parsers
             {
                 HtmlWeb web = new HtmlWeb();
                 web.UseCookies = true;
+                web.AutoDetectEncoding = true;
                 HtmlDocument doc = web.Load(url);
                 try
                 {

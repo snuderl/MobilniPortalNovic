@@ -16,6 +16,7 @@ namespace MobilniPortalNovicLib.Parsers
         {
             using (var client = new WebClient())
             {
+                client.Encoding = System.Text.Encoding.UTF8;
                 var lastUpdated = feed.LastUpdated;
                 var doc = XDocument.Parse(client.DownloadString(feed.url));
                 IEnumerable<NewsFile> news = doc.Element("rss").Element("channel").Elements("item").Select(x => new NewsFile
