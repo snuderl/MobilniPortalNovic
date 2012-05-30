@@ -1,0 +1,60 @@
+@model IEnumerable<MobilniPortalNovicLib.Models.NewsFile>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Delete all", "DeleteAll")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            ShortContent
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Content
+        </th>
+        <th>
+            PubDate
+        </th>
+        <th>
+            Feed
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.NewsId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.NewsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.NewsId })
+        </td>
+        <td>
+			@item.ShortContent
+        </td>
+        <td>
+			@item.Title
+        </td>
+        <td>
+			@item.Content
+        </td>
+        <td>
+			@String.Format("{0:g}", item.PubDate)
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Feed.Category.Name).ToString()
+        </td>
+    </tr>
+}
+
+</table>
+
+

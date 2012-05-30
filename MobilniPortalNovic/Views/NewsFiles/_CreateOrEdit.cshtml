@@ -1,0 +1,47 @@
+@model MobilniPortalNovicLib.Models.NewsFile
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.ShortContent)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.ShortContent)
+    @Html.ValidationMessageFor(model => model.ShortContent)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Title)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Title)
+    @Html.ValidationMessageFor(model => model.Title)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.Content)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.Content)
+    @Html.ValidationMessageFor(model => model.Content)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.PubDate)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.PubDate)
+    @Html.ValidationMessageFor(model => model.PubDate)
+</div>
+
+<div class="editor-label">
+    Feed
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.FeedId, ((IEnumerable<MobilniPortalNovicLib.Models.Feed>)ViewBag.PossibleFeeds).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.FeedId.ToString(),
+        Selected = (Model != null) && (option.FeedId == Model.FeedId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.FeedId)
+</div>

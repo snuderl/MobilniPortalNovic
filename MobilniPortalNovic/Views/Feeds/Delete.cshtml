@@ -1,0 +1,32 @@
+@model MobilniPortalNovicLib.Models.Feed
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Feed</legend>
+
+    <div class="display-label">url</div>
+    <div class="display-field">@Model.url</div>
+
+    <div class="display-label">LastUpdated</div>
+    <div class="display-field">@String.Format("{0:g}", Model.LastUpdated)</div>
+
+    <div class="display-label">Category</div>
+    <div class="display-field">@(Model.Category == null ? "None" : Model.Category.Name)</div>
+
+    <div class="display-label">NewsSite</div>
+    <div class="display-field">@(Model.NewsSite == null ? "None" : Model.NewsSite.Name)</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

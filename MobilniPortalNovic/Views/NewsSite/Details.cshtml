@@ -1,0 +1,23 @@
+@model MobilniPortalNovicLib.Models.NewsSite
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>NewsSite</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+
+    <div class="display-label">Feeds</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Feeds).ToString()</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.SiteId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
