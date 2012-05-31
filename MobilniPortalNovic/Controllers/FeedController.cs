@@ -44,5 +44,10 @@ namespace MobilniPortalNovic.Controllers
             return "Bad info";
         }
 
+        public JsonResult NewsFile(int id)
+        {
+            return Json(context.NewsFiles.Where(x => x.FeedId == id));
+        }
+
     }
 }
