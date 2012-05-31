@@ -27,7 +27,7 @@ namespace MobilniPortalNovic.Controllers
 
         private Uri uriMaker(int id)
         {
-            return new Uri(Url.Action("Details", "NewsFiles", new { id = id }, "http")).SetPort(80);
+            return new Uri(Url.Action("NewsFile", "Feed", new { id = id }, "http")).SetPort(80);
         }
 
         [HttpPost]
@@ -46,7 +46,7 @@ namespace MobilniPortalNovic.Controllers
 
         public JsonResult NewsFile(int id)
         {
-            return Json(context.NewsFiles.Where(x => x.FeedId == id));
+            return Json(context.NewsFiles.Where(x => x.FeedId == id), JsonRequestBehavior.AllowGet);
         }
 
     }
