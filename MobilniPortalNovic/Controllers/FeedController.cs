@@ -46,7 +46,9 @@ namespace MobilniPortalNovic.Controllers
 
         public JsonResult NewsFile(int id)
         {
-            return Json(context.NewsFiles.Where(x => x.FeedId == id).First(), JsonRequestBehavior.AllowGet);
+            var i =context.NewsFiles.Where(x => x.NewsId == id).FirstOrDefault();
+            var d = new { Category = i.Feed.Category.Name, Content = i.Content};
+            return Json(d, JsonRequestBehavior.AllowGet);
         }
 
     }
