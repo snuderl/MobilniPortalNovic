@@ -16,9 +16,9 @@ namespace MobilniPortalNovic.Controllers
         //
         // GET: /Feed/
 
-        public ActionResult Index()
+        public ActionResult Index(int page=0)
         {
-            var articles = context.NewsFiles.OrderBy(pub => pub.PubDate).Take(15).ToList().Select(p => new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate));
+            var articles = context.NewsFiles.OrderBy(pub => pub.PubDate).Skip(page*15).Take(15).ToList().Select(p => new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate));
 
             var feed = new SyndicationFeed("Novice", "Your source to knowledge", new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
 

@@ -78,7 +78,7 @@ namespace Web.Controllers
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PossibleFeeds = context.Feeds;
+            ViewBag.PossibleFeeds = context.Feeds.ToList();
             return View(newsfile);
         }
 
