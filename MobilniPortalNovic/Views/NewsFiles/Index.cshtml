@@ -20,13 +20,13 @@
             Title
         </th>
         <th>
-            Content
-        </th>
-        <th>
             PubDate
         </th>
         <th>
             Feed
+        </th>        
+        <th>
+            Content
         </th>
     </tr>
 
@@ -44,13 +44,14 @@
 			@item.Title
         </td>
         <td>
-			@item.Content
-        </td>
-        <td>
 			@String.Format("{0:g}", item.PubDate)
         </td>
         <td>
 			@Html.DisplayTextFor(_ => item.Feed.Category.Name).ToString()
+        </td>
+                
+        <td>
+			@item.Content
         </td>
     </tr>
 }
