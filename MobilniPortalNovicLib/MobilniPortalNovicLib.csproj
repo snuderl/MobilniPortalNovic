@@ -67,7 +67,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
-    <Compile Include="Models\MobilniPortalNovicContext12.Views.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
