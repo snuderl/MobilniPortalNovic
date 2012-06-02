@@ -48,6 +48,7 @@ namespace Worker
             watch.Start();
             if (State == State.Waiting)
             {
+                Console.WriteLine("Starting run.");
                 State = State.Processing;
                 var context = new MobilniPortalNovicContext12();
                 var sites = new ConcurrentBag<NewsSite>(context.NewsSites.ToList());
@@ -62,6 +63,7 @@ namespace Worker
 
                 State = State.Waiting;
                 watch.Stop();
+                Console.WriteLine("Run finished in {0}", watch.Elapsed);
 
             }
             else
@@ -103,14 +105,17 @@ namespace Worker
 
                 });
 
+                var i = 0;
                 foreach (var f in newsList)
                 {
                     if (!titles.Contains(f.Title))
                     {
                         repo.NewsFiles.Add(f);
+                        i += 1;
                     }
                 }
                 repo.SaveChanges();
+                Console.WriteLine("{0} new sites added.", i);
             }
             return 0;
         }

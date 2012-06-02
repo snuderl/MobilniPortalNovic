@@ -46,7 +46,7 @@ namespace Worker.Parsers
                 catch (NullReferenceException e)
                 {
                     body = "Error while fetching";
-                    Console.WriteLine("Null reference error at url:\n " + url);
+                    //Console.WriteLine("Null reference error at url:\n " + url);
                 }
 
             }
