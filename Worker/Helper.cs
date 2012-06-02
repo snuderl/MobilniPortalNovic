@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
-namespace MobilniPortalNovicLib
+namespace Worker
 {
     public class Helper
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MobilniPortalNovicLib.Models;
 
-namespace MobilniPortalNovicLib.Parsers
+namespace Worker.Parsers
 {
     class GenericNewsParser : INewsParser
     {
@@ -19,7 +19,7 @@ namespace MobilniPortalNovicLib.Parsers
 
 
 
-        public IEnumerable<Models.NewsFile> parseItem(IEnumerable<NewsFile> newsItems)
+        public IEnumerable<MobilniPortalNovicLib.Models.NewsFile> parseItem(IEnumerable<NewsFile> newsItems)
         {
             var news = newsItems.AsParallel().Select(x =>
             {

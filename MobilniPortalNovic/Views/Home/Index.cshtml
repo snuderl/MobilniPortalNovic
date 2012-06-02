@@ -1,16 +1,3 @@
-﻿@model MobilniPortalNovicLib.ParsingService
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
-
-
-@foreach (var c in Model.RunningInfo)
-{
-    <text>@c.Key </text><br />
-    foreach (var s in c.Value)
-    {
-        <text>@s.Key || @s.Value </text><br />
-    }
-}
-
-Elapsed: @Model.watch.Elapsed

@@ -7,7 +7,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 
-namespace MobilniPortalNovicLib
+namespace Worker
 {
 
     public class Scheduler

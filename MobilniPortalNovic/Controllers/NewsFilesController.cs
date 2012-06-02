@@ -18,7 +18,7 @@ namespace Web.Controllers
 
         public ViewResult Index()
         {
-            return View(context.NewsFiles.Include(newsfile => newsfile.Feed).ToList());
+            return View(context.NewsFiles.Include(newsfile => newsfile.Feed).OrderByDescending(x => x.PubDate).ToList());
         }
 
         //

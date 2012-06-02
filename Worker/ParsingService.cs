@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using MobilniPortalNovicLib.Models;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using MobilniPortalNovicLib.Parsers;
+using Worker.Parsers;
 
-namespace MobilniPortalNovicLib
+namespace Worker
 {
     public enum State
     {
@@ -23,11 +23,12 @@ namespace MobilniPortalNovicLib
         public IFeedParser FeedParser { get; set; }
         public INewsParser NewsParser { get; set; }
 
-        public ConcurrentDictionary<String,ConcurrentDictionary<String, State>> RunningInfo { get; set; }
+        public ConcurrentDictionary<String, ConcurrentDictionary<String, State>> RunningInfo { get; set; }
 
 
 
-        private ParsingService(){
+        private ParsingService()
+        {
             State = State.Waiting;
             RunningInfo = new ConcurrentDictionary<string, ConcurrentDictionary<String, State>>();
             watch = new Stopwatch();
@@ -70,48 +71,48 @@ namespace MobilniPortalNovicLib
         }
 
 
-        private int UpdateFeedsForSite(NewsSite site, ConcurrentDictionary<String, MobilniPortalNovicLib.State> dict)
+        private int UpdateFeedsForSite(NewsSite site, ConcurrentDictionary<String, State> dict)
         {
-                using (var repo = new MobilniPortalNovicContext12())
+            using (var repo = new MobilniPortalNovicContext12())
+            {
+                IEnumerable<String> titles = repo.NewsFiles.Select(x => x.Title).ToList();
+                List<NewsFile> newsList = new List<NewsFile>();
+                Parallel.ForEach(site.Feeds, f =>
                 {
-                    IEnumerable<String> titles = repo.NewsFiles.Select(x => x.Title).ToList();
-                    List<NewsFile> newsList = new List<NewsFile>();
-                    Parallel.ForEach(site.Feeds, f =>
+
+                    dict.TryAdd(f.url, State.Processing);
+                    var time = DateTime.Now;
+                    //Get items from feed
+                    var feeds = FeedParser.parseFeed(f);
+                    //Process items
+                    var items = NewsParser.parseItem(feeds);
+
+                    foreach (var item in items)
                     {
 
-                        dict.TryAdd(f.url, State.Processing);
-                        var time = DateTime.Now;
-                        //Get items from feed
-                        var feeds = FeedParser.parseFeed(f);
-                        //Process items
-                        var items = NewsParser.parseItem(feeds);
-
-                        foreach (var item in items)
-                        {
-
-                            item.Content = MobilniPortalNovicLib.Helper.ExtractText(item.Content);
-                            item.ShortContent = Helper.ExtractText(item.ShortContent);
-                            newsList.Add(item);
+                        item.Content = Helper.ExtractText(item.Content);
+                        item.ShortContent = Helper.ExtractText(item.ShortContent);
+                        newsList.Add(item);
 
 
-                        };
-                        f.LastUpdated = time;
-                        dict.TryUpdate(f.url, State.Finished, State.Processing);
-                        repo.SaveChanges();
-
-
-                    });
-
-                    foreach (var f in newsList)
-                    {
-                        if (!titles.Contains(f.Title))
-                        {
-                            repo.NewsFiles.Add(f);
-                        }
-                    }
+                    };
+                    f.LastUpdated = time;
+                    dict.TryUpdate(f.url, State.Finished, State.Processing);
                     repo.SaveChanges();
+
+
+                });
+
+                foreach (var f in newsList)
+                {
+                    if (!titles.Contains(f.Title))
+                    {
+                        repo.NewsFiles.Add(f);
+                    }
                 }
-                return 0;
+                repo.SaveChanges();
+            }
+            return 0;
         }
 
     }

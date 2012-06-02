@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using MobilniPortalNovicLib.Models;
 
-namespace MobilniPortalNovicLib.Parsers
+namespace Worker.Parsers
 {
     class RssFeedParser : IFeedParser
     {
 
-        public IEnumerable<NewsFile> parseFeed(Models.Feed feed)
+        public IEnumerable<NewsFile> parseFeed(MobilniPortalNovicLib.Models.Feed feed)
         {
             using (var client = new WebClient())
             {

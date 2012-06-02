@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MobilniPortalNovicLib.Models;
 
-namespace MobilniPortalNovicLib.Parsers
+namespace Worker.Parsers
 {
     public interface IFeedParser
     {

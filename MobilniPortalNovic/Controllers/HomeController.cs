@@ -14,7 +14,8 @@ namespace Web.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View(MobilniPortalNovicLib.ParsingService.getParsingService());
+            //return View(MobilniPortalNovicLib.ParsingService.getParsingService());
+            return View();
         }
 
         public ActionResult About()
@@ -31,16 +32,16 @@ namespace Web.Controllers
             return View();
         }
 
-        public ActionResult RunUpdate()
-        {
-            var service = MobilniPortalNovicLib.ParsingService.getParsingService();
-            if (service.State == MobilniPortalNovicLib.State.Waiting)
-            {
-                new Thread(new ThreadStart(service.startParse)).Start();
-                return Content("Started update");
-            }
-            return Content("Update runnning");
-        }
+        //public ActionResult RunUpdate()
+        //{
+        //    var service = MobilniPortalNovicLib.ParsingService.getParsingService();
+        //    if (service.State == MobilniPortalNovicLib.State.Waiting)
+        //    {
+        //        new Thread(new ThreadStart(service.startParse)).Start();
+        //        return Content("Started update");
+        //    }
+        //    return Content("Update runnning");
+        //}
 
     }
 }

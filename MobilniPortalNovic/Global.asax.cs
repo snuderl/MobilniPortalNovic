@@ -37,8 +37,8 @@ namespace MobilniPortalNovic
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Scheduler sched = new Scheduler(120);
-            sched.StartUpdating();
+            //Scheduler sched = new Scheduler(120);
+            //sched.StartUpdating();
         }
     }
 }

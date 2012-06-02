@@ -53,7 +53,8 @@ namespace MobilniPortalNovicLib.Migrations
                     })
                 .PrimaryKey(t => t.NewsId)
                 .ForeignKey("Feeds", t => t.FeedId, cascadeDelete: true)
-                .Index(t => t.FeedId);
+                .Index(t => t.FeedId)
+                .Index(x=> x.PubDate);
             
             CreateTable(
                 "ClickCounters",
