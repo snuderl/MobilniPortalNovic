@@ -64,6 +64,10 @@
     <Compile Include="Migrations\201205301209218_First.Designer.cs">
       <DependentUpon>201205301209218_First.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206031452235_ClickCounterCategoryadded.cs" />
+    <Compile Include="Migrations\201206031452235_ClickCounterCategoryadded.Designer.cs">
+      <DependentUpon>201206031452235_ClickCounterCategoryadded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
