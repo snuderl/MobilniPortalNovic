@@ -75,6 +75,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
+    <Compile Include="Personalize\CategoryPersonalizer.cs" />
+    <Compile Include="Personalize\IPersonalize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
