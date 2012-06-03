@@ -94,6 +94,7 @@ namespace Worker
 
                         item.Content = Helper.ExtractText(item.Content);
                         item.ShortContent = Helper.ExtractText(item.ShortContent);
+                        item.CategoryId = f.CategoryId;
                         newsList.Add(item);
 
 

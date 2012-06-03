@@ -35,6 +35,7 @@ namespace MobilniPortalNovic.Controllers
         {
             if (ModelState.IsValid)
             {
+                click.CategoryId = context.NewsFiles.Where(x => x.NewsId == click.NewsId).Select(x => x.CategoryId).First();
                 context.Clicks.Add(click);
                 context.SaveChanges();
                 return "Click saved";
@@ -47,7 +48,7 @@ namespace MobilniPortalNovic.Controllers
         public JsonResult NewsFile(int id)
         {
             var i =context.NewsFiles.Where(x => x.NewsId == id).FirstOrDefault();
-            var d = new { Category = i.Feed.Category.Name, Content = i.Content};
+            var d = new { Title=i.Title,PubDate=i.PubDate, Category = i.Category.Name, Content = i.Content};
             return Json(d, JsonRequestBehavior.AllowGet);
         }
 

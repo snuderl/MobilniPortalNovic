@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201206031452235_ClickCounterCategoryadded.Designer.cs">
       <DependentUpon>201206031452235_ClickCounterCategoryadded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206031455279_NewsFileCategoryadded.cs" />
+    <Compile Include="Migrations\201206031455279_NewsFileCategoryadded.Designer.cs">
+      <DependentUpon>201206031455279_NewsFileCategoryadded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />

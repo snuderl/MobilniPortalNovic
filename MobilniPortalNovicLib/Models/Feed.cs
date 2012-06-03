@@ -50,7 +50,9 @@ namespace MobilniPortalNovicLib.Models
         public String Content { get; set; }
         public DateTime PubDate { get; set; }
         public int FeedId { get; set; }
+        public int CategoryId { get; set; }
 
+        public virtual Category Category { get; set; }
         public virtual Feed Feed { get; set; }
     }
 
