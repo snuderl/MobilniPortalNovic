@@ -75,5 +75,7 @@ namespace MobilniPortalNovicLib.Models
         public int UserId { get; set; }
 
         public String Username { get; set; }
+
+        public virtual IEnumerable<ClickCounter> Clicks { get; set; }
     }
 }

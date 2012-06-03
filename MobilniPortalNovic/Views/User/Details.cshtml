@@ -1,0 +1,35 @@
+﻿@model MobilniPortalNovic.ModelView.UserDetailsModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>User</legend>
+
+    <div class="display-label">Username</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Username)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<div class="Category counts">
+    
+    <h1>Click counts</h1>
+    @foreach (var i in Model.categoryStats)
+    {
+        @i.Key <text>||</text>  @i.Value <br />
+    }
+</div>
+
+<div class="clicks">
+    <h1>Clicks</h1>
+    @foreach (var i in Model.clicks)
+    {
+        @Html.ActionLink(i.NewsFile.Title, "Details", new{ controller="NewsFiles", id=i.NewsFile.NewsId}) <br />
+    }
+</div>

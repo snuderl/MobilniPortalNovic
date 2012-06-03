@@ -1,0 +1,32 @@
+@model MobilniPortalNovicLib.Models.ClickCounter
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ClickCounter</legend>
+
+    <div class="display-label">ClickDate</div>
+    <div class="display-field">@String.Format("{0:g}", Model.ClickDate)</div>
+
+    <div class="display-label">Location</div>
+    <div class="display-field">@Model.Location</div>
+
+    <div class="display-label">NewsId</div>
+    <div class="display-field">@Model.NewsId</div>
+
+    <div class="display-label">NewsFile</div>
+    <div class="display-field">@(Model.NewsFile == null ? "None" : Model.NewsFile.Title)</div>
+
+    <div class="display-label">User</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.User).ToString()</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ClickId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

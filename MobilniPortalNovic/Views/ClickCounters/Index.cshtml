@@ -1,0 +1,59 @@
+@model IEnumerable<MobilniPortalNovicLib.Models.ClickCounter>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            ClickDate
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            NewsId
+        </th>
+        <th>
+            NewsFile
+        </th>
+        <th>
+            User
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ClickId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ClickId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ClickId })
+        </td>
+        <td>
+			@String.Format("{0:g}", item.ClickDate)
+        </td>
+        <td>
+			@item.Location
+        </td>
+        <td>
+			@item.NewsId
+        </td>
+        <td>
+			@(item.NewsFile == null ? "None" : item.NewsFile.Title)
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.User).ToString()
+        </td>
+    </tr>
+}
+
+</table>
+
+
