@@ -15,14 +15,6 @@ namespace MobilniPortalNovic.Controllers
     {
         MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
 
-        public ActionResult RssAuthorized(int userId, int page = 0)
-        {
-
-            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
-            var articles = personalize.GetNews(context.Users.Find(userId)).Skip(page * 15).Take(15).ToList();
-            return new FeedResult(listToRss(articles));
-        }
-
         private Rss20FeedFormatter listToRss(IEnumerable<NewsFile> news)
         {
             var articles = news.Select(p => new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate));
@@ -35,11 +27,29 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /Feed/
-        public ActionResult Index(int page = 0)
+        public ActionResult Index(int page = 0, int userId = 0)
         {
-            var articles = context.NewsFiles.OrderBy(pub => pub.PubDate).Skip(page * 15).Take(15).ToList();
+            IQueryable<NewsFile> articles;
+            if (userId == 0)
+            {
+                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
+            }
+            else
+            {
+                CategoryPersonalizer personalize = new CategoryPersonalizer(context);
+                articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
+            }
 
-            return new FeedResult(listToRss(articles));
+
+            return new FeedResult(listToRss(paging(articles, page).ToList()));
+        }
+
+
+
+        public ActionResult CategoryView(string category, int page = 0)
+        {
+            var articles = context.NewsFiles.Where(x => x.Category.Name == category).OrderByDescending(x => x.PubDate);
+            return new FeedResult(listToRss(paging(articles, page).ToList()));
         }
 
         private Uri uriMaker(int id)
@@ -69,5 +79,9 @@ namespace MobilniPortalNovic.Controllers
             return Json(d, JsonRequestBehavior.AllowGet);
         }
 
+        private IQueryable<NewsFile> paging(IQueryable<NewsFile> query, int page = 0, int take = 15, int skip = 15)
+        {
+            return query.Skip(page * skip).Take(15);
+        }
     }
 }
