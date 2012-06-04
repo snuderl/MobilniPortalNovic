@@ -41,7 +41,17 @@ namespace Worker.Parsers
                 HtmlDocument doc = web.Load(url);
                 try
                 {
-                    body = doc.GetElementbyId(containerId).InnerHtml;
+                    var d = doc.GetElementbyId(containerId);
+                    foreach (var e in d.SelectNodes("//script"))
+                    {
+                        e.Remove();
+                    }
+                    foreach (var e in d.SelectNodes("//div[@class=\"rate\"]"))
+                    {
+                        e.Remove();
+                    }
+                    
+                    body=d.InnerHtml;
                 }
                 catch (NullReferenceException e)
                 {
