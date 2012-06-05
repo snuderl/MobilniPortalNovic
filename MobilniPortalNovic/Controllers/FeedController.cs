@@ -23,10 +23,12 @@ namespace MobilniPortalNovic.Controllers
                     var i = new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate);
                     i.Categories.Add(new SyndicationCategory(p.Category.Name));
                     i.PublishDate = p.PubDate;
-                    set.Add(p.Category.Name);
                     return i;
                 });
             var head = new SyndicationFeed("Novice", "Your source to knowledge", new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
+
+
+            set = new HashSet<string>(articles.Select(x => x.Categories.Select(y => y.Name).First()));
             foreach(var i in set){
                 head.Categories.Add((new SyndicationCategory(i)));
             }
