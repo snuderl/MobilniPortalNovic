@@ -17,9 +17,20 @@ namespace MobilniPortalNovic.Controllers
 
         private Rss20FeedFormatter listToRss(IEnumerable<NewsFile> news)
         {
-            var articles = news.Select(p => new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate));
-
+            var set = new HashSet<String>();
+            var articles = news.Select(
+                p => {
+                    var i = new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate);
+                    i.Categories.Add(new SyndicationCategory(p.Category.Name));
+                    i.PublishDate = p.PubDate;
+                    set.Add(p.Category.Name);
+                    return i;
+                });
             var head = new SyndicationFeed("Novice", "Your source to knowledge", new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
+            foreach(var i in set){
+                head.Categories.Add((new SyndicationCategory(i)));
+            }
+
 
             return new Rss20FeedFormatter(head);
         }
