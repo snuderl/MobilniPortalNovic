@@ -40,6 +40,7 @@ namespace MobilniPortalNovicLib.Models
         public String Name { get; set; }
 
         public int? ParentCategoryId { get; set; }
+        [ForeignKey("ParentCategoryId")]
         public virtual Category ParentCategory { get; set; }
     }
 
