@@ -38,6 +38,9 @@ namespace MobilniPortalNovicLib.Models
         [Key]
         public int CategoryId { get; set; }
         public String Name { get; set; }
+
+        public int? ParentCategoryId { get; set; }
+        public virtual Category ParentCategory { get; set; }
     }
 
     public class NewsFile
@@ -51,6 +54,7 @@ namespace MobilniPortalNovicLib.Models
         public DateTime PubDate { get; set; }
         public int FeedId { get; set; }
         public int CategoryId { get; set; }
+        public String Link { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Feed Feed { get; set; }

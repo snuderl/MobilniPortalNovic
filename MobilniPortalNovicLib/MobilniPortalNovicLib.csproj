@@ -76,6 +76,10 @@
     <Compile Include="Migrations\201206060805130_NewsFileLink.Designer.cs">
       <DependentUpon>201206060805130_NewsFileLink.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206060829337_CategoryParentsAdded.cs" />
+    <Compile Include="Migrations\201206060829337_CategoryParentsAdded.Designer.cs">
+      <DependentUpon>201206060829337_CategoryParentsAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
