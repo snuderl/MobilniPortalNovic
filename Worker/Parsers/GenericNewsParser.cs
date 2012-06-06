@@ -23,7 +23,7 @@ namespace Worker.Parsers
         {
             var news = newsItems.AsParallel().Select(x =>
             {
-                x.Content = fullDescription(x.Content);
+                x.Content = fullDescription(x.Link);
                 return x;
             });
 

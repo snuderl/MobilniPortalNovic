@@ -24,7 +24,7 @@ namespace Worker.Parsers
                                     Title = x.Element("title").Value,
                                     ShortContent = x.Element("description").Value,
                                     PubDate = DateTime.Parse(x.Element("pubDate").Value),
-                                    Content=x.Element("link").Value,
+                                    Link=x.Element("link").Value,
                                     FeedId = feed.FeedId
 
                                 });
