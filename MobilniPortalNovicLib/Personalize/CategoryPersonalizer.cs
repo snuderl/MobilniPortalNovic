@@ -15,10 +15,8 @@ namespace MobilniPortalNovicLib.Personalize
         }
         public IQueryable<NewsFile> GetNews(User u)
         {
-            var i = Context.Clicks.Where(x => x.UserId == u.UserId).GroupBy(x => x.CategoryId).Select(x => new { id = x.Key, count = x.Count() }).
-             OrderByDescending(x => x.count).First();
 
-            return Context.NewsFiles.Where(x => x.CategoryId == i.id).OrderByDescending(x => x.PubDate);
+            return Context.NewsFiles.OrderByDescending(x => x.PubDate);
         }
     }
 }

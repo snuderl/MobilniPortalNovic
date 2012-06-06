@@ -57,7 +57,7 @@ namespace Worker
                 }
 
 
-                var sites = new ConcurrentBag<NewsSite>(context.NewsSites.ToList());
+                var sites = context.NewsSites.ToList();
                 foreach (var site in sites)
                 {
 
