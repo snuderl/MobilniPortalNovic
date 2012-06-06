@@ -13,7 +13,6 @@ namespace Worker
     {
         static void Main(string[] args)
         {
-            Mapper.CreateMap<NewsFileExt, NewsFile>();
             Scheduler sched = new Scheduler(120);
             sched.StartUpdating();
 
@@ -24,6 +23,7 @@ namespace Worker
 
             //ParsingService s = ParsingService.getParsingService();
             //s.startParse();
+            //Console.ReadLine();
         }
     }
 }

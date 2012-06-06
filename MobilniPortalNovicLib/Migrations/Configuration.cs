@@ -34,7 +34,9 @@ namespace MobilniPortalNovicLib.Migrations
                new Category { CategoryId = 2, Name = "Scena" },
                new Category { CategoryId = 3, Name = "Avtomoto" },
                new Category { CategoryId = 4, Name = "Trendi" },
-               new Category { CategoryId = 5, Name = "Kultura" }
+               new Category { CategoryId = 5, Name = "Kultura" },
+               new Category { CategoryId = 6, Name = "TV & Video" },
+               new Category { CategoryId = 7, Name = "Novice" }
                );
 
             context.NewsSites.AddOrUpdate(
@@ -46,8 +48,12 @@ namespace MobilniPortalNovicLib.Migrations
                 new Feed { CategoryId = 2, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=scena" },
                 new Feed { CategoryId = 3, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=avtomoto" },
                 new Feed { CategoryId = 4, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=trendi" },
-                new Feed { CategoryId = 5, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" }
-            );
+                new Feed { CategoryId = 5, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" },
+            new Feed { CategoryId =6, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=tv"}
+           , new Feed { CategoryId = 7, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1,
+                        url = @"http://www.siol.net/rss.aspx?path=novice"
+           }
+                );
 
             context.Users.AddOrUpdate(new User { Username = "snuderl", UserId=1 });
         }

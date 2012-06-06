@@ -7,6 +7,7 @@ using MobilniPortalNovicLib.Models;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using Worker.Parsers;
+using AutoMapper;
 
 namespace Worker
 {
@@ -29,6 +30,8 @@ namespace Worker
 
         private ParsingService()
         {
+
+            Mapper.CreateMap<NewsFileExt, NewsFile>();
             State = State.Waiting;
             watch = new Stopwatch();
             FeedParser = new RssFeedParser();
@@ -80,6 +83,8 @@ namespace Worker
         {
             using (var repo = new MobilniPortalNovicContext12())
             {
+
+                var i = 0;
                 IEnumerable<String> titles = repo.NewsFiles.Select(x => x.Title).ToList();
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
                 foreach (var f in site.Feeds)
@@ -120,26 +125,19 @@ namespace Worker
                             }
                             item.CategoryId = parentId.Value;
                         }
-                        newsList.Add(item);
 
+                        if (!titles.Contains(item.Title))
+                        {
+                            repo.NewsFiles.Add(AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item));
+                            i += 1;
+                            repo.SaveChanges();
+                        }
 
-                    };
-                    f.LastUpdated = time;
-                    repo.SaveChanges();
-
-
-                }
-
-                var i = 0;
-                foreach (var f in newsList)
-                {
-                    if (!titles.Contains(f.Title))
-                    {
-                        repo.NewsFiles.Add(AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(f));
-                        i += 1;
                     }
+                    f.LastUpdated = time;
+
+
                 }
-                repo.SaveChanges();
                 Console.WriteLine("{0} new sites added.", i);
             }
             return 0;
