@@ -42,6 +42,9 @@ namespace MobilniPortalNovicLib.Models
         public int? ParentCategoryId { get; set; }
         [ForeignKey("ParentCategoryId")]
         public virtual Category ParentCategory { get; set; }
+
+        [InverseProperty("ParentCategory")]
+        public virtual ICollection<Category> Children { get; set; }
     }
 
     public class NewsFile
