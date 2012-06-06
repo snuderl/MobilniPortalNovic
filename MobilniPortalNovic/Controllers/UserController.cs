@@ -22,12 +22,30 @@ namespace MobilniPortalNovic.Controllers
             return View(db.Users.ToList());
         }
 
-        public Dictionary<String, float> categoryStats(IEnumerable<ClickCounter> a)
+        public Dictionary<String, float> feedStats(IEnumerable<ClickCounter> a)
         {
             var dict = new Dictionary<String, float>();
             foreach (var i in a)
             {
                 var category = i.NewsFile.Feed.Category.Name;
+                if (dict.ContainsKey(category))
+                {
+                    dict[category] = dict[category] + 1;
+                }
+                else
+                {
+                    dict.Add(category, 1);
+                }
+            }
+            return dict;
+        }
+
+        public Dictionary<String, float> categoryStats(IEnumerable<ClickCounter> a)
+        {
+            var dict = new Dictionary<String, float>();
+            foreach (var i in a)
+            {
+                var category = i.NewsFile.Category.Name;
                 if (dict.ContainsKey(category))
                 {
                     dict[category] = dict[category] + 1;
@@ -48,7 +66,7 @@ namespace MobilniPortalNovic.Controllers
             User user = db.Users.Find(id);
             var c = db.Clicks.Include(x=>x.NewsFile).Where(x => x.UserId == id).ToList();
 
-            return View(new UserDetailsModel{ clicks=c, id=id, Username=user.Username, categoryStats=categoryStats(c)});
+            return View(new UserDetailsModel{ clicks=c, id=id, Username=user.Username, categoryStats=categoryStats(c), feedStats=feedStats(c)});
         }
 
         //
