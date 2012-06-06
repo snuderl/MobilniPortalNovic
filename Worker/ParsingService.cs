@@ -23,14 +23,13 @@ namespace Worker
         public IFeedParser FeedParser { get; set; }
         public INewsParser NewsParser { get; set; }
 
-        public ConcurrentDictionary<String, ConcurrentDictionary<String, State>> RunningInfo { get; set; }
+        public Dictionary<String, int> Categories = new Dictionary<string, int>();
 
 
 
         private ParsingService()
         {
             State = State.Waiting;
-            RunningInfo = new ConcurrentDictionary<string, ConcurrentDictionary<String, State>>();
             watch = new Stopwatch();
             FeedParser = new RssFeedParser();
             NewsParser = new GenericNewsParser("article");
@@ -51,14 +50,18 @@ namespace Worker
                 Console.WriteLine("Starting run.");
                 State = State.Processing;
                 var context = new MobilniPortalNovicContext12();
+
+                foreach (var i in context.Categories.ToList())
+                {
+                    Categories.Add(i.Name, i.CategoryId);
+                }
+
+
                 var sites = new ConcurrentBag<NewsSite>(context.NewsSites.ToList());
-                RunningInfo.Clear();
                 foreach (var site in sites)
                 {
-                    var innerDict = new ConcurrentDictionary<String, State>();
-                    RunningInfo.TryAdd(site.Name, innerDict);
 
-                    UpdateFeedsForSite(site, innerDict);
+                    UpdateFeedsForSite(site);
                 }
 
                 State = State.Waiting;
@@ -73,45 +76,66 @@ namespace Worker
         }
 
 
-        private int UpdateFeedsForSite(NewsSite site, ConcurrentDictionary<String, State> dict)
+        private int UpdateFeedsForSite(NewsSite site)
         {
             using (var repo = new MobilniPortalNovicContext12())
             {
                 IEnumerable<String> titles = repo.NewsFiles.Select(x => x.Title).ToList();
-                List<NewsFile> newsList = new List<NewsFile>();
-                Parallel.ForEach(site.Feeds, f =>
+                List<NewsFileExt> newsList = new List<NewsFileExt>();
+                foreach (var f in site.Feeds)
                 {
-
-                    dict.TryAdd(f.url, State.Processing);
                     var time = DateTime.Now;
                     //Get items from feed
                     var feeds = FeedParser.parseFeed(f);
                     //Process items
                     var items = NewsParser.parseItem(feeds);
 
-                    foreach (var item in items)
+                    foreach (var item in items.Where(x => x.Categories != null && x.Categories.Count() > 0 && x.Content != "Error while fetching"))
                     {
-
                         item.Content = Helper.ExtractText(item.Content);
                         item.ShortContent = Helper.ExtractText(item.ShortContent);
-                        item.CategoryId = f.CategoryId;
+                        String last = item.Categories.Last();
+                        var cat = repo.Categories.Where(x => x.Name == last).FirstOrDefault();
+                        if (cat != null)
+                        {
+                            item.CategoryId = cat.CategoryId;
+                        }
+                        else
+                        {
+                            //Save categories into database
+                            int? parentId = null;
+                            foreach (var c in item.Categories)
+                            {
+                                var s = repo.Categories.Where(x => x.Name == c).FirstOrDefault();
+                                if (s == null)
+                                {
+                                    var category = repo.Categories.Add(new Category { Name = c, ParentCategoryId = parentId });
+                                    repo.SaveChanges();
+                                    parentId = category.CategoryId;
+                                }
+                                else
+                                {
+                                    parentId = s.CategoryId;
+                                }
+                            }
+                            item.CategoryId = parentId.Value;
+                        }
                         newsList.Add(item);
 
 
                     };
                     f.LastUpdated = time;
-                    dict.TryUpdate(f.url, State.Finished, State.Processing);
                     repo.SaveChanges();
 
 
-                });
+                }
 
                 var i = 0;
                 foreach (var f in newsList)
                 {
                     if (!titles.Contains(f.Title))
                     {
-                        repo.NewsFiles.Add(f);
+                        repo.NewsFiles.Add(AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(f));
                         i += 1;
                     }
                 }

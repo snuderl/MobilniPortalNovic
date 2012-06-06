@@ -25,6 +25,7 @@
         <th>
             Feed
         </th>        
+        <th>Category</th>
         <th>
             Content
         </th>
@@ -49,7 +50,7 @@
         <td>
 			@Html.DisplayTextFor(_ => item.Feed.Category.Name).ToString()
         </td>
-                
+                <td>@item.Category.Name</td>
         <td>
 			@item.Content
         </td>

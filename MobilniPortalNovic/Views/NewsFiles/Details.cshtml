@@ -26,6 +26,9 @@
     <div class="display-label">Feed</div>
     <div class="display-field">@Html.DisplayTextFor(_ => Model.Feed.Category.Name).ToString()
     </div>
+
+    <div class="display-label">Category</div>
+    <div class="display-field">@Html.DisplayFor(x=>x.Category.Name)</div>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.NewsId }) |

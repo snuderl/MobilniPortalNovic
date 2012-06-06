@@ -9,11 +9,11 @@ namespace Worker.Parsers
 {
     public interface IFeedParser
     {
-        IEnumerable<NewsFile> parseFeed(Feed feed);
+        IEnumerable<NewsFileExt> parseFeed(Feed feed);
     }
 
     public interface INewsParser
     {
-        IEnumerable<NewsFile> parseItem(IEnumerable<NewsFile> items);
+        IEnumerable<NewsFileExt> parseItem(IEnumerable<NewsFileExt> items);
     }
 }

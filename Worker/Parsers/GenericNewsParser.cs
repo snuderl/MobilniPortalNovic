@@ -19,26 +19,45 @@ namespace Worker.Parsers
 
 
 
-        public IEnumerable<MobilniPortalNovicLib.Models.NewsFile> parseItem(IEnumerable<NewsFile> newsItems)
+        public IEnumerable<NewsFileExt> parseItem(IEnumerable<NewsFileExt> newsItems)
         {
             var news = newsItems.AsParallel().Select(x =>
             {
-                x.Content = fullDescription(x.Link);
-                return x;
+                return fullDescription(x);
             });
 
             return news;
         }
 
-        public String fullDescription(String url)
+        public IEnumerable<String> GetCategories(HtmlDocument doc)
+        {
+            var list = new List<String>();
+            foreach (var i in doc.GetElementbyId("mcrumbfl").SelectNodes("a"))
+            {
+                list.Add(i.InnerHtml);
+            }
+            try
+            {
+                var last = doc.GetElementbyId("mcrumb").SelectNodes("//span[@class=\"item sel\"]").FirstOrDefault();
+                if (last != null) { list.Add(last.InnerText); }
+            }
+            catch (Exception e)
+            {
+            }
+
+            return list;
+        }
+
+        public NewsFileExt fullDescription(NewsFileExt x)
         {
             var body = String.Empty;
+
             using (var c = new WebClient())
             {
                 HtmlWeb web = new HtmlWeb();
                 web.UseCookies = true;
                 web.AutoDetectEncoding = true;
-                HtmlDocument doc = web.Load(url);
+                HtmlDocument doc = web.Load(x.Link);
                 try
                 {
                     var d = doc.GetElementbyId(containerId);
@@ -52,6 +71,10 @@ namespace Worker.Parsers
                     }
                     
                     body=d.InnerHtml;
+
+
+                    //find categories
+                    x.Categories = GetCategories(doc);
                 }
                 catch (NullReferenceException e)
                 {
@@ -60,7 +83,8 @@ namespace Worker.Parsers
                 }
 
             }
-            return body;
+            x.Content = body;
+            return x;
         }
     }
 }
