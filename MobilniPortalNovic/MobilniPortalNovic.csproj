@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Helpers\FeedResult.cs" />
     <Compile Include="Helpers\UriExtensions.cs" />
+    <Compile Include="ModelView\ClickModelView.cs" />
     <Compile Include="ModelView\UserDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

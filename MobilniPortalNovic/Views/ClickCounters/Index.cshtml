@@ -1,4 +1,4 @@
-@model IEnumerable<MobilniPortalNovicLib.Models.ClickCounter>
+@model MobilniPortalNovic.ModelView.ClickModelView
 
 @{
     ViewBag.Title = "Index";
@@ -27,9 +27,12 @@
         <th>
             User
         </th>
+        <th>
+            Category
+            </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Clicks) {
     <tr>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ClickId }) |
@@ -50,6 +53,13 @@
         </td>
         <td>
 			@Html.DisplayTextFor(_ => item.User).ToString()
+        </td>
+        <td>
+            @Model.CategoryParents[item.CategoryId].First().Name
+            @foreach (var i in Model.CategoryParents[item.CategoryId].Skip(1))
+            {
+                <text>-></text>@i.Name
+            }
         </td>
     </tr>
 }

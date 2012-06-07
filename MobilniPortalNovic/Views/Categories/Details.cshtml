@@ -11,6 +11,17 @@
 
     <div class="display-label">Name</div>
     <div class="display-field">@Model.Name</div>
+    <div class="display-label">Parent</div>
+    <div class="display-field">
+        @(Model.ParentCategory==null ? "None" : Model.ParentCategory.Name)
+        </div>
+    <div class="display-label">Children</div>
+    <div class="display-field">
+        @foreach (var i in Model.Children)
+        {
+            <text> </text>@i.Name
+        }
+        </div>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.CategoryId }) |

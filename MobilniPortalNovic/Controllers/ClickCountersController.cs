@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MobilniPortalNovic.ModelView;
+using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovic.Controllers
@@ -18,11 +20,16 @@ namespace MobilniPortalNovic.Controllers
 
         public ViewResult Index(bool limit = true)
         {
-            IQueryable<ClickCounter> clicks = context.Clicks.Include(clickcounter => clickcounter.User).OrderByDescending(x=>x.ClickId);
+            var dict = CategoryHelpers.categoryChildrenLookup(context.Categories.ToList());
+            IQueryable<ClickCounter> clicks = context.Clicks.OrderByDescending(x=>x.ClickId);
             if(limit){
                 clicks = clicks.Take(100);
             }
-            return View(clicks.ToList());
+            return View(new ClickModelView
+            {
+                Clicks = clicks.ToList(),
+                CategoryParents = dict
+            });
         }
 
         //

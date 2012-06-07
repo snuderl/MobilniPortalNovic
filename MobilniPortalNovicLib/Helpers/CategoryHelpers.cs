@@ -31,25 +31,26 @@ namespace MobilniPortalNovicLib.Helpers
             return dict;
         }
 
-        static public Dictionary<int, HashSet<int>> categoryChildrenLookup(List<Category> categories)
+        static public Dictionary<int, HashSet<Category>> categoryChildrenLookup(List<Category> categories)
         {
+
             var dict = createCategoryParentLookup(categories);
-            var lookup = new Dictionary<int, HashSet<int>>();
+            var lookup = new Dictionary<int, HashSet<Category>>();
             foreach (var s in dict)
             {
                 if (!lookup.ContainsKey(s.Key))
                 {
-                    lookup[s.Key] = new HashSet<int> { s.Key };
+                    lookup[s.Key] = new HashSet<Category> { categories.Where(x => x.CategoryId == s.Key).First() };
                 }
                 else
                 {
-                    lookup[s.Key].Add(s.Key);
+                    lookup[s.Key].Add(categories.Where(x => x.CategoryId == s.Key).First());
                 }
                 if (!lookup.ContainsKey(s.Value))
                 {
-                    lookup[s.Value] = new HashSet<int>();
+                    lookup[s.Value] = new HashSet<Category>();
                 }
-                lookup[s.Value].Add(s.Key);
+                lookup[s.Value].Add(categories.Where(x => x.CategoryId == s.Key).First());
             }
 
             return lookup;
@@ -59,13 +60,11 @@ namespace MobilniPortalNovicLib.Helpers
         {
             var categoryChildrenDict = CategoryHelpers.categoryChildrenLookup(categories.ToList());
             var goodCategories = categoryChildrenDict[category];
-            return query.Where(x => goodCategories.Contains(x.CategoryId));
+            return query.Where(x => goodCategories.Select(y => y.CategoryId).Contains(x.CategoryId));
         }
 
         static public IQueryable<T> getNumberOfRandomRows<T>(IQueryable<T> query, int count)
         {
-
-
             return query.OrderBy(x => Guid.NewGuid()).Take(count);
         }
     }

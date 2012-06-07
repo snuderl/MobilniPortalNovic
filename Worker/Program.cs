@@ -54,6 +54,16 @@ namespace Worker
                         }
                     case "4":
                         {
+                            Category cat1 =
+    new Category { CategoryId = 1, Name = "Šport", ParentCategoryId = new Nullable<int>() };
+                            Category cat2 =
+                                new Category { CategoryId = 2, Name = "Novice", ParentCategoryId = new Nullable<int>() };
+                            Category cat3 =
+                                new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1 };
+                            Category cat4 = new Category { CategoryId = 4 };
+                            Category cat5 = new Category { CategoryId = 5, ParentCategoryId = 3 };
+                            Category cat6 = new Category { CategoryId = 6, ParentCategoryId = 3 };
+
                             IQueryable<NewsFile> news = new List<NewsFile>{
             new NewsFile{ NewsId=1, CategoryId=3,},
             new NewsFile{NewsId=2, CategoryId=2},
@@ -62,10 +72,7 @@ namespace Worker
             new NewsFile{NewsId=7, CategoryId=1},
             new NewsFile{NewsId=4, CategoryId=3}}.AsQueryable();
 
-                            IQueryable<Category> categories = new List<Category> {
-            new Category { CategoryId = 1, Name = "Šport"  ,ParentCategoryId=new Nullable<int>()},
-            new Category { CategoryId = 2, Name = "Novice"  ,ParentCategoryId=new Nullable<int>()},
-            new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1} }.AsQueryable();
+                            IQueryable<Category> categories = (new List<Category> { cat1, cat2, cat3, cat4, cat5, cat6 }).AsQueryable();
                             var i = CategoryHelpers.getRowsByCategory(news,3,categories);
                             break;
 
@@ -89,7 +96,6 @@ namespace Worker
             }
 
 
-            System.Environment.Exit(0);
 
             //while (true)
             //{
