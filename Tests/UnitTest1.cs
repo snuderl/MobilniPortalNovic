@@ -79,7 +79,7 @@ namespace Tests
         {
 
             //smallTest
-            var dict = CategoryHelpers.categoryChildrenLookup(categoriesSmall);
+            var dict = CategoryHelpers.CategoryGetChildrensFromParent(categoriesSmall);
 
 
             var expected = new Dictionary<int, HashSet<Category>>{
@@ -95,7 +95,7 @@ namespace Tests
             }
 
             //Big test
-            dict = CategoryHelpers.categoryChildrenLookup(categoriesBig);
+            dict = CategoryHelpers.CategoryGetChildrensFromParent(categoriesBig);
             expected = new Dictionary<int, HashSet<Category>>{
                 {1, new HashSet<Category>{cat1,cat3,cat5,cat6}},
                 {2 ,new HashSet<Category>{cat2}},

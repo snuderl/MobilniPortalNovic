@@ -20,11 +20,13 @@ namespace MobilniPortalNovic.Controllers
 
         public ViewResult Index(bool limit = true)
         {
-            var dict = CategoryHelpers.categoryChildrenLookup(context.Categories.ToList());
-            IQueryable<ClickCounter> clicks = context.Clicks.OrderByDescending(x=>x.ClickId);
-            if(limit){
+            var dict = CategoryHelpers.CategoryGetParentsFromChildren(context.Categories.ToList());
+            IQueryable<ClickCounter> clicks = context.Clicks.OrderByDescending(x => x.ClickId);
+            if (limit)
+            {
                 clicks = clicks.Take(100);
             }
+
             return View(new ClickModelView
             {
                 Clicks = clicks.ToList(),
@@ -111,6 +113,13 @@ namespace MobilniPortalNovic.Controllers
             ClickCounter clickcounter = context.Clicks.Single(x => x.ClickId == id);
             context.Clicks.Remove(clickcounter);
             context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DeleteAll()
+        {
+
+            context.Database.ExecuteSqlCommand("truncate table ClickCounters");
             return RedirectToAction("Index");
         }
 

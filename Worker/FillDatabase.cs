@@ -16,12 +16,10 @@ namespace Worker
             {
                 Random rnd = new Random();
                 IEnumerable<int> indexes = new List<int>();
-                var news = context.NewsFiles.Where(x => x.CategoryId == Category).ToList();
-                var rows = CategoryHelpers.getRowsByCategory(context.NewsFiles, Category, context.Categories);
-                rows = CategoryHelpers.getNumberOfRandomRows(rows, count);
-                foreach (var r in rows.ToList())
+                var rows = CategoryHelpers.getRowsByCategory(context.NewsFiles.Include("Category"), Category, context.Categories).OrderBy(x => new Guid()).Take(count).ToList();
+                foreach (var r in rows)
                 {
-                    var click = new ClickCounter { CategoryId = Category, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = "null" };
+                    var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = "null" };
                     context.Clicks.Add(click);
                 }
 

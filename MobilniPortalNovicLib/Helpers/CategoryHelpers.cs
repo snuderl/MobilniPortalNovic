@@ -31,39 +31,66 @@ namespace MobilniPortalNovicLib.Helpers
             return dict;
         }
 
-        static public Dictionary<int, HashSet<Category>> categoryChildrenLookup(List<Category> categories)
+
+        static public Dictionary<int, int> categoryParentImidiateLookup(List<Category> categories)
         {
-
-            var dict = createCategoryParentLookup(categories);
-            var lookup = new Dictionary<int, HashSet<Category>>();
-            foreach (var s in dict)
+            var dict = new Dictionary<int, int>();
+            foreach (var i in categories)
             {
-                if (!lookup.ContainsKey(s.Key))
+                if (i.ParentCategoryId != null)
                 {
-                    lookup[s.Key] = new HashSet<Category> { categories.Where(x => x.CategoryId == s.Key).First() };
+                    dict[i.CategoryId] = i.ParentCategoryId.Value;
                 }
-                else
-                {
-                    lookup[s.Key].Add(categories.Where(x => x.CategoryId == s.Key).First());
-                }
-                if (!lookup.ContainsKey(s.Value))
-                {
-                    lookup[s.Value] = new HashSet<Category>();
-                }
-                lookup[s.Value].Add(categories.Where(x => x.CategoryId == s.Key).First());
             }
+            return dict;
+        }
 
+        static public Dictionary<int, HashSet<Category>> CategoryGetChildrensFromParent(List<Category> categories)
+        {
+            var lookup = categories.ToDictionary(x=>x.CategoryId, x=>new HashSet<Category>{x});
+            for (int i = 0; i < categories.Count(); i++)
+            {
+                foreach (var l in categories)
+                {
+                    if (l.ParentCategoryId != null)
+                    {
+                        foreach (var z in lookup[l.CategoryId])
+                        {
+                            lookup[l.ParentCategoryId.Value].Add(z);
+                        }
+                    }
+                }
+            }
+            return lookup;
+        }
+
+        static public Dictionary<int, HashSet<Category>> CategoryGetParentsFromChildren(List<Category> categories)
+        {
+            var lookup = categories.ToDictionary(x => x.CategoryId, x => new HashSet<Category> { x });
+            for (int i = 0; i < categories.Count(); i++)
+            {
+                foreach (var l in categories)
+                {
+                    if (l.ParentCategoryId != null)
+                    {
+                        foreach (var z in lookup[l.ParentCategoryId.Value])
+                        {
+                            lookup[l.CategoryId].Add(z);
+                        }
+                    }
+                }
+            }
             return lookup;
         }
 
         static public IQueryable<NewsFile> getRowsByCategory(IQueryable<NewsFile> query, int category, IQueryable<Category> categories)
         {
-            var categoryChildrenDict = CategoryHelpers.categoryChildrenLookup(categories.ToList());
-            var goodCategories = categoryChildrenDict[category];
-            return query.Where(x => goodCategories.Select(y => y.CategoryId).Contains(x.CategoryId));
+            var categoryChildrenDict = CategoryHelpers.CategoryGetChildrensFromParent(categories.ToList());
+            var goodCategories = categoryChildrenDict[category].Select(x=>x.CategoryId);
+            return query.Where(x => goodCategories.Contains(x.CategoryId));
         }
 
-        static public IQueryable<T> getNumberOfRandomRows<T>(IQueryable<T> query, int count)
+        static public IQueryable<NewsFile> getNumberOfRandomRows(IQueryable<NewsFile> query, int count)
         {
             return query.OrderBy(x => Guid.NewGuid()).Take(count);
         }
