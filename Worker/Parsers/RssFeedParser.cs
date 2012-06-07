@@ -10,9 +10,8 @@ using MobilniPortalNovicLib.Models;
 
 namespace Worker.Parsers
 {
-    class RssFeedParser : IFeedParser
+    public class RssFeedParser : IFeedParser
     {
-
         public IEnumerable<NewsFileExt> parseFeed(MobilniPortalNovicLib.Models.Feed feed)
         {
             using (var client = new WebClient())
@@ -20,17 +19,22 @@ namespace Worker.Parsers
                 client.Encoding = System.Text.Encoding.UTF8;
                 var lastUpdated = feed.LastUpdated;
                 var doc = XDocument.Parse(client.DownloadString(feed.url));
-                IEnumerable<NewsFileExt> news = doc.Element("rss").Element("channel").Elements("item").Select(x => new NewsFileExt
-                                {
-                                    Title = x.Element("title").Value,
-                                    ShortContent = x.Element("description").Value,
-                                    PubDate = DateTime.Parse(x.Element("pubDate").Value),
-                                    Link=x.Element("link").Value,
-                                    FeedId = feed.FeedId
+                return parseRssDocument(doc, feed.FeedId);
 
-                                });
-                return news;
             }
+        }
+
+        public IEnumerable<NewsFileExt> parseRssDocument(XDocument doc, int feedId)
+        {
+            IEnumerable<NewsFileExt> news = doc.Element("rss").Element("channel").Elements("item").Select(x => new NewsFileExt
+                    {
+                        Title = x.Element("title").Value,
+                        ShortContent = x.Element("description").Value,
+                        PubDate = DateTime.Parse(x.Element("pubDate").Value),
+                        Link = x.Element("link").Value,
+                        FeedId = feedId
+                    });
+            return news;
         }
 
 

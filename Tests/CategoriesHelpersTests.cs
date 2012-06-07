@@ -10,7 +10,7 @@ using MobilniPortalNovicLib.Helpers;
 namespace Tests
 {
     [TestClass]
-    public class FillDatabaseTests
+    public class CategoriesHelpersTests
     {
         Category cat1 =
             new Category { CategoryId = 1, Name = "Šport", ParentCategoryId = new Nullable<int>() };
@@ -72,6 +72,20 @@ namespace Tests
                 {6,1}};
 
             CollectionAssert.AreEqual(dict, expected);
+        }
+
+
+
+        [TestMethod]
+        public void TestcategoryParentImidiateLookup()
+        {
+            var dict = CategoryHelpers.categoryParentImidiateLookup(categoriesBig);
+            var expected = new Dictionary<int, int>{
+            {3,1},
+            {5,3},
+            {6,3}};
+
+            CollectionAssert.AreEqual(expected, dict);
         }
 
         [TestMethod]

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:mrss="http://www.rssboard.org/media-rss">
+
+  <channel>
+
+    <title>Planet Siol.Net - Najbolj aktualne novice, intervjuji, kolumne in komentarji iz Slovenije, sveta, gospodarstva, črne kronike, tehnologije, zdravstva, znanosti in okolja</title>
+
+    <link>http://www.siol.net/novice.aspx</link>
+
+    <description>RSS - Najbolj aktualne novice, intervjuji, kolumne in komentarji iz Slovenije, sveta, gospodarstva, črne kronike, tehnologije, zdravstva, znanosti in okolja</description>
+
+    <copyright>TSmedia, d.o.o.</copyright>
+
+    <pubDate>Thu, 7 Jun 2012 21:38:49 +0200</pubDate>
+
+    <atom:link href="http://www.siol.net/rss.aspx?path=novice&amp;enc=1" rel="self" type="application/rss+xml" />
+
+    <lastBuildDate>Thu, 7 Jun 2012 21:21:00 +0200</lastBuildDate>
+
+    <item>
+
+      <title>Romney maja prvič doslej premagal Obamo v zbiranju denarja za kampanjo</title>
+
+      <link>http://www.siol.net/novice/svet/2012/06/romney_maja_prvic_doslej_premagal_obamo_v_zbiranju_denarja_za_kampanjo.aspx</link>
+
+      <description>
+
+        <![CDATA[
+
+			<img src="http://cdn1.siol.net/sn/img/12/159/634747009935635116_rtr335nf.jpg" width="136" height="90" alt="" align="left" hspace="5" />
+
+			<p>New York - Republikanski predsedniški kandidat Mitt Romney je maja za predvolilno kampanjo zbral 17 milijonov dolarjev več kot njegov demokratski nasprotnik Barack Obama.
+
+			</p>]]>
+
+
+
+      </description>
+
+      <dc:creator>STA</dc:creator>
+
+      <guid isPermaLink="false">B14A19394DBD43B7B4E023E5D9A9F375</guid>
+
+      <pubDate>Thu, 7 Jun 2012 21:21:00 +0200</pubDate>
+
+    </item>
+
+    <item>
+
+      <title>Enaindvajsetletnik zaradi zlorabe otrok za devet let v zapor</title>
+
+      <link>http://www.siol.net/novice/crna_kronika/2012/06/enaindvajsetletnik_zloraba_otrok.aspx</link>
+
+      <description>
+
+        <![CDATA[
+
+			<img src="http://cdn1.siol.net/sn/img/12/159/634747000377673021_122570313.jpg" width="136" height="90" alt="" align="left" hspace="5" />
+
+			<p>Maribor - Sebastjan Vekuš iz Poljčan, obsojen spolne zlorabe devetih otrok med letoma 2009 in 2011, bo naslednjih devet let preživel v zaporu. Trije otroci so bili z obtoženim v sorodu.
+
+			</p>]]>
+
+
+
+      </description>
+
+      <dc:creator>Planet Siol.net</dc:creator>
+
+      <comments>http://www.siol.net/novice/crna_kronika/2012/06/enaindvajsetletnik_zloraba_otrok.aspx#comments</comments>
+
+      <guid isPermaLink="false">C7467845C52248028A70DFF3501B2B63</guid>
+
+      <pubDate>Thu, 7 Jun 2012 21:03:00 +0200</pubDate>
+
+    </item>
+
+  </channel>
+
+</rss>
+

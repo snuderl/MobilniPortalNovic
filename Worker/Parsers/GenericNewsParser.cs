@@ -9,7 +9,7 @@ using MobilniPortalNovicLib.Models;
 
 namespace Worker.Parsers
 {
-    class GenericNewsParser : INewsParser
+    public class GenericNewsParser : INewsParser
     {
         private string containerId;
         public GenericNewsParser(string containerId)
@@ -23,7 +23,7 @@ namespace Worker.Parsers
         {
             var news = newsItems.AsParallel().Select(x =>
             {
-                return fullDescription(x);
+                return GetFullNewsFileInfo(x);
             });
 
             return news;
@@ -48,7 +48,7 @@ namespace Worker.Parsers
             return list;
         }
 
-        public NewsFileExt fullDescription(NewsFileExt x)
+        public NewsFileExt GetFullNewsFileInfo(NewsFileExt x)
         {
             var body = String.Empty;
 
@@ -60,20 +60,7 @@ namespace Worker.Parsers
                 HtmlDocument doc = web.Load(x.Link);
                 try
                 {
-                    var d = doc.GetElementbyId(containerId);
-                    foreach (var e in d.SelectNodes("//script"))
-                    {
-                        e.Remove();
-                    }
-                    foreach (var e in d.SelectNodes("//div[@class=\"rate\"]"))
-                    {
-                        e.Remove();
-                    }
-                    
-                    body=d.InnerHtml;
-
-
-                    //find categories
+                    body = GetBody(doc);
                     x.Categories = GetCategories(doc);
                 }
                 catch (NullReferenceException e)
@@ -85,6 +72,22 @@ namespace Worker.Parsers
             }
             x.Content = body;
             return x;
+        }
+
+
+        public String GetBody(HtmlDocument doc)
+        {
+            var d = doc.GetElementbyId(containerId);
+            foreach (var e in d.SelectNodes("//script"))
+            {
+                e.Remove();
+            }
+            foreach (var e in d.SelectNodes("//div[@class=\"rate\"]"))
+            {
+                e.Remove();
+            }
+
+            return d.InnerHtml;
         }
     }
 }
