@@ -41,7 +41,7 @@ Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsednišk
             expected = Regex.Replace(expected, @"\s", "");            
             content = Regex.Replace(content, @"\s", "");
 
-            Assert.IsTrue(String.Equals(content, expected, StringComparison.OrdinalIgnoreCase);
+            Assert.IsTrue(String.Equals(content, expected, StringComparison.OrdinalIgnoreCase));
         }
 
         [TestMethod, DeploymentItem("rss.xml")]
