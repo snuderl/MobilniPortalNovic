@@ -43,7 +43,7 @@
 			@item.Location
         </td>
         <td>
-			@item.NewsId
+			@Html.ActionLink(item.NewsId.ToString(), "Details",  new {controller="NewsFiles", id=item.NewsId });
         </td>
         <td>
 			@(item.NewsFile == null ? "None" : item.NewsFile.Title)

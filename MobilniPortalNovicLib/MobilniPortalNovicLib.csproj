@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Migrations\201205301209218_First.cs" />
     <Compile Include="Migrations\201205301209218_First.Designer.cs">
       <DependentUpon>201205301209218_First.cs</DependentUpon>

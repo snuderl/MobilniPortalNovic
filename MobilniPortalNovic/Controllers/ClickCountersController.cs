@@ -16,9 +16,13 @@ namespace MobilniPortalNovic.Controllers
         //
         // GET: /ClickCounters/
 
-        public ViewResult Index()
+        public ViewResult Index(bool limit = true)
         {
-            return View(context.Clicks.Include(clickcounter => clickcounter.User).ToList());
+            IQueryable<ClickCounter> clicks = context.Clicks.Include(clickcounter => clickcounter.User).OrderByDescending(x=>x.ClickId);
+            if(limit){
+                clicks = clicks.Take(100);
+            }
+            return View(clicks.ToList());
         }
 
         //

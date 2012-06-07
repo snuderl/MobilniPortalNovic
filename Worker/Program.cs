@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
+using MobilniPortalNovicLib.Personalize;
 using Worker.Parsers;
 
 namespace Worker
@@ -49,6 +51,24 @@ namespace Worker
                                 );
 
                             break;
+                        }
+                    case "4":
+                        {
+                            IQueryable<NewsFile> news = new List<NewsFile>{
+            new NewsFile{ NewsId=1, CategoryId=3,},
+            new NewsFile{NewsId=2, CategoryId=2},
+            new NewsFile{NewsId=3, CategoryId=1},
+            new NewsFile{NewsId=6, CategoryId=2},
+            new NewsFile{NewsId=7, CategoryId=1},
+            new NewsFile{NewsId=4, CategoryId=3}}.AsQueryable();
+
+                            IQueryable<Category> categories = new List<Category> {
+            new Category { CategoryId = 1, Name = "Šport"  ,ParentCategoryId=new Nullable<int>()},
+            new Category { CategoryId = 2, Name = "Novice"  ,ParentCategoryId=new Nullable<int>()},
+            new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1} }.AsQueryable();
+                            var i = CategoryHelpers.getRowsByCategory(news,3,categories);
+                            break;
+
                         }
                     case "exit":
                         {

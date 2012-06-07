@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovicLib.Personalize
@@ -15,7 +16,7 @@ namespace MobilniPortalNovicLib.Personalize
         }
         public IQueryable<NewsFile> GetNews(User u)
         {
-            var dict = createCategoryParentLookup();
+            var dict = CategoryHelpers.createCategoryParentLookup(Context.Categories.ToList());
             var count = Context.Clicks.Where(x => x.UserId == u.UserId).GroupBy(x => x.CategoryId).
                 Select(x => new { Key = x.Key, count = x.Count() }).ToList();
             var categoryCount = new Dictionary<int, int>();
@@ -38,27 +39,7 @@ namespace MobilniPortalNovicLib.Personalize
             return Context.NewsFiles.Where(x=>ids.Contains(x.CategoryId));
         }
 
-        public Dictionary<int, int> createCategoryParentLookup()
-        {
-            var dict = new Dictionary<int, int>();
-            var categories = Context.Categories.ToList();
-            foreach (var i in categories)
-            {
-                if (i.ParentCategoryId == null)
-                {
-                    dict.Add(i.CategoryId, i.CategoryId);
-                }
-                else
-                {
-                    var c = i;
-                    while (c.ParentCategoryId != null)
-                    {
-                        c = c.ParentCategory;
-                    }
-                    dict.Add(i.CategoryId, c.CategoryId);
-                }
-            }
-            return dict;
-        }
+
+
     }
 }
