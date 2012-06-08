@@ -30,7 +30,7 @@ namespace MobilniPortalNovicLib.Migrations
             //
 
             context.Categories.AddOrUpdate(
-               new Category { CategoryId = 1, Name = "Šport" },
+               new Category { CategoryId = 1, Name = "Sportal" },
                new Category { CategoryId = 2, Name = "Scena" },
                new Category { CategoryId = 3, Name = "Avtomoto" },
                new Category { CategoryId = 4, Name = "Trendi" },

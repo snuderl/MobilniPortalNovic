@@ -98,5 +98,15 @@ namespace Web.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult DeleteAll()
+        {
+            foreach (var c in context.Categories.ToList())
+            {
+                context.Categories.Remove(c);
+            }
+            context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

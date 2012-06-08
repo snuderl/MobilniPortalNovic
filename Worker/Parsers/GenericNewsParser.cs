@@ -101,17 +101,33 @@ namespace Worker.Parsers
         {
             foreach (var child in node.ChildNodes)
             {
-                if (Regex.IsMatch(child.Name, "^h.$") || child.Name == "p")
+                if (Regex.IsMatch(child.Name, "^h.$"))
                 {
                     sb.Append("<" + child.Name + ">");
                     sb.Append(ParsingHelpers.ExtractText(child.InnerHtml));
                     sb.Append("</" + child.Name + ">");
+                }
+                else if(child.Name=="p"){
+                    sb.Append("<p>");
+                    String c = ParsingHelpers.ExtractText(child.InnerHtml);
+                    sb.Append(WrapIfHasOnlyGivenChildNode(child, c, "b"));
+                    sb.Append("</p>");
+
                 }
                 else if (child.HasChildNodes)
                 {
                     RecursiveSearch(child, sb);
                 }
             }
+        }
+
+        public String WrapIfHasOnlyGivenChildNode(HtmlNode node,String textToWrap, String NodeName)
+        {
+            if (node.ChildNodes.Count() == 1 && node.ChildNodes[0].Name == NodeName)
+            {
+                return "<" + NodeName + ">" + textToWrap + "</" + NodeName + ">";
+            }
+            return textToWrap;
         }
 
         public HtmlNode RemoveNodes(HtmlNode node, String xpath)
