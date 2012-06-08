@@ -18,9 +18,11 @@ namespace Worker
         private IScheduler sched;
         private IJobDetail jobDetail;
         public bool Running { get; private set; }
+        private ParsingService service;
 
-        public Scheduler(int repeatInterval)
+        public Scheduler(int repeatInterval, ParsingService service)
         {
+            this.service = service;
             RepeatInterval = TimeSpan.FromSeconds(repeatInterval);
             // construct a scheduler factory
             schedFact = new StdSchedulerFactory();
@@ -38,7 +40,7 @@ namespace Worker
             {
                 trigger = new SimpleTriggerImpl("Feed parsing", null, DateTime.Now, null, SimpleTriggerImpl.RepeatIndefinitely, RepeatInterval);
                 jobDetail = new JobDetailImpl("job", typeof(UpdateJob));
-                jobDetail.JobDataMap["service"] = ParsingService.getParsingService();
+                jobDetail.JobDataMap["service"] = service;
 
                 sched.ScheduleJob(jobDetail, trigger);
                 Running = true;

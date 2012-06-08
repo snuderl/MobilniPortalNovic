@@ -16,8 +16,9 @@ namespace Worker
     {
         static void Main(string[] args)        {
 
-            Scheduler sched = new Scheduler(60*10);
+
             ParsingService service = ParsingService.getParsingService();
+            Scheduler sched = new Scheduler(60*10,service);
 
 
             while (true)

@@ -26,7 +26,8 @@ namespace Worker
         public int TotalCount { get; private set; }
         public int LastRun { get; set; }
 
-        public Dictionary<String, int> Categories = new Dictionary<string, int>();
+        private List<Category> Categories = new List<Category>();
+        private List<String> Titles = null;
 
 
 
@@ -76,27 +77,37 @@ namespace Worker
 
         public int UpdateFeedsForSites()
         {
+
+            var count = 0;
             using (var repo = new MobilniPortalNovicContext12())
             {
 
 
-
-
-                var t1 = Task.Factory.StartNew(() =>
+                Task<List<String>> t1 = null;
+                if (Titles == null)
                 {
-                    using (var context = new MobilniPortalNovicContext12())
+                    t1 = Task.Factory.StartNew(() =>
                     {
-                        return context.NewsFiles.Select(y => y.Title).ToList();
-                    }
-                });
-                var t2 =Task.Factory.StartNew(() =>
+                        using (var context = new MobilniPortalNovicContext12())
+                        {
+                            Titles = context.NewsFiles.Select(y => y.Title).ToList();
+                            return Titles;
+                        }
+                    });
+                }
+
+                Task<int> t2 = null;
+                if (Categories == null)
                 {
-                    using (var context = new MobilniPortalNovicContext12())
+                    t2 = Task.Factory.StartNew(() =>
                     {
-                        Categories = context.Categories.ToDictionary(x=>x.Name, x=>x.CategoryId);
-                    }
-                });               
-                var count = 0;
+                        using (var context = new MobilniPortalNovicContext12())
+                        {
+                            Categories = context.Categories.ToList();
+                            return 1;
+                        }
+                    });
+                }
 
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
                 var time = DateTime.Now;
@@ -104,19 +115,26 @@ namespace Worker
                 var feeds = repo.Feeds.Include("Category").ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
-                Task.WaitAll(t1);
 
-                newsFiles = newsFiles.Where(x => t1.Result.Contains(x.Title) == false);
+                if (t1 != null)
+                {
+                    Task.WaitAll(t1);
+                }
+
+                newsFiles = newsFiles.Where(x => Titles.Contains(x.Title) == false);
                 //Process items
                 var items = NewsParser.parseItem(newsFiles);
 
-                Task.WaitAll(t2);
+                if (t2 != null)
+                {
+                    Task.WaitAll(t2);
+                }
 
 
                 foreach (var item in items.Where(x => x.Categories != null && x.Categories.Count() > 0 && x.Content != "Error while fetching"))
                 {
                     String last = item.Categories.Last();
-                    var cat = repo.Categories.Where(x => x.Name == last).FirstOrDefault();
+                    var cat = Categories.Where(x => x.Name == last).FirstOrDefault();
                     if (cat != null)
                     {
                         item.CategoryId = cat.CategoryId;
@@ -127,12 +145,13 @@ namespace Worker
                         int? parentId = null;
                         foreach (var c in item.Categories)
                         {
-                            var s = repo.Categories.Where(x => x.Name == c).FirstOrDefault();
+                            var s = Categories.Where(x => x.Name == c).FirstOrDefault();
                             if (s == null)
                             {
                                 var category = repo.Categories.Add(new Category { Name = c, ParentCategoryId = parentId });
                                 repo.SaveChanges();
                                 parentId = category.CategoryId;
+                                Categories.Add(category);
                             }
                             else
                             {
@@ -149,7 +168,7 @@ namespace Worker
                 repo.SaveChanges();
                 Console.WriteLine("{0} new sites added.", count);
             }
-            return 0;
+            return count;
         }
 
     }
