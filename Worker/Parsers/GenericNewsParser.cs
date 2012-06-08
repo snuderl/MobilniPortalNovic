@@ -114,6 +114,11 @@ namespace Worker.Parsers
                     sb.Append("</p>");
 
                 }
+                else if (child.Name == "img")
+                {
+                    var s = child.OuterHtml;
+                    sb.Append(s);
+                }
                 else if (child.HasChildNodes)
                 {
                     RecursiveSearch(child, sb);

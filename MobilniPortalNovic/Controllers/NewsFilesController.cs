@@ -62,23 +62,25 @@ namespace Web.Controllers
         public ActionResult Edit(int id)
         {
             NewsFile newsfile = context.NewsFiles.Single(x => x.NewsId == id);
-            ViewBag.PossibleFeeds = context.Feeds;
             return View(newsfile);
         }
 
         //
         // POST: /NewsFiles/Edit/5
 
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Edit(NewsFile newsfile)
         {
             if (ModelState.IsValid)
             {
-                context.Entry(newsfile).State = EntityState.Modified;
+
+                var news = context.NewsFiles.Find(newsfile.NewsId);
+                news.Content = newsfile.Content;
+                news.Title = newsfile.Title;
+                news.ShortContent = newsfile.ShortContent;
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PossibleFeeds = context.Feeds.ToList();
             return View(newsfile);
         }
 

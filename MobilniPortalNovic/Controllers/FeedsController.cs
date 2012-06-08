@@ -64,15 +64,15 @@ namespace Web.Controllers
         public ActionResult Edit(int id)
         {
             Feed feed = context.Feeds.Single(x => x.FeedId == id);
-            ViewBag.PossibleCategories = context.Categories;
-            ViewBag.PossibleNewsSites = context.NewsSites;
+            ViewBag.PossibleCategories = context.Categories.ToList();
+            ViewBag.PossibleNewsSites = context.NewsSites.ToList();
             return View(feed);
         }
 
         //
         // POST: /Feeds/Edit/5
 
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Edit(Feed feed)
         {
             if (ModelState.IsValid)
@@ -81,8 +81,8 @@ namespace Web.Controllers
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PossibleCategories = context.Categories;
-            ViewBag.PossibleNewsSites = context.NewsSites;
+            ViewBag.PossibleCategories = context.Categories.ToList();
+            ViewBag.PossibleNewsSites = context.NewsSites.ToList();
             return View(feed);
         }
 

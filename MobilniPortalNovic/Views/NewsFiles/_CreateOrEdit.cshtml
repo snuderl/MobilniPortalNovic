@@ -34,14 +34,3 @@
     @Html.ValidationMessageFor(model => model.PubDate)
 </div>
 
-<div class="editor-label">
-    Feed
-</div>
-<div class="editor-field">
-    @Html.DropDownListFor(model => model.FeedId, ((IEnumerable<MobilniPortalNovicLib.Models.Feed>)ViewBag.PossibleFeeds).Select(option => new SelectListItem {
-        Text = Html.DisplayTextFor(_ => option).ToString(), 
-        Value = option.FeedId.ToString(),
-        Selected = (Model != null) && (option.FeedId == Model.FeedId)
-    }), "Choose...")
-    @Html.ValidationMessageFor(model => model.FeedId)
-</div>
