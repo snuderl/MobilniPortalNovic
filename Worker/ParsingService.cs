@@ -98,8 +98,6 @@ namespace Worker
 
                     foreach (var item in items.Where(x => x.Categories != null && x.Categories.Count() > 0 && x.Content != "Error while fetching"))
                     {
-                        item.Content = Helper.ExtractText(item.Content);
-                        item.ShortContent = Helper.ExtractText(item.ShortContent);
                         String last = item.Categories.Last();
                         var cat = repo.Categories.Where(x => x.Name == last).FirstOrDefault();
                         if (cat != null)

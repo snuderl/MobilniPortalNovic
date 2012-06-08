@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-namespace Worker
+namespace Worker.Parsers
 {
-    public class Helper
+    public class ParsingHelpers
     {
         public static string ExtractText(string html)
         {
-            if (html == null)
-            {
-                throw new ArgumentNullException("html");
-            }
-
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
 
@@ -31,7 +26,9 @@ namespace Worker
                     }
                 }
             }
-            return String.Join(" ", chunks);
+            var content =  String.Join(" ", chunks);
+            content = Regex.Replace(content, "&nbsp;", "");
+            return content;
         }
     }
 }

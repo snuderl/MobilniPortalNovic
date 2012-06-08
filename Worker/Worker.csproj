@@ -65,11 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FillDatabase.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="Parsers\FeedItem.cs" />
     <Compile Include="Parsers\GenericNewsParser.cs" />
     <Compile Include="Parsers\Interfaces.cs" />
     <Compile Include="Parsers\NewsFileExt.cs" />
+    <Compile Include="Parsers\ParsingHelpers.cs" />
     <Compile Include="Parsers\RssFeedParser.cs" />
     <Compile Include="ParsingService.cs" />
     <Compile Include="Program.cs" />

@@ -29,7 +29,7 @@ namespace Worker.Parsers
             IEnumerable<NewsFileExt> news = doc.Element("rss").Element("channel").Elements("item").Select(x => new NewsFileExt
                     {
                         Title = x.Element("title").Value,
-                        ShortContent = x.Element("description").Value,
+                        ShortContent = ParsingHelpers.ExtractText(x.Element("description").Value),
                         PubDate = DateTime.Parse(x.Element("pubDate").Value),
                         Link = x.Element("link").Value,
                         FeedId = feedId

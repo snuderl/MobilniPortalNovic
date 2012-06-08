@@ -37,8 +37,8 @@ Tiskovni predstavnik Obamove predvolilne kampanje Ben LaBolt je dejal, da so Rom
 
 Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsedniških kandidatov, ker so za volitve na vrsti ponavadi, ko je tekma že odločena. Vendar pa so pomembne za zbiranje denarja in za končno zmago, saj imajo največ delegatskih glasov. Teksas bo tudi letos volil za Romneyja, Kalifornija in New York pa za Obamo.Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsedniških kandidatov, ker so za volitve na vrsti ponavadi, ko je tekma že odločena. Vendar pa so pomembne za zbiranje denarja in za končno zmago, saj imajo največ delegatskih glasov. Teksas bo tudi letos volil za Romneyja, Kalifornija in New York pa za Obamo.
 ";
-            
-            expected = Regex.Replace(expected, @"\s", "");            
+
+            expected = Regex.Replace(expected, @"\s", "");
             content = Regex.Replace(content, @"\s", "");
 
             Assert.IsTrue(String.Equals(content, expected, StringComparison.OrdinalIgnoreCase));
@@ -54,6 +54,22 @@ Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsednišk
 
             Assert.AreEqual(2, list.Count());
             Assert.AreEqual(list.Where(x => x.Title == "Romney maja prvič doslej premagal Obamo v zbiranju denarja za kampanjo").Count() > 0, true);
+        }
+
+        [TestMethod, DeploymentItem("TextToExtract.html")]
+        public void ExtractTextTest()
+        {
+            var doc = new StreamReader("TextToExtract.html").ReadToEnd();
+            var content = ParsingHelpers.ExtractText(doc);
+
+            String expected = "Introduction " + " BoofCV " + "  is a new real time computer vision library written in Java. Written from scratch for ease of use and high performance, it provides a range of functionality from low level image processing, wavelet denoising, to higher level 3D geometric vision. Released under an Apache license for both academic and commercial use. BoofCV's speed has been demonstrated in a couple of comparative studies against other popular computer vision libraries ( " + " link )." +
+                " To demonstrate BoofCV's API, an example of how to associate point features between two images is shown below. Image association is a vital component in creating image mosaics, image stabilization, visual odometry, 3D structure estimation, and many other applications. " +
+  " BoofCV's website contains numerious examples and several tutorials. You can run a multitude of Java Applets in your webbrowser to see its features before installing. BoofCV also has a youtube channel explaining different concepts and examples. ";
+
+            expected = Regex.Replace(expected, @"\s", "");
+            content = Regex.Replace(content, @"\s", "");
+
+            Assert.AreEqual(content, expected);
         }
 
     }
