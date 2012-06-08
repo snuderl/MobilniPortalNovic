@@ -77,6 +77,13 @@ namespace Worker
                             break;
 
                         }
+                    case "5":
+                        {
+                            ParsingService ps = ParsingService.getParsingService();
+                            ps.UpdateFeedsForSites();
+                            break;
+
+                        }
                     case "exit":
                         {
                             sched.Stop();

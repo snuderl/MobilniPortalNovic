@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MobilniPortalNovicLib.Models;
+using System.Collections.Concurrent;
 
 namespace Worker.Parsers
 {
@@ -20,12 +21,19 @@ namespace Worker.Parsers
 
         public IEnumerable<NewsFileExt> parseItem(IEnumerable<NewsFileExt> newsItems)
         {
-            var news = newsItems.AsParallel().Select(x =>
+            ConcurrentBag<NewsFileExt> bag = new ConcurrentBag<NewsFileExt>();
+            Parallel.ForEach(newsItems, x =>
             {
-                return GetFullNewsFileInfo(x);
-            });
+                try
+                {
+                    bag.Add(GetFullNewsFileInfo(x));
+                }
+                catch (Exception e)
+                {
 
-            return news;
+                }
+            });
+            return bag.ToList();
         }
 
         public IEnumerable<String> GetCategories(HtmlDocument doc)

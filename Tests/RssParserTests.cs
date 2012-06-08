@@ -16,7 +16,7 @@ namespace Tests
     class RssParserTests
     {
 
-        [TestMethod, DeploymentItem("NewsFile.xml")]
+        [DeploymentItem("NewsFile.xml")]
         public void GetBody()
         {
             GenericNewsParser g = new GenericNewsParser("article");
