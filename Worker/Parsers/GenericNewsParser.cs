@@ -103,7 +103,9 @@ namespace Worker.Parsers
             {
                 if (Regex.IsMatch(child.Name, "^h.$") || child.Name == "p")
                 {
+                    sb.Append("<" + child.Name + ">");
                     sb.Append(ParsingHelpers.ExtractText(child.InnerHtml));
+                    sb.Append("</" + child.Name + ">");
                 }
                 else if (child.HasChildNodes)
                 {
