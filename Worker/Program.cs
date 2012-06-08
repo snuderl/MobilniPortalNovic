@@ -16,7 +16,8 @@ namespace Worker
     {
         static void Main(string[] args)        {
 
-            Scheduler sched = new Scheduler(120);
+            Scheduler sched = new Scheduler(60*10);
+            ParsingService service = ParsingService.getParsingService();
 
 
             while (true)
@@ -79,7 +80,7 @@ namespace Worker
                         }
                     case "5":
                         {
-                            ParsingService ps = ParsingService.getParsingService();
+                            ParsingService ps = service;
                             ps.UpdateFeedsForSites();
                             break;
 
@@ -92,6 +93,12 @@ namespace Worker
                                 Thread.Sleep(1000);
                             }
                             Environment.Exit(0);
+                            break;
+                        }
+                    case "stats":
+                        {
+                            Console.WriteLine("Total updated {0}.", service.TotalCount);
+                            Console.WriteLine("Last run {0}.", service.LastRun);
                             break;
                         }
                     default:

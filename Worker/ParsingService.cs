@@ -23,6 +23,8 @@ namespace Worker
         public Stopwatch watch { get; set; }
         public IFeedParser FeedParser { get; set; }
         public INewsParser NewsParser { get; set; }
+        public int TotalCount { get; private set; }
+        public int LastRun { get; set; }
 
         public Dictionary<String, int> Categories = new Dictionary<string, int>();
 
@@ -30,7 +32,8 @@ namespace Worker
 
         private ParsingService()
         {
-
+            TotalCount = 0;
+            LastRun = 0;
             Mapper.CreateMap<NewsFileExt, NewsFile>();
             State = State.Waiting;
             watch = new Stopwatch();
@@ -44,17 +47,19 @@ namespace Worker
             return service;
         }
 
+       
+
         public void startParse()
         {
             watch.Reset();
             watch.Start();
-            IEnumerable<NewsSite> sites;
             if (State == State.Waiting)
             {
                 Console.WriteLine("Starting run.");
                 State = State.Processing;
 
-                UpdateFeedsForSites();
+                LastRun = UpdateFeedsForSites();
+                TotalCount += LastRun;
 
                 State = State.Waiting;
                 watch.Stop();
