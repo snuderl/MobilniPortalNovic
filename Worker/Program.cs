@@ -2,110 +2,102 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
 
 namespace Worker
 {
     internal class Program
     {
+        private static Dictionary<String, CommandOption> inputDictionary = null;
+
+        private class CommandOption
+        {
+            public String Description { get; set; }
+
+            public Action Action { get; set; }
+        }
+
+        private static void SimulateClicks()
+        {
+            Console.WriteLine("UserId:");
+            var userId = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("Number of clicks");
+            var count = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("Category number");
+            var category = Int32.Parse(Console.ReadLine());
+            Random rnd = new Random();
+            var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
+            {
+                return DateTime.Now.AddMinutes(rnd.Next(-1000, 1000));
+            }
+            );
+            Console.WriteLine("{0} clicks added.", clicks.Count());
+        }
+
         private static void Main(string[] args)
         {
             ParsingService service = ParsingService.getParsingService();
             Scheduler sched = new Scheduler(60 * 10, service);
+            inputDictionary = new Dictionary<String, CommandOption>();
+            inputDictionary.Add("start", new CommandOption { Description = "Start updating", Action = new Action(() => sched.StartUpdating()) });
+            inputDictionary.Add("stop", new CommandOption { Description = "Stop automatic updating.", Action = new Action(() => sched.Stop()) });
+            inputDictionary.Add("simulate", new CommandOption { Description = "Simulate clicks", Action = new Action(() => SimulateClicks()) });
+            inputDictionary.Add("run",
+                new CommandOption
+                {
+                    Description = "Run single update.",
+                    Action = new Action(() =>
+                {
+                    ParsingService ps = service;
+                    ps.startParse();
+                })
+                });
+            inputDictionary.Add("exit", new CommandOption
+            {
+                Description = "Exit the program",
+                Action = new Action(() =>
+                {
+                    sched.Stop();
+                    Console.WriteLine("Stoping...");
+                    while (ParsingService.getParsingService().State != State.Waiting)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    Environment.Exit(0);
+                })
+            });
+            inputDictionary.Add("stats", new CommandOption
+            {
+                Description = "Show parsers statistics",
+                Action = new Action(() =>
+                {
+                    Console.WriteLine("Scheduler is {0}, with interval {1}.", sched.State, sched.RepeatInterval);
+                    Console.WriteLine("Parsing service in currently: {0}", service.State);
+                    Console.WriteLine("Total updated {0}.", service.TotalCount);
+                    Console.WriteLine("Last run {0}.", service.LastRun);
+                })
+            });
 
             while (true)
             {
-                Console.WriteLine("1: Start worker, 2: Stop worker, 3: Fill database, exit: exit");
                 var input = Console.ReadLine();
-                switch (input)
+                if (inputDictionary.ContainsKey(input))
                 {
-                    case "1":
-                        {
-                            sched.StartUpdating();
-                            break;
-                        }
-                    case "2":
-                        {
-                            sched.Stop();
-                            break;
-                        }
-                    case "3":
-                        {
-                            Console.WriteLine("UserId:");
-                            var userId = Int32.Parse(Console.ReadLine());
-                            Console.WriteLine("Number of clicks");
-                            var count = Int32.Parse(Console.ReadLine());
-                            Console.WriteLine("Category number");
-                            var category = Int32.Parse(Console.ReadLine());
-                            Random rnd = new Random();
-                            var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
-                            {
-                                return DateTime.Now.AddMinutes(rnd.Next(-1000, 1000));
-                            }
-                            );
-                            Console.WriteLine("{0} clicks added.", clicks.Count());
-
-                            break;
-                        }
-                    case "4":
-                        {
-                            Category cat1 =
-    new Category { CategoryId = 1, Name = "Šport", ParentCategoryId = new Nullable<int>() };
-                            Category cat2 =
-                                new Category { CategoryId = 2, Name = "Novice", ParentCategoryId = new Nullable<int>() };
-                            Category cat3 =
-                                new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1 };
-                            Category cat4 = new Category { CategoryId = 4 };
-                            Category cat5 = new Category { CategoryId = 5, ParentCategoryId = 3 };
-                            Category cat6 = new Category { CategoryId = 6, ParentCategoryId = 3 };
-                            IQueryable<NewsFile> news = new List<NewsFile>{
-            new NewsFile{ NewsId=1, CategoryId=3,},
-            new NewsFile{NewsId=2, CategoryId=2},
-            new NewsFile{NewsId=3, CategoryId=1},
-            new NewsFile{NewsId=6, CategoryId=2},
-            new NewsFile{NewsId=7, CategoryId=1},
-            new NewsFile{NewsId=4, CategoryId=3}}.AsQueryable();
-                            IQueryable<Category> categories = (new List<Category> { cat1, cat2, cat3, cat4, cat5, cat6 }).AsQueryable();
-                            var i = CategoryHelpers.getRowsByCategory(news, 3, categories);
-                            break;
-                        }
-                    case "5":
-                        {
-                            ParsingService ps = service;
-                            ps.UpdateFeedsForSites();
-                            break;
-                        }
-                    case "exit":
-                        {
-                            sched.Stop();
-                            Console.WriteLine("Stoping...");
-                            while (ParsingService.getParsingService().State != State.Waiting)
-                            {
-                                Thread.Sleep(1000);
-                            }
-                            Environment.Exit(0);
-                            break;
-                        }
-                    case "stats":
-                        {
-                            Console.WriteLine("Total updated {0}.", service.TotalCount);
-                            Console.WriteLine("Last run {0}.", service.LastRun);
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
+                    inputDictionary[input].Action();
+                }
+                else
+                {
+                    DisplayChoices();
                 }
             }
+        }
 
-            //while (true)
-            //{
-            //    ParsingService s = ParsingService.getParsingService();
-            //    s.startParse();
-            //    Thread.Sleep(10000);
-            //}
+        public static void DisplayChoices()
+        {
+            foreach (var i in inputDictionary)
+            {
+                Console.WriteLine("{0}: {1}", i.Key, i.Value.Description);
+            }
         }
     }
 }

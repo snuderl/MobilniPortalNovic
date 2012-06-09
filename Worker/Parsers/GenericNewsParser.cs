@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BondiGeek.Logging;
 using HtmlAgilityPack;
 
 namespace Worker.Parsers
@@ -28,8 +29,9 @@ namespace Worker.Parsers
                 {
                     bag.Add(GetFullNewsFileInfo(x));
                 }
-                catch (Exception e)
+                catch (NullReferenceException e)
                 {
+                    LogWriter.Instance.WriteToLog("Error parsing link: " + x.Link);
                 }
             });
             return bag.ToList();

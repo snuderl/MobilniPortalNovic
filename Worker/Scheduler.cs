@@ -7,6 +7,8 @@ namespace Worker
 {
     public class Scheduler
     {
+        public enum RunningState { Runing, Waiting }
+
         public TimeSpan RepeatInterval { get; private set; }
 
         private ITrigger trigger;
@@ -14,7 +16,7 @@ namespace Worker
         private IScheduler sched;
         private IJobDetail jobDetail;
 
-        public bool Running { get; private set; }
+        public RunningState State { get; private set; }
 
         private ParsingService service;
 
@@ -28,26 +30,25 @@ namespace Worker
             // get a scheduler
             sched = schedFact.GetScheduler();
             sched.Start();
-
-            Running = false;
+            State = RunningState.Waiting;
         }
 
         public void StartUpdating()
         {
-            if (Running == false)
+            if (State == RunningState.Waiting)
             {
                 trigger = new SimpleTriggerImpl("Feed parsing", null, DateTime.Now, null, SimpleTriggerImpl.RepeatIndefinitely, RepeatInterval);
                 jobDetail = new JobDetailImpl("job", typeof(UpdateJob));
                 jobDetail.JobDataMap["service"] = service;
                 sched.ScheduleJob(jobDetail, trigger);
-                Running = true;
+                State = RunningState.Runing;
             }
         }
 
         public void Stop()
         {
             sched.Clear();
-            Running = false;
+            State = RunningState.Waiting;
         }
     }
 
