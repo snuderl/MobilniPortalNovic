@@ -26,8 +26,8 @@ namespace Worker
         public int TotalCount { get; private set; }
         public int LastRun { get; set; }
 
-        private List<Category> Categories = new List<Category>();
-        private List<String> Titles = null;
+        private HashSet<Category> Categories = new HashSet<Category>();
+        private HashSet<String> Titles = null;
 
 
 
@@ -83,15 +83,15 @@ namespace Worker
             {
 
 
-                Task<List<String>> t1 = null;
+                Task<int> t1 = null;
                 if (Titles == null)
                 {
                     t1 = Task.Factory.StartNew(() =>
                     {
                         using (var context = new MobilniPortalNovicContext12())
                         {
-                            Titles = context.NewsFiles.Select(y => y.Title).ToList();
-                            return Titles;
+                            Titles = new HashSet<String>(context.NewsFiles.Select(y => y.Title));
+                            return 1;
                         }
                     });
                 }
@@ -103,7 +103,7 @@ namespace Worker
                     {
                         using (var context = new MobilniPortalNovicContext12())
                         {
-                            Categories = context.Categories.ToList();
+                            Categories = new HashSet<Category>(context.Categories);
                             return 1;
                         }
                     });
