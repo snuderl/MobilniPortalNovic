@@ -115,7 +115,7 @@ namespace Worker
                 var feeds = repo.Feeds.Include("Category").ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
-
+                 
                 if (t1 != null)
                 {
                     Task.WaitAll(t1);
@@ -161,6 +161,7 @@ namespace Worker
                         item.CategoryId = parentId.Value;
                     }
 
+                    Titles.Add(item.Title);
                     repo.NewsFiles.Add(AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item));
                     count += 1;
 
