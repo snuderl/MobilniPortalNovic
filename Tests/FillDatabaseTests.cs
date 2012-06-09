@@ -16,7 +16,7 @@ namespace Tests
             var context = new MobilniPortalNovicContext12();
             FillDatabase f = new FillDatabase(context);
             var d = DateTime.Now;
-            var categoryId = 98;
+            var categoryId = 1;
             var userId = 1;
             var count = 10;
             var query = f.SimulateClicks(userId, categoryId, count, () => d);

@@ -20,7 +20,9 @@ namespace Worker
             var list = new List<ClickCounter>();
             Random rnd = new Random();
             IEnumerable<int> indexes = new List<int>();
-            var rows = CategoryHelpers.getRowsByCategory(context.NewsFiles.Include("Category"), Category, context.Categories).OrderBy(x => new Guid()).Take(count).ToList();
+            var newsFiles = context.NewsFiles;
+            var categories = context.Categories;
+            var rows = CategoryHelpers.getRowsByCategory(newsFiles, Category, categories).OrderBy(x => new Guid()).Take(count).ToList();
             foreach (var r in rows)
             {
                 var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = "null" };

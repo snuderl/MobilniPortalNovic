@@ -39,11 +39,12 @@ namespace Worker
                             Console.WriteLine("Category number");
                             var category = Int32.Parse(Console.ReadLine());
                             Random rnd = new Random();
-                            new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
+                            var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
                             {
                                 return DateTime.Now.AddMinutes(rnd.Next(-1000, 1000));
                             }
                             );
+                            Console.WriteLine("{0} clicks added.", clicks.Count());
 
                             break;
                         }

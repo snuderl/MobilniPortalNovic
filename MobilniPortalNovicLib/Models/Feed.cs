@@ -19,13 +19,16 @@ namespace MobilniPortalNovicLib.Models
         [Key]
         public int FeedId { get; set; }
 
+        [Required]
         public String url { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey("NewsSite")]
         public int NewsSiteId { get; set; }
 
+        [Required]
         public DateTime LastUpdated { get; set; }
 
         public virtual Category Category { get; set; }
@@ -54,18 +57,24 @@ namespace MobilniPortalNovicLib.Models
         [Key]
         public int NewsId { get; set; }
 
+        [Required]
         public String ShortContent { get; set; }
 
+        [Required]
         public String Title { get; set; }
 
+        [Required]
         public String Content { get; set; }
 
+        [Required]
         public DateTime PubDate { get; set; }
 
+        [Required]
         public int FeedId { get; set; }
 
         public int CategoryId { get; set; }
 
+        [Required]
         public String Link { get; set; }
 
         public virtual Category Category { get; set; }
@@ -78,14 +87,19 @@ namespace MobilniPortalNovicLib.Models
         [Key]
         public int ClickId { get; set; }
 
+        [Required]
         public DateTime ClickDate { get; set; }
 
+        
         public String Location { get; set; }
 
+        [Required]
         public int NewsId { get; set; }
 
+        [Required]
         public int UserId { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         public virtual NewsFile NewsFile { get; set; }
@@ -100,6 +114,7 @@ namespace MobilniPortalNovicLib.Models
         [Key]
         public int UserId { get; set; }
 
+        [Required]
         public String Username { get; set; }
 
         public virtual IEnumerable<ClickCounter> Clicks { get; set; }

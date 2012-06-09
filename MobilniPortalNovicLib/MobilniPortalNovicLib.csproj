@@ -84,6 +84,14 @@
     <Compile Include="Migrations\201206061115177_ForeignKey.Designer.cs">
       <DependentUpon>201206061115177_ForeignKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206091050411_UniqueContraintsAndIndexOnDate.cs" />
+    <Compile Include="Migrations\201206091050411_UniqueContraintsAndIndexOnDate.Designer.cs">
+      <DependentUpon>201206091050411_UniqueContraintsAndIndexOnDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206091108526_RequiredFields.cs" />
+    <Compile Include="Migrations\201206091108526_RequiredFields.Designer.cs">
+      <DependentUpon>201206091108526_RequiredFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />

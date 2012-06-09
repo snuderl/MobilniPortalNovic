@@ -57,7 +57,13 @@ namespace MobilniPortalNovicLib.Migrations
            }
                 );
 
-            context.Users.AddOrUpdate(new User { Username = "snuderl", UserId = 1 });
+            context.Users.AddOrUpdate(
+                new User { Username = "snuderl", UserId = 1 },
+                new User { Username = "Blaž", UserId = 2 },
+                new User { Username = "Anja", UserId = 3 },
+                new User { Username = "Matej", UserId = 4 },
+                new User { Username = "Samo", UserId = 5 }
+                );
         }
     }
 }
