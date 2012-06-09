@@ -12,15 +12,11 @@
 
 
 <div class="editor-label">
-    Category
+    FeedName
 </div>
 <div class="editor-field">
-    @Html.DropDownListFor(model => model.CategoryId, ((IEnumerable<MobilniPortalNovicLib.Models.Category>)ViewBag.PossibleCategories).Select(option => new SelectListItem {
-        Text = (option == null ? "None" : option.Name), 
-        Value = option.CategoryId.ToString(),
-        Selected = (Model != null) && (option.CategoryId == Model.CategoryId)
-    }), "Choose...")
-    @Html.ValidationMessageFor(model => model.CategoryId)
+    @Html.EditorFor(model => model.FeedName)
+    @Html.ValidationMessageFor(model => model.FeedName)
 </div>
 <div class="editor-label">
     NewsSite

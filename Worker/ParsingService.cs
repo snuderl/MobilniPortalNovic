@@ -106,7 +106,7 @@ namespace Worker
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
                 var time = DateTime.Now;
                 //Get items from feed
-                var feeds = repo.Feeds.Include("Category").ToList();
+                var feeds = repo.Feeds.ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
 
