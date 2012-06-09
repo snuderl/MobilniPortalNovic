@@ -22,10 +22,13 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{40CEDA17-C324-4972-9BE8-4CBC1456E37F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40CEDA17-C324-4972-9BE8-4CBC1456E37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CEDA17-C324-4972-9BE8-4CBC1456E37F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{40CEDA17-C324-4972-9BE8-4CBC1456E37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40CEDA17-C324-4972-9BE8-4CBC1456E37F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CEDA17-C324-4972-9BE8-4CBC1456E37F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{70860110-F3B9-4293-80EE-8E51E645D268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70860110-F3B9-4293-80EE-8E51E645D268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70860110-F3B9-4293-80EE-8E51E645D268}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{70860110-F3B9-4293-80EE-8E51E645D268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70860110-F3B9-4293-80EE-8E51E645D268}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B34E0A7B-DDBC-4088-B89D-9736D9F7E3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

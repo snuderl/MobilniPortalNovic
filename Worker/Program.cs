@@ -19,19 +19,41 @@ namespace Worker
 
         private static void SimulateClicks()
         {
-            Console.WriteLine("UserId:");
-            var userId = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Number of clicks");
-            var count = Int32.Parse(Console.ReadLine());
-            Console.WriteLine("Category number");
-            var category = Int32.Parse(Console.ReadLine());
-            Random rnd = new Random();
-            var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
+            try
             {
-                return DateTime.Now.AddMinutes(rnd.Next(-1000, 1000));
+                using (var context = new MobilniPortalNovicContext12())
+                {
+                    Console.WriteLine("UserId:");
+                    int userId;
+                    var i1 = Console.ReadLine();
+                    if (Int32.TryParse(i1, out userId) == false)
+                    {
+                        userId = context.Users.Where(x => x.Username == i1).First().UserId;
+                    }
+
+                    Console.WriteLine("Number of clicks");
+                    var count = Int32.Parse(Console.ReadLine());
+                    Console.WriteLine("Category number");
+
+                    int category;
+                    var i2 = Console.ReadLine();
+                    if (Int32.TryParse(i2, out category)==false)
+                    {
+                        category = context.Categories.Where(x => x.Name == i2).First().CategoryId;
+                    }
+                    Random rnd = new Random();
+                    var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
+                    {
+                        return DateTime.Now.AddMinutes(rnd.Next(-1000, 1000));
+                    }
+                    );
+                    Console.WriteLine("{0} clicks added.", clicks.Count());
+                }
             }
-            );
-            Console.WriteLine("{0} clicks added.", clicks.Count());
+            catch (Exception e)
+            {
+                Console.WriteLine("Bad input");
+            }
         }
 
         private static void Main(string[] args)
@@ -89,8 +111,11 @@ namespace Worker
                 {
                     DisplayChoices();
                 }
+                Console.WriteLine();
             }
         }
+
+        
 
         public static void DisplayChoices()
         {
