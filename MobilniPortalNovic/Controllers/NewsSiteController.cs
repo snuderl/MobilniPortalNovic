@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovicLib.Models;
 
 namespace Web.Controllers
-{   
+{
     public class NewsSiteController : Controller
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
@@ -36,7 +32,7 @@ namespace Web.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /NewsSite/Create
@@ -48,15 +44,15 @@ namespace Web.Controllers
             {
                 context.NewsSites.Add(newssite);
                 context.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(newssite);
         }
-        
+
         //
         // GET: /NewsSite/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             NewsSite newssite = context.NewsSites.Single(x => x.SiteId == id);
@@ -80,7 +76,7 @@ namespace Web.Controllers
 
         //
         // GET: /NewsSite/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             NewsSite newssite = context.NewsSites.Single(x => x.SiteId == id);

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovic.ModelView;
 using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovic.Controllers
-{ 
+{
     public class UserController : Controller
     {
         private MobilniPortalNovicContext12 db = new MobilniPortalNovicContext12();
@@ -64,9 +63,9 @@ namespace MobilniPortalNovic.Controllers
         public ViewResult Details(int id)
         {
             User user = db.Users.Find(id);
-            var c = db.Clicks.Include(x=>x.NewsFile).Where(x => x.UserId == id).ToList();
+            var c = db.Clicks.Include(x => x.NewsFile).Where(x => x.UserId == id).ToList();
 
-            return View(new UserDetailsModel{ clicks=c, id=id, Username=user.Username, categoryStats=categoryStats(c), feedStats=feedStats(c)});
+            return View(new UserDetailsModel { clicks = c, id = id, Username = user.Username, categoryStats = categoryStats(c), feedStats = feedStats(c) });
         }
 
         //
@@ -75,7 +74,7 @@ namespace MobilniPortalNovic.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /User/Create
@@ -87,15 +86,15 @@ namespace MobilniPortalNovic.Controllers
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(user);
         }
-        
+
         //
         // GET: /User/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             User user = db.Users.Find(id);
@@ -119,7 +118,7 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /User/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             User user = db.Users.Find(id);
@@ -131,7 +130,7 @@ namespace MobilniPortalNovic.Controllers
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
-        {            
+        {
             User user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();

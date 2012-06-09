@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MobilniPortalNovicLib.Models;
 using MobilniPortalNovicLib.Helpers;
+using MobilniPortalNovicLib.Models;
 
 namespace Worker
 {
-
     public class FillDatabase
     {
-        MobilniPortalNovicContext12 context;
+        private MobilniPortalNovicContext12 context;
+
         public FillDatabase(MobilniPortalNovicContext12 context)
         {
             this.context = context;

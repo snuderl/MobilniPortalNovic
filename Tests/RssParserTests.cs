@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using HtmlAgilityPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Worker.Parsers;
-using HtmlAgilityPack;
-using System.Text.RegularExpressions;
 
 namespace Tests
 {
     [TestClass]
-    class RssParserTests
+    internal class RssParserTests
     {
-
         [DeploymentItem("NewsFile.xml")]
         public void GetBody()
         {
@@ -51,7 +47,6 @@ Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsednišk
             RssFeedParser rss = new RssFeedParser();
             var list = rss.parseRssDocument(doc, 1);
 
-
             Assert.AreEqual(2, list.Count());
             Assert.AreEqual(list.Where(x => x.Title == "Romney maja prvič doslej premagal Obamo v zbiranju denarja za kampanjo").Count() > 0, true);
         }
@@ -71,6 +66,5 @@ Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsednišk
 
             Assert.AreEqual(content, expected);
         }
-
     }
 }

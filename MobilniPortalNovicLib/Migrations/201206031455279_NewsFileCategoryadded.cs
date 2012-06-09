@@ -1,7 +1,7 @@
 namespace MobilniPortalNovicLib.Migrations
 {
     using System.Data.Entity.Migrations;
-    
+
     public partial class NewsFileCategoryadded : DbMigration
     {
         public override void Up()
@@ -10,7 +10,7 @@ namespace MobilniPortalNovicLib.Migrations
             AddForeignKey("NewsFiles", "CategoryId", "Categories", "CategoryId");
             CreateIndex("NewsFiles", "CategoryId");
         }
-        
+
         public override void Down()
         {
             DropIndex("NewsFiles", new[] { "CategoryId" });

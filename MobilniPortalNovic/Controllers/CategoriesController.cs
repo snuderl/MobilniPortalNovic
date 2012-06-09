@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovicLib.Models;
 
 namespace Web.Controllers
-{   
+{
     public class CategoriesController : Controller
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
@@ -36,7 +32,7 @@ namespace Web.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Categories/Create
@@ -48,15 +44,15 @@ namespace Web.Controllers
             {
                 context.Categories.Add(category);
                 context.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             return View(category);
         }
-        
+
         //
         // GET: /Categories/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             Category category = context.Categories.Single(x => x.CategoryId == id);
@@ -80,7 +76,7 @@ namespace Web.Controllers
 
         //
         // GET: /Categories/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             Category category = context.Categories.Single(x => x.CategoryId == id);

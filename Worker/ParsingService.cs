@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MobilniPortalNovicLib.Models;
-using System.Collections.Concurrent;
 using System.Diagnostics;
-using Worker.Parsers;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using MobilniPortalNovicLib.Models;
+using Worker.Parsers;
 
 namespace Worker
 {
@@ -19,17 +17,8 @@ namespace Worker
     public class ParsingService
     {
         private static ParsingService service = null;
-        public State State { get; private set; }
-        public Stopwatch watch { get; set; }
-        public IFeedParser FeedParser { get; set; }
-        public INewsParser NewsParser { get; set; }
-        public int TotalCount { get; private set; }
-        public int LastRun { get; set; }
-
         private HashSet<Category> Categories = new HashSet<Category>();
         private HashSet<String> Titles = null;
-
-
 
         private ParsingService()
         {
@@ -42,13 +31,23 @@ namespace Worker
             NewsParser = new GenericNewsParser("article");
         }
 
+        public IFeedParser FeedParser { get; set; }
+
+        public int LastRun { get; set; }
+
+        public INewsParser NewsParser { get; set; }
+
+        public State State { get; private set; }
+
+        public int TotalCount { get; private set; }
+
+        public Stopwatch watch { get; set; }
+
         public static ParsingService getParsingService()
         {
             if (service == null) service = new ParsingService();
             return service;
         }
-
-       
 
         public void startParse()
         {
@@ -66,7 +65,6 @@ namespace Worker
                 watch.Stop();
                 Categories.Clear();
                 Console.WriteLine("Run finished in {0}", watch.Elapsed);
-
             }
             else
             {
@@ -74,15 +72,11 @@ namespace Worker
             }
         }
 
-
         public int UpdateFeedsForSites()
         {
-
             var count = 0;
             using (var repo = new MobilniPortalNovicContext12())
             {
-
-
                 Task<int> t1 = null;
                 if (Titles == null)
                 {
@@ -115,7 +109,7 @@ namespace Worker
                 var feeds = repo.Feeds.Include("Category").ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
-                 
+
                 if (t1 != null)
                 {
                     Task.WaitAll(t1);
@@ -129,7 +123,6 @@ namespace Worker
                 {
                     Task.WaitAll(t2);
                 }
-
 
                 foreach (var item in items.Where(x => x.Categories != null && x.Categories.Count() > 0 && x.Content != "Error while fetching"))
                 {
@@ -164,13 +157,11 @@ namespace Worker
                     Titles.Add(item.Title);
                     repo.NewsFiles.Add(AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item));
                     count += 1;
-
                 }
                 repo.SaveChanges();
                 Console.WriteLine("{0} new sites added.", count);
             }
             return count;
         }
-
     }
 }

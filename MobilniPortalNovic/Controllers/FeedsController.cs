@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovicLib.Models;
+
 namespace Web.Controllers
-{   
+{
     public class FeedsController : Controller
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
@@ -37,7 +36,7 @@ namespace Web.Controllers
             ViewBag.PossibleCategories = context.Categories;
             ViewBag.PossibleNewsSites = context.NewsSites;
             return View();
-        } 
+        }
 
         //
         // POST: /Feeds/Create
@@ -50,17 +49,17 @@ namespace Web.Controllers
                 feed.LastUpdated = DateTime.Now;
                 context.Feeds.Add(feed);
                 context.SaveChanges();
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
 
             ViewBag.PossibleCategories = context.Categories;
             ViewBag.PossibleNewsSites = context.NewsSites;
             return View(feed);
         }
-        
+
         //
         // GET: /Feeds/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             Feed feed = context.Feeds.Single(x => x.FeedId == id);
@@ -88,7 +87,7 @@ namespace Web.Controllers
 
         //
         // GET: /Feeds/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             Feed feed = context.Feeds.Single(x => x.FeedId == id);

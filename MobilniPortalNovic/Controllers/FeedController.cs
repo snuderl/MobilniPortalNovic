@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Syndication;
-using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovic.Helpers;
-using System.Web.Security;
 using MobilniPortalNovicLib.Models;
 using MobilniPortalNovicLib.Personalize;
 
@@ -13,30 +11,28 @@ namespace MobilniPortalNovic.Controllers
 {
     public class FeedController : Controller
     {
-        MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
+        private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
 
         private Rss20FeedFormatter listToRss(IEnumerable<NewsFile> news)
         {
             var set = new HashSet<String>();
             var articles = news.Select(
-                p => {
+                p =>
+                {
                     var i = new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate);
                     i.Categories.Add(new SyndicationCategory(p.Category.Name));
                     i.PublishDate = p.PubDate;
                     return i;
                 });
             var head = new SyndicationFeed("Novice", "Your source to knowledge", new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
-
-
             set = new HashSet<string>(articles.Select(x => x.Categories.Select(y => y.Name).First()));
-            foreach(var i in set){
+            foreach (var i in set)
+            {
                 head.Categories.Add((new SyndicationCategory(i)));
             }
 
-
             return new Rss20FeedFormatter(head);
         }
-
 
         //
         // GET: /Feed/
@@ -53,11 +49,8 @@ namespace MobilniPortalNovic.Controllers
                 articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
             }
 
-
             return new FeedResult(listToRss(paging(articles, page).ToList()));
         }
-
-
 
         public ActionResult CategoryView(string category, int page = 0)
         {
@@ -80,7 +73,6 @@ namespace MobilniPortalNovic.Controllers
                 context.SaveChanges();
                 return "Click saved";
             }
-
 
             return "Bad info";
         }

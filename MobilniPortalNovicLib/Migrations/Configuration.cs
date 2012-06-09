@@ -3,9 +3,7 @@ using MobilniPortalNovicLib.Models;
 namespace MobilniPortalNovicLib.Migrations
 {
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MobilniPortalNovicContext12>
     {
@@ -18,7 +16,7 @@ namespace MobilniPortalNovicLib.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data. E.g.
             //
             //    context.People.AddOrUpdate(
@@ -49,13 +47,17 @@ namespace MobilniPortalNovicLib.Migrations
                 new Feed { CategoryId = 3, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=avtomoto" },
                 new Feed { CategoryId = 4, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=trendi" },
                 new Feed { CategoryId = 5, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" },
-            new Feed { CategoryId =6, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=tv"}
-           , new Feed { CategoryId = 7, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1,
-                        url = @"http://www.siol.net/rss.aspx?path=novice"
+            new Feed { CategoryId = 6, LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=tv" }
+           , new Feed
+           {
+               CategoryId = 7,
+               LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"),
+               NewsSiteId = 1,
+               url = @"http://www.siol.net/rss.aspx?path=novice"
            }
                 );
 
-            context.Users.AddOrUpdate(new User { Username = "snuderl", UserId=1 });
+            context.Users.AddOrUpdate(new User { Username = "snuderl", UserId = 1 });
         }
     }
 }

@@ -42,7 +42,7 @@ section {
     display: block;
 }
 
-/* HEADINGS   
+/* HEADINGS
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6 {
     font-size: 1.5em;
@@ -71,10 +71,10 @@ h5, h6 {
     font-size: 1em;
 }
 
-/* PRIMARY LAYOUT ELEMENTS   
+/* PRIMARY LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
-/* you can specify a greater or lesser percentage for the 
+/* you can specify a greater or lesser percentage for the
 page width. Or, you can specify an exact pixel width. */
 .page {
     width: 90%;
@@ -108,7 +108,7 @@ header h1, #header h1 {
     -moz-border-radius: 4px 0 0 0;
 }
 
-footer, 
+footer,
 #footer {
     background-color: #fff;
     color: #999;
@@ -122,7 +122,7 @@ footer,
     -moz-border-radius: 0 0 4px 4px;
 }
 
-/* TAB MENU   
+/* TAB MENU
 ----------------------------------------------------------*/
 ul#menu {
     border-bottom: 1px #5C87B2 solid;
@@ -172,7 +172,7 @@ ul#menu li.selected a {
     color: #000;
 }
 
-/* FORM LAYOUT ELEMENTS   
+/* FORM LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
 fieldset {
@@ -190,7 +190,7 @@ textarea {
     min-height: 75px;
 }
 
-input[type="text"], 
+input[type="text"],
 input[type="password"] {
     border: 1px solid #ccc;
     padding: 2px;
@@ -231,7 +231,7 @@ table th {
     border: solid 1px #e8eef4;
 }
 
-/* MISC  
+/* MISC
 ----------------------------------------------------------*/
 .clear {
     clear: both;
@@ -241,7 +241,7 @@ table th {
     color: Red;
 }
 
-nav, 
+nav,
 #menucontainer {
     margin-top: 40px;
 }
@@ -301,12 +301,12 @@ div#title {
 
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
-.display-label, 
+.display-label,
 .editor-label {
     margin: 1em 0 0 0;
 }
 
-.display-field, 
+.display-field,
 .editor-field {
     margin: 0.5em 0 0 0;
 }

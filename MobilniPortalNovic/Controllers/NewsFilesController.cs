@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovicLib.Models;
 
@@ -73,7 +69,6 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var news = context.NewsFiles.Find(newsfile.NewsId);
                 news.Content = newsfile.Content;
                 news.Title = newsfile.Title;

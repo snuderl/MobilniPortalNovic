@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
 
@@ -10,10 +8,12 @@ namespace MobilniPortalNovicLib.Personalize
     public class CategoryPersonalizer : IPersonalize
     {
         public MobilniPortalNovicContext12 Context { get; set; }
+
         public CategoryPersonalizer(MobilniPortalNovicContext12 context)
         {
             this.Context = context;
         }
+
         public IQueryable<NewsFile> GetNews(User u)
         {
             var dict = CategoryHelpers.createCategoryParentLookup(Context.Categories.ToList());
@@ -34,12 +34,9 @@ namespace MobilniPortalNovicLib.Personalize
             }
 
             var max = categoryCount.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-            var ids = dict.Where(x=>x.Value==max).Select(x=>x.Key);
+            var ids = dict.Where(x => x.Value == max).Select(x => x.Key);
 
-            return Context.NewsFiles.Where(x=>ids.Contains(x.CategoryId));
+            return Context.NewsFiles.Where(x => ids.Contains(x.CategoryId));
         }
-
-
-
     }
 }

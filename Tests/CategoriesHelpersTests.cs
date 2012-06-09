@@ -1,30 +1,31 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Worker;
-using System.Linq;
-using MobilniPortalNovicLib.Models;
 using System.Collections.Generic;
-using MobilniPortalNovicLib.Personalize;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MobilniPortalNovicLib.Helpers;
+using MobilniPortalNovicLib.Models;
 
 namespace Tests
 {
     [TestClass]
     public class CategoriesHelpersTests
     {
-        Category cat1 =
+        private Category cat1 =
             new Category { CategoryId = 1, Name = "Šport", ParentCategoryId = new Nullable<int>() };
-        Category cat2 =
-            new Category { CategoryId = 2, Name = "Novice", ParentCategoryId = new Nullable<int>() };
-        Category cat3 =
-            new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1 };
-        Category cat4 = new Category { CategoryId = 4, ParentCategoryId = new Nullable<int>() };
-        Category cat5 = new Category { CategoryId = 5, ParentCategoryId = 3 };
-        Category cat6 = new Category { CategoryId = 6, ParentCategoryId = 3 };
-        List<Category> categoriesSmall;
-        List<Category> categoriesBig;
 
-        List<NewsFile> news;
+        private Category cat2 =
+            new Category { CategoryId = 2, Name = "Novice", ParentCategoryId = new Nullable<int>() };
+
+        private Category cat3 =
+            new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1 };
+
+        private Category cat4 = new Category { CategoryId = 4, ParentCategoryId = new Nullable<int>() };
+        private Category cat5 = new Category { CategoryId = 5, ParentCategoryId = 3 };
+        private Category cat6 = new Category { CategoryId = 6, ParentCategoryId = 3 };
+        private List<Category> categoriesSmall;
+        private List<Category> categoriesBig;
+
+        private List<NewsFile> news;
 
         [TestInitialize]
         public void SetUp()
@@ -57,7 +58,6 @@ namespace Tests
                 {1,1},
                 {2,2},
                 {3,1}};
-
             CollectionAssert.AreEqual(dict, expected);
 
             //bigData
@@ -70,11 +70,8 @@ namespace Tests
                 {4,4},
                 {5,1},
                 {6,1}};
-
             CollectionAssert.AreEqual(dict, expected);
         }
-
-
 
         [TestMethod]
         public void TestcategoryParentImidiateLookup()
@@ -84,24 +81,19 @@ namespace Tests
             {3,1},
             {5,3},
             {6,3}};
-
             CollectionAssert.AreEqual(expected, dict);
         }
 
         [TestMethod]
         public void TestCategoryChildrenLookup()
         {
-
             //smallTest
             var dict = CategoryHelpers.CategoryGetChildrensFromParent(categoriesSmall);
-
 
             var expected = new Dictionary<int, HashSet<Category>>{
                 {1, new HashSet<Category>{cat1,cat3}},
                 {2 ,new HashSet<Category>{cat2}},
                 {3 ,new HashSet<Category>{cat3}}};
-
-
             foreach (var kv in dict)
             {
                 Assert.IsTrue(expected.ContainsKey(kv.Key));
@@ -117,18 +109,12 @@ namespace Tests
                 {4, new HashSet<Category>{cat4}},
                 {5, new HashSet<Category>{cat5}},
                 {6, new HashSet<Category>{cat6}}};
-
-
             foreach (var kv in dict)
             {
                 Assert.IsTrue(expected.ContainsKey(kv.Key));
                 CollectionAssert.AreEquivalent(kv.Value.ToList(), expected[kv.Key].ToList());
             }
-
-
         }
-
-
 
         [TestMethod]
         public void TestRandomCategory()
@@ -136,7 +122,6 @@ namespace Tests
             var category = 3;
 
             var rows = CategoryHelpers.getRowsByCategory(news.AsQueryable(), category, categoriesSmall.AsQueryable()).ToList();
-
 
             Assert.AreEqual(rows.Count(), news.Where(x => x.CategoryId == 3).Count());
             Assert.AreEqual(rows.All(x => x.CategoryId == 3), true);
@@ -148,7 +133,6 @@ namespace Tests
 
             category = 3;
             rows = CategoryHelpers.getRowsByCategory(news.AsQueryable(), category, categoriesBig.AsQueryable()).ToList();
-
 
             Assert.AreEqual(rows.Count(), news.Where(x => x.CategoryId == 3).Count());
             Assert.AreEqual(rows.All(x => x.CategoryId == 3), true);

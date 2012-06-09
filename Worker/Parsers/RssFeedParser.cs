@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using HtmlAgilityPack;
-using MobilniPortalNovicLib.Models;
 
 namespace Worker.Parsers
 {
@@ -20,7 +16,6 @@ namespace Worker.Parsers
                 var lastUpdated = feed.LastUpdated;
                 var doc = XDocument.Parse(client.DownloadString(feed.url));
                 return parseRssDocument(doc, feed.FeedId);
-
             }
         }
 
@@ -36,7 +31,5 @@ namespace Worker.Parsers
                     });
             return news;
         }
-
-
     }
 }

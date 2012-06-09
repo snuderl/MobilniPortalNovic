@@ -1,7 +1,7 @@
 namespace MobilniPortalNovicLib.Migrations
 {
     using System.Data.Entity.Migrations;
-    
+
     public partial class First : DbMigration
     {
         public override void Up()
@@ -14,7 +14,7 @@ namespace MobilniPortalNovicLib.Migrations
                         Name = c.String(),
                     })
                 .PrimaryKey(t => t.SiteId);
-            
+
             CreateTable(
                 "Feeds",
                 c => new
@@ -30,7 +30,7 @@ namespace MobilniPortalNovicLib.Migrations
                 .ForeignKey("NewsSites", t => t.NewsSiteId, cascadeDelete: true)
                 .Index(t => t.CategoryId)
                 .Index(t => t.NewsSiteId);
-            
+
             CreateTable(
                 "Categories",
                 c => new
@@ -39,7 +39,7 @@ namespace MobilniPortalNovicLib.Migrations
                         Name = c.String(),
                     })
                 .PrimaryKey(t => t.CategoryId);
-            
+
             CreateTable(
                 "NewsFiles",
                 c => new
@@ -54,8 +54,8 @@ namespace MobilniPortalNovicLib.Migrations
                 .PrimaryKey(t => t.NewsId)
                 .ForeignKey("Feeds", t => t.FeedId, cascadeDelete: true)
                 .Index(t => t.FeedId)
-                .Index(x=> x.PubDate);
-            
+                .Index(x => x.PubDate);
+
             CreateTable(
                 "ClickCounters",
                 c => new
@@ -71,7 +71,7 @@ namespace MobilniPortalNovicLib.Migrations
                 .ForeignKey("Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.NewsId)
                 .Index(t => t.UserId);
-            
+
             CreateTable(
                 "Users",
                 c => new
@@ -80,9 +80,8 @@ namespace MobilniPortalNovicLib.Migrations
                         Username = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
-            
         }
-        
+
         public override void Down()
         {
             DropIndex("ClickCounters", new[] { "UserId" });

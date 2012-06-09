@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,14 +7,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MobilniPortalNovicLib.Models;
-using System.Collections.Concurrent;
 
 namespace Worker.Parsers
 {
     public class GenericNewsParser : INewsParser
     {
         private string containerId;
+
         public GenericNewsParser(string containerId)
         {
             this.containerId = containerId;
@@ -30,7 +30,6 @@ namespace Worker.Parsers
                 }
                 catch (Exception e)
                 {
-
                 }
             });
             return bag.ToList();
@@ -67,14 +66,10 @@ namespace Worker.Parsers
                 HtmlDocument doc = web.Load(x.Link);
                 body = GetBody(doc);
                 x.Categories = GetCategories(doc);
-
             }
             x.Content = body;
             return x;
         }
-
-
-
 
         public String GetBody(HtmlDocument doc)
         {
@@ -92,9 +87,7 @@ namespace Worker.Parsers
 
             RecursiveSearch(d, sb);
 
-
             return sb.ToString();
-
         }
 
         public void RecursiveSearch(HtmlNode node, StringBuilder sb)
@@ -107,12 +100,12 @@ namespace Worker.Parsers
                     sb.Append(ParsingHelpers.ExtractText(child.InnerHtml));
                     sb.Append("</" + child.Name + ">");
                 }
-                else if(child.Name=="p"){
+                else if (child.Name == "p")
+                {
                     sb.Append("<p>");
                     String c = ParsingHelpers.ExtractText(child.InnerHtml);
                     sb.Append(WrapIfHasOnlyGivenChildNode(child, c, "b"));
                     sb.Append("</p>");
-
                 }
                 else if (child.Name == "img")
                 {
@@ -126,7 +119,7 @@ namespace Worker.Parsers
             }
         }
 
-        public String WrapIfHasOnlyGivenChildNode(HtmlNode node,String textToWrap, String NodeName)
+        public String WrapIfHasOnlyGivenChildNode(HtmlNode node, String textToWrap, String NodeName)
         {
             if (node.ChildNodes.Count() == 1 && node.ChildNodes[0].Name == NodeName)
             {

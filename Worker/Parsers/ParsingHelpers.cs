@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
@@ -26,7 +24,7 @@ namespace Worker.Parsers
                     }
                 }
             }
-            var content =  String.Join(" ", chunks);
+            var content = String.Join(" ", chunks);
             content = Regex.Replace(content, "&nbsp;", "");
             return content;
         }

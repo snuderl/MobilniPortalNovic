@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovic.ModelView
@@ -12,7 +10,6 @@ namespace MobilniPortalNovic.ModelView
         public int id;
         public IEnumerable<ClickCounter> clicks;
         public Dictionary<String, float> feedStats;
-         public Dictionary<String, float> categoryStats;
-
+        public Dictionary<String, float> categoryStats;
     }
 }
