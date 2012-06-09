@@ -26,7 +26,7 @@ namespace MobilniPortalNovic.Controllers
             var dict = new Dictionary<String, float>();
             foreach (var i in a)
             {
-                var category = i.NewsFile.Feed.Category.Name;
+                var category = i.NewsFile.Feed.FeedName;
                 if (dict.ContainsKey(category))
                 {
                     dict[category] = dict[category] + 1;

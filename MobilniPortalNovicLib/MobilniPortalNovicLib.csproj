@@ -92,6 +92,10 @@
     <Compile Include="Migrations\201206091108526_RequiredFields.Designer.cs">
       <DependentUpon>201206091108526_RequiredFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206091140192_FeedCategoryRemoved.cs" />
+    <Compile Include="Migrations\201206091140192_FeedCategoryRemoved.Designer.cs">
+      <DependentUpon>201206091140192_FeedCategoryRemoved.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />

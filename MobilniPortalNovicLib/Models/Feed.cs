@@ -22,8 +22,7 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public String url { get; set; }
 
-        [Required]
-        public int CategoryId { get; set; }
+        public String FeedName { get; set; }
 
         [ForeignKey("NewsSite")]
         public int NewsSiteId { get; set; }
@@ -31,7 +30,6 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public DateTime LastUpdated { get; set; }
 
-        public virtual Category Category { get; set; }
 
         public virtual NewsSite NewsSite { get; set; }
     }

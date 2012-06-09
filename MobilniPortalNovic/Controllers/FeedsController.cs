@@ -16,7 +16,7 @@ namespace Web.Controllers
 
         public ViewResult Index()
         {
-            return View(context.Feeds.Include(feed => feed.Category).Include(feed => feed.NewsSite).ToList());
+            return View(context.Feeds.Include(feed => feed.NewsSite).ToList());
         }
 
         //
