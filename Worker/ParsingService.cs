@@ -101,6 +101,7 @@ namespace Worker
             var count = 0;
             using (var repo = new MobilniPortalNovicContext12())
             {
+                #region InitializeRequiredFields
                 if (Titles == null)
                 {
                     ///Select only last 30 from each list
@@ -109,19 +110,22 @@ namespace Worker
                     /// var list = context.NewsFiles.Select(y => y.Title));
                     Titles = new HashSet<String>(list);
                 }
-
                 if (Categories == null)
                 {
                     Categories = new HashSet<Category>(repo.Categories);
                 }
+                #endregion
 
+                #region ParseFeed
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
                 var time = DateTime.Now;
                 //Get items from feed
                 var feeds = repo.Feeds.ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
+                #endregion
 
+                #region ParseItems
                 newsFiles = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false);
                 //Process items
                 var items = NewsParser.parseItem(newsFiles);
@@ -131,36 +135,34 @@ namespace Worker
                     LogWriter.Instance.WriteToLog("Error parsing: " + x.Title + "\n" + x.Link);
                     FailedTitles.Add(x.Title);
                 });
+                #endregion
 
+                #region SaveToDatabase
                 foreach (var item in items.Where(x => IsElementok(x)))
                 {
-                    String last = item.Categories.Last();
-                    var cat = Categories.Where(x => x.Name == last).FirstOrDefault();
-                    if (cat != null)
+                    #region GetCategoryIdOrCreateNew
+                    //Save categories into database
+                    int? parentId = null;
+                    foreach (var c in item.Categories)
                     {
-                        item.CategoryId = cat.CategoryId;
-                    }
-                    else
-                    {
-                        //Save categories into database
-                        int? parentId = null;
-                        foreach (var c in item.Categories)
+
+                        var s = Categories.Where(x => x.Name.Equals(c) && x.ParentCategoryId == parentId).FirstOrDefault();
+                        if (s == null)
                         {
-                            var s = Categories.Where(x => x.Name == c).FirstOrDefault();
-                            if (s == null)
-                            {
-                                var category = repo.Categories.Add(new Category { Name = c, ParentCategoryId = parentId });
-                                repo.SaveChanges();
-                                parentId = category.CategoryId;
-                                Categories.Add(category);
-                            }
-                            else
-                            {
-                                parentId = s.CategoryId;
-                            }
+                            var category = repo.Categories.Add(new Category { Name = c, ParentCategoryId = parentId });
+                            Console.WriteLine("Adding category {0}", c);
+                            LogWriter.Instance.WriteToLog("Adding category " + c);
+                            repo.SaveChanges();
+                            parentId = category.CategoryId;
+                            Categories.Add(category);
                         }
-                        item.CategoryId = parentId.Value;
+                        else
+                        {
+                            parentId = s.CategoryId;
+                        }
                     }
+                    item.CategoryId = parentId.Value;
+                    #endregion
 
                     Titles.Add(item.Title);
                     var i = AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item);
@@ -169,6 +171,7 @@ namespace Worker
                 }
                 repo.SaveChanges();
                 Console.WriteLine("{0} new sites added.", count);
+                #endregion
             }
             return count;
         }
