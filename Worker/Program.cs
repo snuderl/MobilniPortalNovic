@@ -37,7 +37,7 @@ namespace Worker
 
                     int category;
                     var i2 = Console.ReadLine();
-                    if (Int32.TryParse(i2, out category)==false)
+                    if (Int32.TryParse(i2, out category) == false)
                     {
                         category = context.Categories.Where(x => x.Name == i2).First().CategoryId;
                     }
@@ -64,6 +64,15 @@ namespace Worker
             inputDictionary.Add("start", new CommandOption { Description = "Start updating", Action = new Action(() => sched.StartUpdating()) });
             inputDictionary.Add("stop", new CommandOption { Description = "Stop automatic updating.", Action = new Action(() => sched.Stop()) });
             inputDictionary.Add("simulate", new CommandOption { Description = "Simulate clicks", Action = new Action(() => SimulateClicks()) });
+            inputDictionary.Add("check", new CommandOption
+            {
+                Description = "Check for duplicates",
+                Action = new Action(() =>
+                {
+                    var dateToCheck = DateTime.Now.AddDays(-1);
+                    new MobilniPortalNovicContext12().NewsFiles.Where(x=>x.PubDate>dateToCheck).GroupBy(x => x.Title).Where(x => x.Count() > 1).ToList().ForEach(x => Console.WriteLine(x.Key));
+                })
+            });
             inputDictionary.Add("run",
                 new CommandOption
                 {
@@ -115,7 +124,7 @@ namespace Worker
             }
         }
 
-        
+
 
         public static void DisplayChoices()
         {

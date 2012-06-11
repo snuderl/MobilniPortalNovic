@@ -84,6 +84,18 @@ namespace Worker
             return false;
         }
 
+        /// <summary>
+        /// Take last n titles from each feed.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        private IEnumerable<String> LastTitlesByFeed(IQueryable<NewsFile> query,int n)
+        {
+            var list = query.GroupBy(x => x.FeedId).Select(x => x.OrderByDescending(y => y.PubDate).Take(n).Select(b => b.Title)).SelectMany(x => x);
+            return list;
+        }
+
         public int UpdateFeedsForSites()
         {
             var count = 0;
@@ -96,7 +108,11 @@ namespace Worker
                     {
                         using (var context = new MobilniPortalNovicContext12())
                         {
-                            Titles = new HashSet<String>(context.NewsFiles.Select(y => y.Title));
+                            ///Select only last 30 from each list
+                            var list  = LastTitlesByFeed(context.NewsFiles, 30);
+                            /// Select all
+                            /// var list = context.NewsFiles.Select(y => y.Title));
+                            Titles = new HashSet<String>(list);
                             return 1;
                         }
                     });
