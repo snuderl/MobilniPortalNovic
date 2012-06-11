@@ -1,3 +1,9 @@
-﻿@{
+﻿@model HomePageModel
+
+@{
     ViewBag.Title = "Home Page";
 }
+
+There are @Model.NewsFileCount news<br>
+placed in @Model.CategoriesCount categories<br>
+News were last fetched: @Model.NewsLastUpdated<br />

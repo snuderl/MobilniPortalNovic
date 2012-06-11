@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using MobilniPortalNovic.ModelView;
+using System.Linq;
 
 namespace Web.Controllers
 {
@@ -7,9 +9,15 @@ namespace Web.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            var context = new MobilniPortalNovicLib.Models.MobilniPortalNovicContext12();
 
             //return View(MobilniPortalNovicLib.ParsingService.getParsingService());
-            return View();
+            return View(new HomePageModel
+            {
+                CategoriesCount = context.Categories.Count(),
+                NewsFileCount = context.NewsFiles.Count(),
+                NewsLastUpdated = context.Feeds.OrderBy(x=>x.LastUpdated).First().LastUpdated
+            });
         }
 
         public ActionResult About()
