@@ -24,7 +24,7 @@ namespace MobilniPortalNovicLib.Personalize
         /// <returns></returns>
         public IQueryable<NewsFile> GetNews(User u)
         {
-            var clicks = Context.Clicks.Include("NewsFiles").Where(x => x.UserId == u.UserId).ToList();
+            var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == u.UserId).ToList();
             var categories = new CategoryWraper(Context.Categories.ToList());
             var count = CategoryHelpers.NumberOfCliksPerCategory(clicks.Select(x => x.NewsFile));
 

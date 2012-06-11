@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MobilniPortalNovic.ModelView;
+using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovic.Controllers
@@ -21,30 +22,12 @@ namespace MobilniPortalNovic.Controllers
             return View(db.Users.ToList());
         }
 
-        public Dictionary<String, float> feedStats(IEnumerable<ClickCounter> a)
+        public Dictionary<String, int> getFeedStats(IEnumerable<ClickCounter> a)
         {
-            var dict = new Dictionary<String, float>();
+            var dict = new Dictionary<String, int>();
             foreach (var i in a)
             {
                 var category = i.NewsFile.Feed.FeedName;
-                if (dict.ContainsKey(category))
-                {
-                    dict[category] = dict[category] + 1;
-                }
-                else
-                {
-                    dict.Add(category, 1);
-                }
-            }
-            return dict;
-        }
-
-        public Dictionary<String, float> categoryStats(IEnumerable<ClickCounter> a)
-        {
-            var dict = new Dictionary<String, float>();
-            foreach (var i in a)
-            {
-                var category = i.NewsFile.Category.Name;
                 if (dict.ContainsKey(category))
                 {
                     dict[category] = dict[category] + 1;
@@ -64,8 +47,17 @@ namespace MobilniPortalNovic.Controllers
         {
             User user = db.Users.Find(id);
             var c = db.Clicks.Include(x => x.NewsFile).Where(x => x.UserId == id).ToList();
+            var categories = db.Categories.ToList();
 
-            return View(new UserDetailsModel { clicks = c, id = id, Username = user.Username, categoryStats = categoryStats(c), feedStats = feedStats(c) });
+
+
+            return View(new UserDetailsModel 
+            { clicks = c,
+                id = id,
+                Username = user.Username,
+                categoryStats = CategoryHelpers.NumberOfCliksPerCategory(c.Select(x=>x.NewsFile)).ToDictionary(x=>categories.Where(y=>x.Key==y.CategoryId).First().Name, x=>x.Value),
+                feedStats = getFeedStats(c)
+        });
         }
 
         //
