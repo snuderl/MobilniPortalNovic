@@ -14,29 +14,28 @@ namespace MobilniPortalNovicLib.Personalize
             this.Context = context;
         }
 
-        public IQueryable<NewsFile> GetNews(User u)
+        /// <summary>
+        /// Get news for given user
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="categoryTreshold">Percent of total clicks to use in personalization</param>
+        /// <returns></returns>
+        public IQueryable<NewsFile> GetNews(User u, int categoryTreshold = 70)
         {
-            var dict = CategoryHelpers.createCategoryParentLookup(Context.Categories.ToList());
-            var count = Context.Clicks.Where(x => x.UserId == u.UserId).GroupBy(x => x.CategoryId).
-                Select(x => new { Key = x.Key, count = x.Count() }).ToList();
-            var categoryCount = new Dictionary<int, int>();
-            foreach (var i in count)
-            {
-                var id = dict[i.Key];
-                if (!categoryCount.ContainsKey(id))
-                {
-                    categoryCount[id] = i.count;
-                }
-                else
-                {
-                    categoryCount[id] += i.count;
-                }
+            var clicks = Context.Clicks.Include("NewsFiles").Where(x => x.UserId == u.UserId).ToList();
+            var categories = new CategoryWraper(Context.Categories.ToList());
+            var count = CategoryHelpers.NumberOfCliksPerCategory(clicks.Select(x => x.NewsFile));
+
+            var goodCategories = new HashSet<int>();
+            float total = 0;
+            var enumerator = count.OrderByDescending(x => x.Value).GetEnumerator();
+            while(total<categoryTreshold){
+                total += enumerator.Current.Value;
+                goodCategories.Add(enumerator.Current.Key);
+                enumerator.MoveNext();
             }
 
-            var max = categoryCount.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-            var ids = dict.Where(x => x.Value == max).Select(x => x.Key);
-
-            return Context.NewsFiles.Where(x => ids.Contains(x.CategoryId));
+            return Context.NewsFiles.Where(x => goodCategories.Contains(x.CategoryId)).OrderByDescending(x => x.PubDate);
         }
     }
 }

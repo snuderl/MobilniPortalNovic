@@ -128,8 +128,8 @@ namespace MobilniPortalNovicLib.Helpers
             var cat = categories.ToList();
             var dict = CategoryGetChildrensFromParent(cat);
 
-
-            var newsLookup = news.GroupBy(x => x.CategoryId).ToDictionary(x => x.Key, x => x.Count());
+            var newsLookup = NumberOfCliksPerCategory(news);
+           
 
 
 
@@ -163,6 +163,12 @@ namespace MobilniPortalNovicLib.Helpers
             }
 
             return CountDictionary;
+        }
+
+        static public Dictionary<int, int> NumberOfCliksPerCategory(IEnumerable<NewsFile> news)
+        {
+            var newsLookup = news.GroupBy(x => x.CategoryId).ToDictionary(x => x.Key, x => x.Count());
+            return newsLookup;
         }
 
     }
