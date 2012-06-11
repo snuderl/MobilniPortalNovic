@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BondiGeek.Logging;
 using MobilniPortalNovicLib.Models;
 using Worker.Parsers;
 
@@ -17,8 +18,9 @@ namespace Worker
     public class ParsingService
     {
         private static ParsingService service = null;
-        private HashSet<Category> Categories = new HashSet<Category>();
+        private HashSet<Category> Categories = null;
         private HashSet<String> Titles = null;
+        private HashSet<String> FailedTitles = null;
 
         private ParsingService()
         {
@@ -29,6 +31,7 @@ namespace Worker
             watch = new Stopwatch();
             FeedParser = new RssFeedParser();
             NewsParser = new GenericNewsParser("article");
+            FailedTitles = new HashSet<string>();
         }
 
         public IFeedParser FeedParser { get; set; }
@@ -70,6 +73,15 @@ namespace Worker
             {
                 throw new Exception("Parser already working");
             }
+        }
+
+        private Boolean IsElementok(NewsFileExt x)
+        {
+            if (x.Categories != null && x.Categories.Count() > 0 && x.Content != "Error while fetching" && x.ParseOk && x.Content != "")
+            {
+                return true;
+            }
+            return false;
         }
 
         public int UpdateFeedsForSites()
@@ -115,7 +127,7 @@ namespace Worker
                     Task.WaitAll(t1);
                 }
 
-                newsFiles = newsFiles.Where(x => Titles.Contains(x.Title) == false);
+                newsFiles = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false);
                 //Process items
                 var items = NewsParser.parseItem(newsFiles);
 
@@ -124,7 +136,13 @@ namespace Worker
                     Task.WaitAll(t2);
                 }
 
-                foreach (var item in items.Where(x => x.Categories != null && x.Categories.Count() > 0 && x.Content != "Error while fetching"))
+                items.Where(x => !IsElementok(x)).ToList().ForEach(x =>
+                {
+                    LogWriter.Instance.WriteToLog("Error parsing: " + x.Title +"\n"+x.Link);
+                    FailedTitles.Add(x.Title);
+                });
+
+                foreach (var item in items.Where(x => IsElementok(x)))
                 {
                     String last = item.Categories.Last();
                     var cat = Categories.Where(x => x.Name == last).FirstOrDefault();
@@ -155,7 +173,8 @@ namespace Worker
                     }
 
                     Titles.Add(item.Title);
-                    repo.NewsFiles.Add(AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item));
+                    var i = AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item);
+                    repo.NewsFiles.Add(i);
                     count += 1;
                 }
                 repo.SaveChanges();

@@ -27,11 +27,15 @@ namespace Worker.Parsers
             {
                 try
                 {
-                    bag.Add(GetFullNewsFileInfo(x));
+                    var a = GetFullNewsFileInfo(x);
+                    a.ParseOk = true;
+                    bag.Add(a);
+                    
                 }
                 catch (NullReferenceException e)
                 {
-                    LogWriter.Instance.WriteToLog("Error parsing link: " + x.Link);
+                    x.ParseOk = false;
+                    bag.Add(x);
                 }
             });
             return bag.ToList();
@@ -84,6 +88,12 @@ namespace Worker.Parsers
             d = RemoveNodes(d, SelectTags("header"));
             //Similiar articles
             d = RemoveNodes(d, SelectTags("article", "class", "wnd_news_std"));
+
+            //Remove preberite tudi
+            d.Elements("h3").Where(x => x.InnerHtml == "Preberite tudi:").ToList().ForEach(x =>
+            {
+                x.Remove();
+            });
 
             StringBuilder sb = new StringBuilder();
 
