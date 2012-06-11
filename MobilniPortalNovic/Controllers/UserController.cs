@@ -49,15 +49,17 @@ namespace MobilniPortalNovic.Controllers
             var c = db.Clicks.Include(x => x.NewsFile).Where(x => x.UserId == id).ToList();
             var categories = db.Categories.ToList();
 
+            var categoryStats = CategoryHelpers.NumberOfCliksPerCategory(c.Select(x => x.NewsFile)).ToList()
+                .ToDictionary(x => categories.Where(y => x.Key == y.CategoryId).First().Name, x=>x.Value);
 
-
-            return View(new UserDetailsModel 
-            { clicks = c,
-                id = id,
+            return View(new UserDetailsModel
+            {
+                clicks = c,
+                Id = id,
                 Username = user.Username,
-                categoryStats = CategoryHelpers.NumberOfCliksPerCategory(c.Select(x=>x.NewsFile)).ToDictionary(x=>categories.Where(y=>x.Key==y.CategoryId).First().Name, x=>x.Value),
+                categoryStats = categoryStats,
                 feedStats = getFeedStats(c)
-        });
+            });
         }
 
         //

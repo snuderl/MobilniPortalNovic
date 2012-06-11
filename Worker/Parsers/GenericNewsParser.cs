@@ -90,7 +90,9 @@ namespace Worker.Parsers
             d = RemoveNodes(d, SelectTags("article", "class", "wnd_news_std"));
 
             //Remove preberite tudi
-            d.Elements("h3").Where(x => x.InnerHtml == "Preberite tudi:").ToList().ForEach(x =>
+            String[] textToRemove = { "Preberite tudi:", "Preberite še:", "Prebertie še:" };
+
+            d.Elements("h3").Where(x => textToRemove.Contains(x.InnerHtml)).ToList().ForEach(x =>
             {
                 x.Remove();
             });

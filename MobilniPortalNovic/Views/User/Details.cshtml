@@ -14,7 +14,7 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 <div class="Feed counts">
@@ -30,7 +30,7 @@
     <h1>Click counts</h1>
     @foreach (var i in Model.categoryStats)
     {
-        @i.Key <text>||</text>  @i.Value <text> @(((float)i.Value)/Model.clicks.Count())</text><br />
+        @i.Key <text>||</text>  @i.Value <text> || @((((float)i.Value)/(float)Model.clicks.Count()).ToString("%#0.00"))</text><br />
     }
 </div>
 

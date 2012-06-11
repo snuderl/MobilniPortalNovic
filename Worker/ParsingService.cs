@@ -90,7 +90,7 @@ namespace Worker
         /// <param name="query"></param>
         /// <param name="n"></param>
         /// <returns></returns>
-        private IEnumerable<String> LastTitlesByFeed(IQueryable<NewsFile> query,int n)
+        private IEnumerable<String> LastTitlesByFeed(IQueryable<NewsFile> query, int n)
         {
             var list = query.GroupBy(x => x.FeedId).Select(x => x.OrderByDescending(y => y.PubDate).Take(n).Select(b => b.Title)).SelectMany(x => x);
             return list;
@@ -101,34 +101,18 @@ namespace Worker
             var count = 0;
             using (var repo = new MobilniPortalNovicContext12())
             {
-                Task<int> t1 = null;
                 if (Titles == null)
                 {
-                    t1 = Task.Factory.StartNew(() =>
-                    {
-                        using (var context = new MobilniPortalNovicContext12())
-                        {
-                            ///Select only last 30 from each list
-                            var list  = LastTitlesByFeed(context.NewsFiles, 30);
-                            /// Select all
-                            /// var list = context.NewsFiles.Select(y => y.Title));
-                            Titles = new HashSet<String>(list);
-                            return 1;
-                        }
-                    });
+                    ///Select only last 30 from each list
+                    var list = LastTitlesByFeed(repo.NewsFiles, 30);
+                    /// Select all
+                    /// var list = context.NewsFiles.Select(y => y.Title));
+                    Titles = new HashSet<String>(list);
                 }
 
-                Task<int> t2 = null;
                 if (Categories == null)
                 {
-                    t2 = Task.Factory.StartNew(() =>
-                    {
-                        using (var context = new MobilniPortalNovicContext12())
-                        {
-                            Categories = new HashSet<Category>(context.Categories);
-                            return 1;
-                        }
-                    });
+                    Categories = new HashSet<Category>(repo.Categories);
                 }
 
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
@@ -138,23 +122,13 @@ namespace Worker
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
 
-                if (t1 != null)
-                {
-                    Task.WaitAll(t1);
-                }
-
                 newsFiles = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false);
                 //Process items
                 var items = NewsParser.parseItem(newsFiles);
 
-                if (t2 != null)
-                {
-                    Task.WaitAll(t2);
-                }
-
                 items.Where(x => !IsElementok(x)).ToList().ForEach(x =>
                 {
-                    LogWriter.Instance.WriteToLog("Error parsing: " + x.Title +"\n"+x.Link);
+                    LogWriter.Instance.WriteToLog("Error parsing: " + x.Title + "\n" + x.Link);
                     FailedTitles.Add(x.Title);
                 });
 

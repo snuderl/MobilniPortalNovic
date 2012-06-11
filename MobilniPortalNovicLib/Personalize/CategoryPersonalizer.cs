@@ -8,6 +8,10 @@ namespace MobilniPortalNovicLib.Personalize
     public class CategoryPersonalizer : IPersonalize
     {
         public MobilniPortalNovicContext12 Context { get; set; }
+
+        /// <summary>
+        /// Percent of categories to include
+        /// </summary>
         public float CategoryTreshold { get; set; }
 
         public CategoryPersonalizer(MobilniPortalNovicContext12 context)
@@ -20,7 +24,6 @@ namespace MobilniPortalNovicLib.Personalize
         /// Get news for given user
         /// </summary>
         /// <param name="u"></param>
-        /// <param name="categoryTreshold">Percent of total clicks to use in personalization</param>
         /// <returns></returns>
         public IQueryable<NewsFile> GetNews(User u)
         {

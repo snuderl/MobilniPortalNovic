@@ -7,8 +7,8 @@ namespace MobilniPortalNovic.ModelView
 {
     public class UserDetailsModel
     {
-        public String Username;
-        public int id;
+        public String Username { get; set; }
+        public int Id { get; set; }
         public IEnumerable<ClickCounter> clicks;
         public Dictionary<String, int> feedStats;
         public Dictionary<String, int> categoryStats;
