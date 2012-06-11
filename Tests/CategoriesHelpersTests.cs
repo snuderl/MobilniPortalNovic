@@ -38,14 +38,14 @@ namespace Tests
             new NewsFile{NewsId=3, CategoryId=1},
             new NewsFile{NewsId=6, CategoryId=2},
             new NewsFile{NewsId=7, CategoryId=1},
-            new NewsFile{CategoryId=3, NewsId=4}};
+            new NewsFile{NewsId=4, CategoryId=3}};
         }
 
         [TestMethod]
         public void TestRandomRows1()
         {
             var count = 4;
-            var rows = CategoryHelpers.getNumberOfRandomRows(news.AsQueryable(), count).ToList();
+            var rows = news.AsQueryable().getNumberOfRandomRows(count);
             Assert.AreEqual(rows.Count(), 4);
         }
 
@@ -141,6 +141,41 @@ namespace Tests
             rows = CategoryHelpers.getRowsByCategory(news.AsQueryable(), category, categoriesBig.AsQueryable()).ToList();
             Assert.AreEqual(rows.Count(), news.Where(x => x.CategoryId == 3 || x.CategoryId == 1).Count());
             Assert.AreEqual(rows.All(x => x.CategoryId == 1 || x.CategoryId == 3), true);
+        }
+
+        [TestMethod]
+        public void TestCategoryCounts()
+        {
+            var counts = CategoryHelpers.GetNumberOfItemsPerCategory(news, categoriesSmall);
+
+            var result = new Dictionary<int, int>{
+                {3, 2},
+                {2,2},
+                {1,4}
+            };
+
+            foreach (var i in result)
+            {
+                Assert.AreEqual(i.Value, counts[i.Key]);
+            }
+
+
+            counts = CategoryHelpers.GetNumberOfItemsPerCategory(news, categoriesBig);
+
+            result = new Dictionary<int, int>{
+                {3, 2},
+                {2,2},
+                {1,4},
+                {4,0},
+                {5,0},
+                {6,0}
+            };
+
+            foreach (var i in result)
+            {
+                Assert.AreEqual(i.Value, counts[i.Key]);
+            }
+
         }
     }
 }

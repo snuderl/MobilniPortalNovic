@@ -7,7 +7,13 @@ namespace MobilniPortalNovicLib.Helpers
 {
     public class CategoryHelpers
     {
-        static public Dictionary<int, int> createCategoryParentLookup(List<Category> categories)
+
+        /// <summary>
+        /// Returns all parents for each category
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <returns></returns>
+        static public Dictionary<int, int> createCategoryParentLookup(IEnumerable<Category> categories)
         {
             var dict = new Dictionary<int, int>();
             foreach (var i in categories)
@@ -29,7 +35,13 @@ namespace MobilniPortalNovicLib.Helpers
             return dict;
         }
 
-        static public Dictionary<int, int> categoryParentImidiateLookup(List<Category> categories)
+
+        /// <summary>
+        /// Builds up category -> parent lookup table
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <returns></returns>
+        static public Dictionary<int, int> categoryParentImidiateLookup(IEnumerable<Category> categories)
         {
             var dict = new Dictionary<int, int>();
             foreach (var i in categories)
@@ -42,7 +54,13 @@ namespace MobilniPortalNovicLib.Helpers
             return dict;
         }
 
-        static public Dictionary<int, HashSet<Category>> CategoryGetChildrensFromParent(List<Category> categories)
+
+        /// <summary>
+        /// Get all children for each category
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <returns></returns>
+        static public Dictionary<int, HashSet<Category>> CategoryGetChildrensFromParent(IEnumerable<Category> categories)
         {
             var lookup = categories.ToDictionary(x => x.CategoryId, x => new HashSet<Category> { x });
             for (int i = 0; i < categories.Count(); i++)
@@ -61,7 +79,13 @@ namespace MobilniPortalNovicLib.Helpers
             return lookup;
         }
 
-        static public Dictionary<int, HashSet<Category>> CategoryGetParentsFromChildren(List<Category> categories)
+
+        /// <summary>
+        /// Get all parents for each category
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <returns></returns>
+        static public Dictionary<int, HashSet<Category>> CategoryGetParentsFromChildren(IEnumerable<Category> categories)
         {
             var lookup = categories.ToDictionary(x => x.CategoryId, x => new HashSet<Category> { x });
             for (int i = 0; i < categories.Count(); i++)
@@ -80,16 +104,66 @@ namespace MobilniPortalNovicLib.Helpers
             return lookup;
         }
 
-        static public IQueryable<NewsFile> getRowsByCategory(IQueryable<NewsFile> query, int category, IQueryable<Category> categories)
+
+        /// <summary>
+        /// Returns all rows for given category including its children
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="category"></param>
+        /// <param name="categories"></param>
+        /// <returns></returns>
+        static public IQueryable<NewsFile> getRowsByCategory(IEnumerable<NewsFile> query, int category, IEnumerable<Category> categories)
         {
             var categoryChildrenDict = CategoryHelpers.CategoryGetChildrensFromParent(categories.ToList());
             var goodCategories = categoryChildrenDict[category].Select(x => x.CategoryId);
-            return query.Where(x => goodCategories.Contains(x.CategoryId));
+            return query.AsQueryable().Where(x => goodCategories.Contains(x.CategoryId));
         }
 
-        static public IQueryable<NewsFile> getNumberOfRandomRows(IQueryable<NewsFile> query, int count)
+        /// <summary>
+        /// Returns number of items per category, including children
+        /// </summary>
+        /// <returns></returns>
+        static public Dictionary<int, int> GetNumberOfItemsPerCategory(IEnumerable<NewsFile> news, IEnumerable<Category> categories)
         {
-            return query.OrderBy(x => Guid.NewGuid()).Take(count);
+            var cat = categories.ToList();
+            var dict = CategoryGetChildrensFromParent(cat);
+
+
+            var newsLookup = news.GroupBy(x => x.CategoryId).ToDictionary(x => x.Key, x => x.Count());
+
+
+
+
+
+            var CountDictionary = new Dictionary<int, int>(cat.ToDictionary(x => x.CategoryId, x => 0));
+
+            Queue<int> queue = new Queue<int>();
+            dict.Where(x => x.Value.Count() == 1).ToList().ForEach(x => queue.Enqueue(x.Key));
+
+            while (queue.Count > 0)
+            {
+                int i = queue.Dequeue();
+                var children = dict[i].ToList();
+
+                int count = 0;
+                children.ForEach(x =>
+                {
+                    if (newsLookup.ContainsKey(x.CategoryId))
+                    {
+                        count += newsLookup[x.CategoryId];
+                    }
+                });
+                CountDictionary[i] = count;
+
+                var c = cat.Where(x => x.CategoryId == i).First();
+                if (c.ParentCategoryId != null)
+                {
+                    queue.Enqueue(c.ParentCategoryId.Value);
+                }
+            }
+
+            return CountDictionary;
         }
+
     }
 }
