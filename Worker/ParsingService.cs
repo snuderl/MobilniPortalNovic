@@ -112,7 +112,19 @@ namespace Worker
                 }
                 if (Categories == null)
                 {
-                    Categories = new HashSet<Category>(repo.Categories);
+                        
+                        var cat = repo.Categories.ToList();
+                        cat.ForEach(x =>
+                        {
+                            if (x.ParentCategoryId.HasValue == false)
+                            {
+                                x.ParentCategoryId = null;
+                            }
+                        });
+                        Categories = new HashSet<Category>(cat);
+
+
+                   
                 }
                 #endregion
 

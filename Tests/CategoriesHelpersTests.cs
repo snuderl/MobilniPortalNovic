@@ -17,7 +17,7 @@ namespace Tests
             new Category { CategoryId = 2, Name = "Novice", ParentCategoryId = new Nullable<int>() };
 
         private Category cat3 =
-            new Category { CategoryId = 3, Name = "Zimski šport", ParentCategoryId = 1 };
+            new Category { CategoryId = 3, Name = "Novice", ParentCategoryId = 1 };
 
         private Category cat4 = new Category { CategoryId = 4, ParentCategoryId = new Nullable<int>() };
         private Category cat5 = new Category { CategoryId = 5, ParentCategoryId = 3 };
