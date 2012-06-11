@@ -11,7 +11,7 @@ namespace MobilniPortalNovic.ModelView
         public int Id { get; set; }
         public IEnumerable<ClickCounter> clicks;
         public Dictionary<String, int> feedStats;
-        public Dictionary<String, int> categoryStats;
+        public Dictionary<Category, int> categoryStats;
         public int MyProperty { get { return clicks.Count(); } }
     }
 }
