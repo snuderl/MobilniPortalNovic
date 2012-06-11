@@ -8,10 +8,12 @@ namespace MobilniPortalNovicLib.Personalize
     public class CategoryPersonalizer : IPersonalize
     {
         public MobilniPortalNovicContext12 Context { get; set; }
+        public float CategoryTreshold { get; set; }
 
         public CategoryPersonalizer(MobilniPortalNovicContext12 context)
         {
             this.Context = context;
+            CategoryTreshold = 70;
         }
 
         /// <summary>
@@ -20,7 +22,7 @@ namespace MobilniPortalNovicLib.Personalize
         /// <param name="u"></param>
         /// <param name="categoryTreshold">Percent of total clicks to use in personalization</param>
         /// <returns></returns>
-        public IQueryable<NewsFile> GetNews(User u, int categoryTreshold = 70)
+        public IQueryable<NewsFile> GetNews(User u)
         {
             var clicks = Context.Clicks.Include("NewsFiles").Where(x => x.UserId == u.UserId).ToList();
             var categories = new CategoryWraper(Context.Categories.ToList());
@@ -29,7 +31,7 @@ namespace MobilniPortalNovicLib.Personalize
             var goodCategories = new HashSet<int>();
             float total = 0;
             var enumerator = count.OrderByDescending(x => x.Value).GetEnumerator();
-            while(total<categoryTreshold){
+            while(total<CategoryTreshold){
                 total += enumerator.Current.Value;
                 goodCategories.Add(enumerator.Current.Key);
                 enumerator.MoveNext();
