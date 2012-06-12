@@ -62,7 +62,16 @@ namespace Worker
             Scheduler sched = new Scheduler(60 * 10, service);
             inputDictionary = new Dictionary<String, CommandOption>();
             inputDictionary.Add("start", new CommandOption { Description = "Start updating", Action = new Action(() => sched.StartUpdating()) });
-            inputDictionary.Add("stop", new CommandOption { Description = "Stop automatic updating.", Action = new Action(() => sched.Stop()) });
+            inputDictionary.Add("stop", new CommandOption
+            {
+                Description = "Stop automatic updating.",
+                Action = new Action(
+                    () =>
+                    {
+                        sched.Stop();
+                        Console.WriteLine("Parser stopped");
+                    })
+            });
             inputDictionary.Add("simulate", new CommandOption { Description = "Simulate clicks", Action = new Action(() => SimulateClicks()) });
             inputDictionary.Add("check", new CommandOption
             {
@@ -70,7 +79,7 @@ namespace Worker
                 Action = new Action(() =>
                 {
                     var dateToCheck = DateTime.Now.AddDays(-1);
-                    new MobilniPortalNovicContext12().NewsFiles.Where(x=>x.PubDate>dateToCheck).GroupBy(x => x.Title).Where(x => x.Count() > 1).ToList().ForEach(x => Console.WriteLine(x.Key));
+                    new MobilniPortalNovicContext12().NewsFiles.Where(x => x.PubDate > dateToCheck).GroupBy(x => x.Title).Where(x => x.Count() > 1).ToList().ForEach(x => Console.WriteLine(x.Key));
                 })
             });
             inputDictionary.Add("run",
@@ -89,7 +98,7 @@ namespace Worker
                 {
                     sched.Stop();
                     Console.WriteLine("Stoping...");
-                    while (ParsingService.getParsingService().State != State.Waiting)
+                    while (ParsingService.getParsingService().State != State.WaitingToNextInterval)
                     {
                         Thread.Sleep(1000);
                     }
@@ -122,8 +131,6 @@ namespace Worker
                 Console.WriteLine();
             }
         }
-
-
 
         public static void DisplayChoices()
         {

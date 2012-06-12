@@ -7,7 +7,7 @@ namespace Worker
 {
     public class Scheduler
     {
-        public enum RunningState { Runing, Waiting }
+        public enum RunningState { Runing, Waiting, Stopped }
 
         public TimeSpan RepeatInterval { get; private set; }
 
@@ -35,7 +35,7 @@ namespace Worker
 
         public void StartUpdating()
         {
-            if (State == RunningState.Waiting)
+            if (State == RunningState.Waiting || State== RunningState.Stopped)
             {
                 trigger = new SimpleTriggerImpl("Feed parsing", null, DateTime.Now, null, SimpleTriggerImpl.RepeatIndefinitely, RepeatInterval);
                 jobDetail = new JobDetailImpl("job", typeof(UpdateJob));
@@ -48,7 +48,7 @@ namespace Worker
         public void Stop()
         {
             sched.Clear();
-            State = RunningState.Waiting;
+            State = RunningState.Stopped;
         }
     }
 

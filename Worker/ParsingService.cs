@@ -12,7 +12,7 @@ namespace Worker
 {
     public enum State
     {
-        Processing, Waiting, Finished
+        Processing, WaitingToNextInterval, Stoped
     }
 
     public class ParsingService
@@ -30,7 +30,7 @@ namespace Worker
             TotalCount = 0;
             LastRun = 0;
             Mapper.CreateMap<NewsFileExt, NewsFile>();
-            State = State.Waiting;
+            State = State.WaitingToNextInterval;
             watch = new Stopwatch();
             FeedParser = new RssFeedParser();
             NewsParser = new GenericNewsParser("article");
@@ -63,7 +63,7 @@ namespace Worker
         {
             watch.Reset();
             watch.Start();
-            if (State == State.Waiting)
+            if (State == State.WaitingToNextInterval)
             {
                 Console.WriteLine("Starting run.");
                 State = State.Processing;
@@ -71,7 +71,7 @@ namespace Worker
                 LastRun = UpdateFeedsForSites();
                 TotalCount += LastRun;
 
-                State = State.Waiting;
+                State = State.WaitingToNextInterval;
                 watch.Stop();
                 Console.WriteLine("Run finished in {0}", watch.Elapsed);
             }
