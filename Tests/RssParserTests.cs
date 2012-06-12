@@ -43,9 +43,10 @@ Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsednišk
         [TestMethod, DeploymentItem("rss.xml")]
         public void RssParserTest()
         {
-            var doc = XDocument.Parse(new StreamReader("rss.xml").ReadToEnd());
+            var html = new HtmlDocument();
+            html.Load(new StreamReader("rss.xml"));
             RssFeedParser rss = new RssFeedParser();
-            var list = rss.parseRssDocument(doc, 1);
+            var list = rss.parseRssDocument(html, 1);
 
             Assert.AreEqual(2, list.Count());
             Assert.AreEqual(list.Where(x => x.Title == "Romney maja prvič doslej premagal Obamo v zbiranju denarja za kampanjo").Count() > 0, true);

@@ -37,7 +37,7 @@ namespace Worker.Parsers
                     x.ParseOk = false;
                     bag.Add(x);
                 }
-                catch (WebException web)
+                catch (Exception web)
                 {
                     String error = "Error getting link: " + x.Link;
                     LogWriter.Instance.Log(error);
@@ -69,15 +69,10 @@ namespace Worker.Parsers
         {
             var body = String.Empty;
 
-            using (var c = new WebClient())
-            {
-                HtmlWeb web = new HtmlWeb();
-                web.UseCookies = true;
-                web.AutoDetectEncoding = true;
-                HtmlDocument doc = web.Load(x.Link);
-                body = GetBody(doc);
-                x.Categories = GetCategories(doc);
-            }
+            var doc = WebHelper.GetHtmlDocument(x.Link, 5000);
+
+            body = GetBody(doc);
+            x.Categories = GetCategories(doc);
             x.Content = body;
             return x;
         }

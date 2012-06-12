@@ -71,6 +71,7 @@
     <Compile Include="Parsers\NewsFileExt.cs" />
     <Compile Include="Parsers\ParsingHelpers.cs" />
     <Compile Include="Parsers\RssFeedParser.cs" />
+    <Compile Include="Parsers\WebRequest.cs" />
     <Compile Include="ParsingService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

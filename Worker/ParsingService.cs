@@ -17,11 +17,14 @@ namespace Worker
 
     public class ParsingService
     {
+        #region PrivateFields
         private static ParsingService service = null;
         private HashSet<Category> Categories = null;
         private HashSet<String> Titles = null;
-        private HashSet<String> FailedTitles = null;
+        private HashSet<String> FailedTitles = null; 
+        #endregion
 
+        #region Constructor
         private ParsingService()
         {
             TotalCount = 0;
@@ -32,8 +35,10 @@ namespace Worker
             FeedParser = new RssFeedParser();
             NewsParser = new GenericNewsParser("article");
             FailedTitles = new HashSet<string>();
-        }
+        } 
+        #endregion
 
+        #region PublicFields
         public IFeedParser FeedParser { get; set; }
 
         public int LastRun { get; set; }
@@ -44,8 +49,10 @@ namespace Worker
 
         public int TotalCount { get; private set; }
 
-        public Stopwatch watch { get; set; }
+        public Stopwatch watch { get; set; } 
+        #endregion
 
+        #region Methods
         public static ParsingService getParsingService()
         {
             if (service == null) service = new ParsingService();
@@ -111,19 +118,19 @@ namespace Worker
                 }
                 if (Categories == null)
                 {
-                        
-                        var cat = repo.Categories.ToList();
-                        cat.ForEach(x =>
+
+                    var cat = repo.Categories.ToList();
+                    cat.ForEach(x =>
+                    {
+                        if (x.ParentCategoryId.HasValue == false)
                         {
-                            if (x.ParentCategoryId.HasValue == false)
-                            {
-                                x.ParentCategoryId = null;
-                            }
-                        });
-                        Categories = new HashSet<Category>(cat);
+                            x.ParentCategoryId = null;
+                        }
+                    });
+                    Categories = new HashSet<Category>(cat);
 
 
-                   
+
                 }
                 #endregion
 
@@ -185,6 +192,7 @@ namespace Worker
                 #endregion
             }
             return count;
-        }
+        } 
+        #endregion
     }
 }
