@@ -69,7 +69,9 @@ namespace Worker.Parsers
         {
             var body = String.Empty;
 
-            var doc = WebHelper.GetHtmlDocument(x.Link, 5000);
+            var html = WebHelper.GetHtmlDocument(x.Link, 5000);
+            var doc = new HtmlDocument();
+            doc.Load(html);
 
             body = GetBody(doc);
             x.Categories = GetCategories(doc);

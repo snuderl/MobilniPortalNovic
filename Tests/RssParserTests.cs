@@ -43,8 +43,9 @@ Vse tri velike države nimajo veliko besede pri izbiri strankarskih predsednišk
         [TestMethod, DeploymentItem("rss.xml")]
         public void RssParserTest()
         {
-            var html = new HtmlDocument();
-            html.Load(new StreamReader("rss.xml"));
+            //var html = new HtmlDocument();
+            //html.Load(new StreamReader("rss.xml"));
+            var html = XDocument.Load(new StreamReader("rss.xml"));
             RssFeedParser rss = new RssFeedParser();
             var list = rss.parseRssDocument(html, 1);
 

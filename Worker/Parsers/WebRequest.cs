@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -9,17 +10,16 @@ namespace Worker.Parsers
 {
     static class WebHelper
     {
-        public static HtmlDocument GetHtmlDocument(String uri, int timeout)
+        public static String GetHtmlDocument(String uri, int timeout)
         {
             var req = (HttpWebRequest) WebRequest.Create(uri);
             req.Timeout = timeout;
             var response = req.GetResponse().GetResponseStream();
             response.ReadTimeout = timeout;
 
-            HtmlDocument doc = new HtmlDocument();
-            doc.Load(response, System.Text.Encoding.UTF8);
+            var reader = new StreamReader(response, Encoding.UTF8);
 
-            return doc;
+            return reader.ReadToEnd();
         }
     }
 }
