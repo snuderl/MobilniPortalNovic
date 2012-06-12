@@ -61,6 +61,16 @@ namespace BondiGeek.Logging
             }
         }
 
+        public void Log(string message)
+        {
+            WriteToLog(message);
+
+        #if DEBUG		
+            Console.WriteLine(message);          
+	    #endif
+        
+        }
+
         private bool DoPeriodicFlush()
         {
             TimeSpan logAge = DateTime.Now - LastFlushed;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
+using BondiGeek.Logging;
 
 namespace Worker.Parsers
 {
@@ -10,12 +11,20 @@ namespace Worker.Parsers
     {
         public IEnumerable<NewsFileExt> parseFeed(MobilniPortalNovicLib.Models.Feed feed)
         {
-            using (var client = new WebClient())
+            try
             {
-                client.Encoding = System.Text.Encoding.UTF8;
-                var lastUpdated = feed.LastUpdated;
-                var doc = XDocument.Parse(client.DownloadString(feed.url));
-                return parseRssDocument(doc, feed.FeedId);
+                using (var client = new WebClient())
+                {
+                    client.Encoding = System.Text.Encoding.UTF8;
+                    var lastUpdated = feed.LastUpdated;
+                    var doc = XDocument.Parse(client.DownloadString(feed.url));
+                    return parseRssDocument(doc, feed.FeedId);
+                }
+            }
+            catch(WebException web){
+                String error = "Failed parsing feed: " + feed.FeedName;
+                LogWriter.Instance.Log(error);
+                return new List<NewsFileExt>();
             }
         }
 

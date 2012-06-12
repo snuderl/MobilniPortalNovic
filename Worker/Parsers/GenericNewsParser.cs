@@ -30,12 +30,17 @@ namespace Worker.Parsers
                     var a = GetFullNewsFileInfo(x);
                     a.ParseOk = true;
                     bag.Add(a);
-                    
+
                 }
                 catch (NullReferenceException e)
                 {
                     x.ParseOk = false;
                     bag.Add(x);
+                }
+                catch (WebException web)
+                {
+                    String error = "Error getting link: " + x.Link;
+                    LogWriter.Instance.Log(error);
                 }
             });
             return bag.ToList();
