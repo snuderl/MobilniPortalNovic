@@ -79,8 +79,7 @@ namespace Worker
                     Description = "Run single update.",
                     Action = new Action(() =>
                 {
-                    ParsingService ps = service;
-                    ps.startParse();
+                    service.startParse();
                 })
                 });
             inputDictionary.Add("exit", new CommandOption

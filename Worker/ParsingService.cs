@@ -66,7 +66,6 @@ namespace Worker
 
                 State = State.Waiting;
                 watch.Stop();
-                Categories.Clear();
                 Console.WriteLine("Run finished in {0}", watch.Elapsed);
             }
             else
