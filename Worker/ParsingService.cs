@@ -144,13 +144,13 @@ namespace Worker
                 #endregion
 
                 #region ParseItems
-                newsFiles = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false);
+                var newsFilesList = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false).ToList();
                 //Process items
-                var items = NewsParser.parseItem(newsFiles);
+                var items = NewsParser.parseItem(newsFilesList);
 
                 items.Where(x => !IsElementok(x)).ToList().ForEach(x =>
                 {
-                    LogWriter.Instance.WriteToLog("Error parsing: " + x.Title + "\n" + x.Link);
+                    LogWriter.Instance.Log("Error parsing: " + x.Title + "\n" + x.Link);
                     FailedTitles.Add(x.Title);
                 });
                 #endregion

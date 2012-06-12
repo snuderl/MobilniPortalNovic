@@ -32,7 +32,7 @@ namespace Worker.Parsers
                     bag.Add(a);
 
                 }
-                catch (NullReferenceException e)
+                catch (ArgumentException e)
                 {
                     x.ParseOk = false;
                     bag.Add(x);
@@ -69,12 +69,13 @@ namespace Worker.Parsers
         {
             var body = String.Empty;
 
-            var html = WebHelper.GetHtmlDocument(x.Link, 5000);
-            var doc = new HtmlDocument();
-            doc.Load(html);
+            var web = new HtmlWeb();
+            web.AutoDetectEncoding = true;
+            var doc = web.Load(x.Link);
 
             body = GetBody(doc);
             x.Categories = GetCategories(doc);
+
             x.Content = body;
             return x;
         }
