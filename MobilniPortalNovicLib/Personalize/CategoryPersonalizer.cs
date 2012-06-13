@@ -28,8 +28,9 @@ namespace MobilniPortalNovicLib.Personalize
         /// <returns></returns>
         public IQueryable<NewsFile> GetNews(User u)
         {
-            var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == u.UserId).ToList();
-            var goodCategories = GetDesiredCategories(clicks, CategoryTreshold);
+            var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == u.UserId);
+            var timeFiltert = FilterClicksByDate(clicks, DateTime.Now);
+            var goodCategories = GetDesiredCategories(clicks.ToList(), CategoryTreshold);
 
             return Context.NewsFiles.Where(x => goodCategories.Contains(x.CategoryId)).OrderByDescending(x => x.PubDate);
         }
@@ -59,35 +60,37 @@ namespace MobilniPortalNovicLib.Personalize
         public static IQueryable<ClickCounter> FilterClicksByDate(IQueryable<ClickCounter> clicks, DateTime target)
         {
             var timeOffsetHours = 1;
-            var upper = target.TimeOfDay.Add(new TimeSpan(timeOffsetHours, 0, 1));
-            var lower = target.TimeOfDay.Add(new TimeSpan(timeOffsetHours,0,1));
+            var upper = target.TimeOfDay.Add(new TimeSpan(timeOffsetHours, 0, 1)).TotalMinutes;
+            upper = Math.Min(DateTimeHelpers.MaxDayOfTime, upper);
+            var lower = target.TimeOfDay.Subtract(new TimeSpan(timeOffsetHours,0,1)).TotalMinutes;
+            lower = Math.Max(0, lower);
 
 
-            var clicksByHour = clicks.Where(x => x.ClickDate.TimeOfDay < upper && x.ClickDate.TimeOfDay > lower);
+            var clicksByHour = clicks.Where(x => x.TimeOfDay < upper && x.TimeOfDay > lower);
 
-            var workDays = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
-            var weekendDays = new List<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
 
-            var targetDays = new List<DayOfWeek>{target.DayOfWeek};
-            if (workDays.Contains(target.DayOfWeek))
+
+            var targetDays = new List<int>();
+            if (DateTimeHelpers.WorkWeek.Contains(target.DayOfWeek))
             {
-                int position = workDays.IndexOf(target.DayOfWeek);
+                int position = DateTimeHelpers.WorkWeek.IndexOf(target.DayOfWeek) + 1;
+                    targetDays.Add(position);
                 if (position > 0)
                 {
-                    targetDays.Add(workDays[position - 1]);
+                    targetDays.Add(position-1);
                 }
-                if (position - 1 < workDays.Count - 1)
+                if (position - 1 < DateTimeHelpers.WorkWeek.Count - 1)
                 {
-                    targetDays.Add(workDays[position + 1]);
+                    targetDays.Add(position+1);
                 }
             }
             else
             {
-                targetDays = weekendDays;
+                targetDays = new List<int>{6,7};
             }
 
-            var clicksByDay = clicksByHour.ToList().Where(x => targetDays.Contains(x.ClickDate.DayOfWeek));
-            return clicksByDay.AsQueryable();
+            var clicksByDay = clicksByHour.Where(x=>targetDays.Contains(x.DayOfWeek));
+            return clicksByDay;
         }
     }
 }

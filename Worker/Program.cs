@@ -41,10 +41,12 @@ namespace Worker
                     {
                         category = context.Categories.Where(x => x.Name == i2).First().CategoryId;
                     }
+                    Console.WriteLine("Hour offset from now:");
+                    int offset = Int32.Parse(Console.ReadLine());
                     Random rnd = new Random();
                     var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
                     {
-                        return DateTime.Now.AddMinutes(rnd.Next(-1000, 1000));
+                        return DateTime.Now.AddHours(offset).AddMinutes(rnd.Next(-1000, 1000));
                     }
                     );
                     Console.WriteLine("{0} clicks added.", clicks.Count());

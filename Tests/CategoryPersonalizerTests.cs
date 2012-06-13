@@ -66,8 +66,9 @@ namespace Tests
         [TestMethod]
         public void FilterClicksByDateTest()
         {
+            clicks.ForEach(x => x.SetDayOfWeekAndTimeOfDay());
             var result = CategoryPersonalizer.FilterClicksByDate(clicks.AsQueryable(), DateTime.Now);
-            Assert.AreEqual(result.Count(), 3);
+            Assert.AreEqual(result.Count(), 2);
         }
     }
 }
