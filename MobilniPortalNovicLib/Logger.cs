@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 
 namespace BondiGeek.Logging
@@ -65,10 +64,9 @@ namespace BondiGeek.Logging
         {
             WriteToLog(message);
 
-        #if DEBUG		
-            Console.WriteLine(message);          
-	    #endif
-        
+#if DEBUG
+            Console.WriteLine(message);
+#endif
         }
 
         private bool DoPeriodicFlush()
@@ -95,12 +93,12 @@ namespace BondiGeek.Logging
                 Log entry = logQueue.Dequeue();
                 string logPath = logDir + entry.LogDate + "_" + logFile;
 
-        // This could be optimised to prevent opening and closing the file for each write
+                // This could be optimised to prevent opening and closing the file for each write
                 using (FileStream fs = File.Open(logPath, FileMode.Append, FileAccess.Write))
                 {
                     using (StreamWriter log = new StreamWriter(fs))
                     {
-                        log.WriteLine(string.Format("{0}\t{1}",entry.LogTime,entry.Message));
+                        log.WriteLine(string.Format("{0}\t{1}", entry.LogTime, entry.Message));
                     }
                 }
             }
@@ -113,7 +111,9 @@ namespace BondiGeek.Logging
     public class Log
     {
         public string Message { get; set; }
+
         public string LogTime { get; set; }
+
         public string LogDate { get; set; }
 
         public Log(string message)

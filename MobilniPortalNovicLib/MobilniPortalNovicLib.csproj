@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Helpers\CategoryWraper.cs" />
+    <Compile Include="Helpers\DateTimeHelpers.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Migrations\201205301209218_First.cs" />
@@ -98,6 +99,10 @@
     <Compile Include="Migrations\201206091140192_FeedCategoryRemoved.cs" />
     <Compile Include="Migrations\201206091140192_FeedCategoryRemoved.Designer.cs">
       <DependentUpon>201206091140192_FeedCategoryRemoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.cs" />
+    <Compile Include="Migrations\201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.Designer.cs">
+      <DependentUpon>201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />

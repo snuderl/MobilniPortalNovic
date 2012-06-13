@@ -26,6 +26,7 @@ namespace Worker
             foreach (var r in rows)
             {
                 var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = "null" };
+                click.SetDayOfWeekAndTimeOfDay();
                 list.Add(context.Clicks.Add(click));
             }
 

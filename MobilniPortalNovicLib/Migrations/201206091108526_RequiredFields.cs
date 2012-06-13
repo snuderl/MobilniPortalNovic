@@ -1,7 +1,7 @@
 namespace MobilniPortalNovicLib.Migrations
 {
     using System.Data.Entity.Migrations;
-    
+
     public partial class RequiredFields : DbMigration
     {
         public override void Up()
@@ -12,9 +12,8 @@ namespace MobilniPortalNovicLib.Migrations
             AlterColumn("NewsFiles", "Content", c => c.String(nullable: false));
             AlterColumn("NewsFiles", "Link", c => c.String(nullable: false));
             AlterColumn("Users", "Username", c => c.String(nullable: false));
-
         }
-        
+
         public override void Down()
         {
             AlterColumn("Users", "Username", c => c.String());

@@ -70,6 +70,7 @@
     <Compile Include="RssParserTests.cs" />
     <Compile Include="CategoriesHelpersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CategoryPersonalizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobilniPortalNovicLib\MobilniPortalNovicLib.csproj">

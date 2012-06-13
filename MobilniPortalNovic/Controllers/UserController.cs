@@ -50,7 +50,7 @@ namespace MobilniPortalNovic.Controllers
             var categories = db.Categories.ToList();
 
             var categoryList = CategoryHelpers.NumberOfCliksPerCategory(c.Select(x => x.NewsFile)).ToList();
-              var categoryStats =  categoryList.ToDictionary(x => categories.Where(y => x.Key == y.CategoryId).First(), x=>x.Value);
+            var categoryStats = categoryList.ToDictionary(x => categories.Where(y => x.Key == y.CategoryId).First(), x => x.Value);
 
             return View(new UserDetailsModel
             {

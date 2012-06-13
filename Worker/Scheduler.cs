@@ -35,7 +35,7 @@ namespace Worker
 
         public void StartUpdating()
         {
-            if (State == RunningState.Waiting || State== RunningState.Stopped)
+            if (State == RunningState.Waiting || State == RunningState.Stopped)
             {
                 trigger = new SimpleTriggerImpl("Feed parsing", null, DateTime.Now, null, SimpleTriggerImpl.RepeatIndefinitely, RepeatInterval);
                 jobDetail = new JobDetailImpl("job", typeof(UpdateJob));

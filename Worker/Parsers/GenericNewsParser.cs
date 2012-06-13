@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -30,7 +29,6 @@ namespace Worker.Parsers
                     var a = GetFullNewsFileInfo(x);
                     a.ParseOk = true;
                     bag.Add(a);
-
                 }
                 catch (ArgumentException e)
                 {
@@ -69,9 +67,12 @@ namespace Worker.Parsers
         {
             var body = String.Empty;
 
-            var web = new HtmlWeb();
-            web.AutoDetectEncoding = true;
-            var doc = web.Load(x.Link);
+            //var web = new HtmlWeb();
+            //web.AutoDetectEncoding = true;
+            //var doc = web.Load(x.Link);
+            var html = WebHelper.GetHtmlDocument(x.Link, 5000);
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
 
             body = GetBody(doc);
             x.Categories = GetCategories(doc);
@@ -94,7 +95,6 @@ namespace Worker.Parsers
 
             //Remove preberite tudi
             String[] textToRemove = { "Preberite tudi:", "Preberite še:", "Prebertie še:" };
-
             d.Elements("h3").Where(x => textToRemove.Contains(x.InnerHtml)).ToList().ForEach(x =>
             {
                 x.Remove();

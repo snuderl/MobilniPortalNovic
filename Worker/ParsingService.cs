@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using BondiGeek.Logging;
 using MobilniPortalNovicLib.Models;
@@ -18,13 +17,16 @@ namespace Worker
     public class ParsingService
     {
         #region PrivateFields
+
         private static ParsingService service = null;
         private HashSet<Category> Categories = null;
         private HashSet<String> Titles = null;
-        private HashSet<String> FailedTitles = null; 
-        #endregion
+        private HashSet<String> FailedTitles = null;
+
+        #endregion PrivateFields
 
         #region Constructor
+
         private ParsingService()
         {
             TotalCount = 0;
@@ -35,10 +37,12 @@ namespace Worker
             FeedParser = new RssFeedParser();
             NewsParser = new GenericNewsParser("article");
             FailedTitles = new HashSet<string>();
-        } 
-        #endregion
+        }
+
+        #endregion Constructor
 
         #region PublicFields
+
         public IFeedParser FeedParser { get; set; }
 
         public int LastRun { get; set; }
@@ -49,10 +53,12 @@ namespace Worker
 
         public int TotalCount { get; private set; }
 
-        public Stopwatch watch { get; set; } 
-        #endregion
+        public Stopwatch watch { get; set; }
+
+        #endregion PublicFields
 
         #region Methods
+
         public static ParsingService getParsingService()
         {
             if (service == null) service = new ParsingService();
@@ -108,6 +114,7 @@ namespace Worker
             using (var repo = new MobilniPortalNovicContext12())
             {
                 #region InitializeRequiredFields
+
                 if (Titles == null)
                 {
                     ///Select only last 30 from each list
@@ -118,7 +125,6 @@ namespace Worker
                 }
                 if (Categories == null)
                 {
-
                     var cat = repo.Categories.ToList();
                     cat.ForEach(x =>
                     {
@@ -128,22 +134,23 @@ namespace Worker
                         }
                     });
                     Categories = new HashSet<Category>(cat);
-
-
-
                 }
-                #endregion
+
+                #endregion InitializeRequiredFields
 
                 #region ParseFeed
+
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
                 var time = DateTime.Now;
                 //Get items from feed
                 var feeds = repo.Feeds.ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
                 var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
-                #endregion
+
+                #endregion ParseFeed
 
                 #region ParseItems
+
                 var newsFilesList = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false).ToList();
                 //Process items
                 var items = NewsParser.parseItem(newsFilesList);
@@ -153,17 +160,19 @@ namespace Worker
                     LogWriter.Instance.Log("Error parsing: " + x.Title + "\n" + x.Link);
                     FailedTitles.Add(x.Title);
                 });
-                #endregion
+
+                #endregion ParseItems
 
                 #region SaveToDatabase
+
                 foreach (var item in items.Where(x => IsElementok(x)))
                 {
                     #region GetCategoryIdOrCreateNew
+
                     //Save categories into database
                     int? parentId = null;
-                    foreach (var c in item.Categories)
+                    foreach (var c in item.Categories.Take(2))
                     {
-
                         var s = Categories.Where(x => x.Name.Equals(c) && x.ParentCategoryId == parentId).FirstOrDefault();
                         if (s == null)
                         {
@@ -180,7 +189,8 @@ namespace Worker
                         }
                     }
                     item.CategoryId = parentId.Value;
-                    #endregion
+
+                    #endregion GetCategoryIdOrCreateNew
 
                     Titles.Add(item.Title);
                     var i = AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item);
@@ -189,10 +199,12 @@ namespace Worker
                 }
                 repo.SaveChanges();
                 Console.WriteLine("{0} new sites added.", count);
-                #endregion
+
+                #endregion SaveToDatabase
             }
             return count;
-        } 
-        #endregion
+        }
+
+        #endregion Methods
     }
 }

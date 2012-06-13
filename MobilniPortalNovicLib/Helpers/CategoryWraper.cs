@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovicLib.Helpers
 {
-    class CategoryWraper
+    internal class CategoryWraper
     {
         public ReadOnlyCollection<Category> Categories { get; private set; }
-        public ReadOnlyCollection<int> LeafNodes { get; private set; }
-        public Dictionary<int, int> ParentLookup { get; private set; }
-        public Dictionary<int, HashSet<Category>> ChildrenLookup { get; private set; }
 
+        public ReadOnlyCollection<int> LeafNodes { get; private set; }
+
+        public Dictionary<int, int> ParentLookup { get; private set; }
+
+        public Dictionary<int, HashSet<Category>> ChildrenLookup { get; private set; }
 
         public CategoryWraper(IEnumerable<Category> categories)
         {

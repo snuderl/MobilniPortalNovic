@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MobilniPortalNovicLib.Models;
 
@@ -7,7 +6,6 @@ namespace MobilniPortalNovicLib.Helpers
 {
     public class CategoryHelpers
     {
-
         /// <summary>
         /// Returns all parents for each category
         /// </summary>
@@ -35,7 +33,6 @@ namespace MobilniPortalNovicLib.Helpers
             return dict;
         }
 
-
         /// <summary>
         /// Builds up category -> parent lookup table
         /// </summary>
@@ -53,7 +50,6 @@ namespace MobilniPortalNovicLib.Helpers
             }
             return dict;
         }
-
 
         /// <summary>
         /// Get all children for each category
@@ -79,7 +75,6 @@ namespace MobilniPortalNovicLib.Helpers
             return lookup;
         }
 
-
         /// <summary>
         /// Get all parents for each category
         /// </summary>
@@ -103,7 +98,6 @@ namespace MobilniPortalNovicLib.Helpers
             }
             return lookup;
         }
-
 
         /// <summary>
         /// Returns all rows for given category including its children
@@ -129,11 +123,6 @@ namespace MobilniPortalNovicLib.Helpers
             var dict = CategoryGetChildrensFromParent(cat);
 
             var newsLookup = NumberOfCliksPerCategory(news);
-           
-
-
-
-
 
             var CountDictionary = new Dictionary<int, int>(cat.ToDictionary(x => x.CategoryId, x => 0));
 
@@ -144,7 +133,6 @@ namespace MobilniPortalNovicLib.Helpers
             {
                 int i = queue.Dequeue();
                 var children = dict[i].ToList();
-
                 int count = 0;
                 children.ForEach(x =>
                 {
@@ -154,7 +142,6 @@ namespace MobilniPortalNovicLib.Helpers
                     }
                 });
                 CountDictionary[i] = count;
-
                 var c = cat.Where(x => x.CategoryId == i).First();
                 if (c.ParentCategoryId != null)
                 {
@@ -170,6 +157,5 @@ namespace MobilniPortalNovicLib.Helpers
             var newsLookup = news.GroupBy(x => x.CategoryId).ToDictionary(x => x.Key, x => x.Count());
             return newsLookup;
         }
-
     }
 }

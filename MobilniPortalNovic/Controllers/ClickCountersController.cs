@@ -56,6 +56,7 @@ namespace MobilniPortalNovic.Controllers
         {
             if (ModelState.IsValid)
             {
+                clickcounter.SetDayOfWeekAndTimeOfDay();
                 context.Clicks.Add(clickcounter);
                 context.SaveChanges();
                 return RedirectToAction("Index");

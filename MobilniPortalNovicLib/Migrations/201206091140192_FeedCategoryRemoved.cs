@@ -1,7 +1,7 @@
 namespace MobilniPortalNovicLib.Migrations
 {
     using System.Data.Entity.Migrations;
-    
+
     public partial class FeedCategoryRemoved : DbMigration
     {
         public override void Up()
@@ -11,7 +11,7 @@ namespace MobilniPortalNovicLib.Migrations
             AddColumn("Feeds", "FeedName", c => c.String());
             DropColumn("Feeds", "CategoryId");
         }
-        
+
         public override void Down()
         {
             AddColumn("Feeds", "CategoryId", c => c.Int(nullable: false));

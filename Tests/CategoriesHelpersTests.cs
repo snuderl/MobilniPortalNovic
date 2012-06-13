@@ -159,7 +159,6 @@ namespace Tests
                 Assert.AreEqual(i.Value, counts[i.Key]);
             }
 
-
             counts = CategoryHelpers.GetNumberOfItemsPerCategory(news, categoriesBig);
 
             result = new Dictionary<int, int>{
@@ -175,7 +174,6 @@ namespace Tests
             {
                 Assert.AreEqual(i.Value, counts[i.Key]);
             }
-
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MobilniPortalNovicLib.Helpers;
 
 namespace MobilniPortalNovicLib.Models
 {
@@ -109,6 +110,13 @@ namespace MobilniPortalNovicLib.Models
         public virtual User User { get; set; }
 
         public virtual Category Category { get; set; }
+
+        public void SetDayOfWeekAndTimeOfDay()
+        {
+            DayOfWeek = DateTimeHelpers.weekDays.IndexOf(ClickDate.DayOfWeek) + 1;
+            TimeOfDay = (int)ClickDate.TimeOfDay.TotalMinutes;
+
+        }
     }
 
     public class User

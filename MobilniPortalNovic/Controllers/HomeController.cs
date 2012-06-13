@@ -1,6 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using MobilniPortalNovic.ModelView;
-using System.Linq;
 
 namespace Web.Controllers
 {
@@ -16,7 +16,7 @@ namespace Web.Controllers
             {
                 CategoriesCount = context.Categories.Count(),
                 NewsFileCount = context.NewsFiles.Count(),
-                NewsLastUpdated = context.Feeds.OrderBy(x=>x.LastUpdated).First().LastUpdated
+                NewsLastUpdated = context.Feeds.OrderBy(x => x.LastUpdated).First().LastUpdated
             });
         }
 
@@ -32,6 +32,22 @@ namespace Web.Controllers
             ViewBag.Message = "Your quintessential contact page.";
 
             return View();
+        }
+
+        public ActionResult Delete()
+        {
+            var context = new MobilniPortalNovicLib.Models.MobilniPortalNovicContext12();
+            context.Database.ExecuteSqlCommand("truncate table ClickCounters");
+            foreach (var x in context.NewsFiles)
+            {
+                context.NewsFiles.Remove(x);
+            }
+            foreach (var c in context.Categories.ToList())
+            {
+                context.Categories.Remove(c);
+            }
+            context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         //public ActionResult RunUpdate()
