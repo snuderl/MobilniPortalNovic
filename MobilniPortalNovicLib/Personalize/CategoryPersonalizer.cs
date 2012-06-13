@@ -29,8 +29,8 @@ namespace MobilniPortalNovicLib.Personalize
         public IQueryable<NewsFile> GetNews(User u)
         {
             var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == u.UserId);
-            var timeFiltert = FilterClicksByDate(clicks, DateTime.Now);
-            var goodCategories = GetDesiredCategories(clicks.ToList(), CategoryTreshold);
+            var timeFilterd = FilterClicksByDate(clicks, DateTime.Now);
+            var goodCategories = GetDesiredCategories(timeFilterd.ToList(), CategoryTreshold);
 
             return Context.NewsFiles.Where(x => goodCategories.Contains(x.CategoryId)).OrderByDescending(x => x.PubDate);
         }

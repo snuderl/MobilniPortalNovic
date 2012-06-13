@@ -12,7 +12,7 @@ namespace Worker.Parsers
         {
             try
             {
-                var doc = WebHelper.GetHtmlDocument(feed.url, 3000);
+                var doc = WebHelper.GetHtmlDocument(feed.url, 15000);
 
                 var lastUpdated = feed.LastUpdated;
 

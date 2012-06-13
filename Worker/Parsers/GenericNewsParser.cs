@@ -70,7 +70,7 @@ namespace Worker.Parsers
             //var web = new HtmlWeb();
             //web.AutoDetectEncoding = true;
             //var doc = web.Load(x.Link);
-            var html = WebHelper.GetHtmlDocument(x.Link, 5000);
+            var html = WebHelper.GetHtmlDocument(x.Link, 15000);
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
