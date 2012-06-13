@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Xml.Linq;
 using BondiGeek.Logging;
-using HtmlAgilityPack;
 
 namespace Worker.Parsers
 {
@@ -17,7 +15,7 @@ namespace Worker.Parsers
                 var doc = WebHelper.GetHtmlDocument(feed.url, 3000);
 
                 var lastUpdated = feed.LastUpdated;
-                
+
                 return parseRssDocument(XDocument.Parse(doc), feed.FeedId);
             }
             catch (Exception e)
