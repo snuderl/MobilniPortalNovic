@@ -30,7 +30,6 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public DateTime LastUpdated { get; set; }
 
-
         public virtual NewsSite NewsSite { get; set; }
     }
 
@@ -88,7 +87,6 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public DateTime ClickDate { get; set; }
 
-        
         public String Location { get; set; }
 
         [Required]
@@ -96,6 +94,12 @@ namespace MobilniPortalNovicLib.Models
 
         [Required]
         public int UserId { get; set; }
+
+        [Required, Range(1,7)]
+        public int DayOfWeek { get; set; }
+
+        [Required, Range(1, 1440)]
+        public int TimeOfDay { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
