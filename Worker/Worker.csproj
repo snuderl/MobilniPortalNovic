@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FillDatabase.cs" />
+    <Compile Include="FillDatabaseCmd.cs" />
     <Compile Include="Parsers\FeedItem.cs" />
     <Compile Include="Parsers\GenericNewsParser.cs" />
     <Compile Include="Parsers\Interfaces.cs" />
@@ -79,7 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobilniPortalNovicLib\MobilniPortalNovicLib.csproj">

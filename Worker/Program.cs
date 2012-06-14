@@ -17,46 +17,7 @@ namespace Worker
             public Action Action { get; set; }
         }
 
-        private static void SimulateClicks()
-        {
-            try
-            {
-                using (var context = new MobilniPortalNovicContext12())
-                {
-                    Console.WriteLine("UserId:");
-                    int userId;
-                    var i1 = Console.ReadLine();
-                    if (Int32.TryParse(i1, out userId) == false)
-                    {
-                        userId = context.Users.Where(x => x.Username == i1).First().UserId;
-                    }
-
-                    Console.WriteLine("Number of clicks");
-                    var count = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine("Category number");
-
-                    int category;
-                    var i2 = Console.ReadLine();
-                    if (Int32.TryParse(i2, out category) == false)
-                    {
-                        category = context.Categories.Where(x => x.Name == i2).First().CategoryId;
-                    }
-                    Console.WriteLine("Hour offset from now:");
-                    int offset = Int32.Parse(Console.ReadLine());
-                    Random rnd = new Random();
-                    var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId, category, count, () =>
-                    {
-                        return DateTime.Now.AddHours(offset).AddMinutes(rnd.Next(-60, 60));
-                    }
-                    );
-                    Console.WriteLine("{0} clicks added.", clicks.Count());
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Bad input");
-            }
-        }
+       
 
         private static void Main(string[] args)
         {
@@ -74,14 +35,22 @@ namespace Worker
                         Console.WriteLine("Parser stopped");
                     })
             });
-            inputDictionary.Add("simulate", new CommandOption { Description = "Simulate clicks", Action = new Action(() => SimulateClicks()) });
+            inputDictionary.Add("simulate", new CommandOption { Description = "Simulate clicks", Action = new Action(() => FillDatabaseCmd.SimulateClicks()) });
             inputDictionary.Add("check", new CommandOption
             {
                 Description = "Check for duplicates",
                 Action = new Action(() =>
                 {
                     var dateToCheck = DateTime.Now.AddDays(-1);
-                    new MobilniPortalNovicContext12().NewsFiles.Where(x => x.PubDate > dateToCheck).GroupBy(x => x.Title).Where(x => x.Count() > 1).ToList().ForEach(x => Console.WriteLine(x.Key));
+                    var repo = new MobilniPortalNovicContext12();
+                    var i = repo.NewsFiles.Where(x => x.PubDate > dateToCheck).GroupBy(x => x.Title).Where(x => x.Count() > 1).ToList();
+                    i.ForEach(x =>
+                        {
+                            Console.WriteLine(x.First().Title);
+                            Console.WriteLine("Removing {0} duplicates", x.Count() - 1);
+                            x.Skip(1).ToList().ForEach(y=>repo.NewsFiles.Remove(y));
+                        });
+                    repo.SaveChanges();
                 })
             });
             inputDictionary.Add("run",

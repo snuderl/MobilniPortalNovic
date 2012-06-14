@@ -30,12 +30,13 @@ namespace Worker.Parsers
                     a.ParseOk = true;
                     bag.Add(a);
                 }
-                catch (ArgumentException e)
+                catch (System.NullReferenceException)
                 {
                     x.ParseOk = false;
+                    
                     bag.Add(x);
                 }
-                catch (Exception web)
+                catch (Exception)
                 {
                     String error = "Error getting link: " + x.Link;
                     LogWriter.Instance.Log(error);
@@ -73,6 +74,7 @@ namespace Worker.Parsers
             var html = WebHelper.GetHtmlDocument(x.Link, 15000);
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
+
 
             body = GetBody(doc);
             x.Categories = GetCategories(doc);

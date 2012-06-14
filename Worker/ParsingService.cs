@@ -118,7 +118,7 @@ namespace Worker
                 if (Titles == null)
                 {
                     ///Select only last 30 from each list
-                    var list = LastTitlesByFeed(repo.NewsFiles, 30);
+                    var list = repo.NewsFiles.Select(x => x.Title);
                     /// Select all
                     /// var list = context.NewsFiles.Select(y => y.Title));
                     Titles = new HashSet<String>(list);
@@ -145,19 +145,23 @@ namespace Worker
                 //Get items from feed
                 var feeds = repo.Feeds.ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
-                var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x);
+                var newsFiles = feeds.AsParallel().Select(x => FeedParser.parseFeed(x)).SelectMany(x => x).ToList();
+
+                //remove duplicates
+                newsFiles = newsFiles.GroupBy(x => x.Title).Select(x => x.First()).ToList();
 
                 #endregion ParseFeed
 
                 #region ParseItems
 
+                //Remove already parsed ones
                 var newsFilesList = newsFiles.Where(x => FailedTitles.Contains(x.Title) == false && Titles.Contains(x.Title) == false).ToList();
                 //Process items
                 var items = NewsParser.parseItem(newsFilesList);
 
                 items.Where(x => !IsElementok(x)).ToList().ForEach(x =>
                 {
-                    LogWriter.Instance.Log("Error parsing: " + x.Title + "\n" + x.Link);
+                    LogWriter.Instance.Log("Error parsing: " + x.Link);
                     FailedTitles.Add(x.Title);
                 });
 
@@ -165,7 +169,7 @@ namespace Worker
 
                 #region SaveToDatabase
 
-                foreach (var item in items.Where(x => IsElementok(x)))
+                foreach (var item in items.Where(x => IsElementok(x)).ToList())
                 {
                     #region GetCategoryIdOrCreateNew
 
@@ -173,6 +177,12 @@ namespace Worker
                     int? parentId = null;
                     foreach (var c in item.Categories.Take(2))
                     {
+                        //Skip if already exists or parsed
+                        if(Titles.Contains(item.Title) || FailedTitles.Contains(item.Title)){
+                            continue;
+                        }
+
+
                         var s = Categories.Where(x => x.Name.Equals(c) && x.ParentCategoryId == parentId).FirstOrDefault();
                         if (s == null)
                         {
@@ -192,6 +202,7 @@ namespace Worker
 
                     #endregion GetCategoryIdOrCreateNew
 
+                   
                     Titles.Add(item.Title);
                     var i = AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item);
                     repo.NewsFiles.Add(i);
