@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -12,9 +13,27 @@ namespace Web.Controllers
         //
         // GET: /Categories/
 
-        public ViewResult Index()
+        public ActionResult Index(string format = "html")
         {
-            return View(context.Categories.ToList());
+            var categories = context.Categories.ToList();
+            if (format == "json")
+            {
+                var jsonObject = categories.Where(x => x.ParentCategoryId == null).Select(x => new
+                {
+                    Name = x.Name,
+                    Id = x.CategoryId,
+                    Children = categories.Where(y=>y.ParentCategoryId==x.CategoryId).Select(y=>
+                        new{
+                            Name=y.Name,
+                            Id = x.CategoryId
+                        })
+                });
+                return Json(jsonObject, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View(categories.ToList());
+            }
         }
 
         //
