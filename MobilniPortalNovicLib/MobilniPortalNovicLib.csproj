@@ -107,11 +107,6 @@
       <DependentUpon>201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
     <Compile Include="Personalize\CategoryPersonalizer.cs" />
@@ -121,13 +116,6 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
-    </None>
-    <EntityDeploy Include="Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

@@ -44,13 +44,14 @@ namespace Worker
                     var dateToCheck = DateTime.Now.AddDays(-1);
                     var repo = new MobilniPortalNovicContext12();
                     var i = repo.NewsFiles.Where(x => x.PubDate > dateToCheck).GroupBy(x => x.Title).Where(x => x.Count() > 1).ToList();
+                    var count = 0;
                     i.ForEach(x =>
                         {
-                            Console.WriteLine(x.First().Title);
-                            Console.WriteLine("Removing {0} duplicates", x.Count() - 1);
+                            count += x.Count() - 1;
                             x.Skip(1).ToList().ForEach(y=>repo.NewsFiles.Remove(y));
                         });
                     repo.SaveChanges();
+                    Console.WriteLine("Removed {0} duplicates", count);
                 })
             });
             inputDictionary.Add("run",

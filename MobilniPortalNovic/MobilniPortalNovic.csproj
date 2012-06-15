@@ -92,6 +92,7 @@
     <Compile Include="Helpers\UriExtensions.cs" />
     <Compile Include="ModelView\ClickModelView.cs" />
     <Compile Include="ModelView\HomePageModel.cs" />
+    <Compile Include="ModelView\RssHtmlModelView.cs" />
     <Compile Include="ModelView\UserDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -233,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ClickCounters\_CreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Feed\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
