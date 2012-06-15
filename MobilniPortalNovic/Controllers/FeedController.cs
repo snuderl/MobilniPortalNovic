@@ -39,6 +39,8 @@ namespace MobilniPortalNovic.Controllers
         // GET: /Feed/
         public ActionResult Index(int page = 0, int userId = 0, string format = "rss")
         {
+
+            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
             if (userId == 0)
             {
@@ -46,7 +48,6 @@ namespace MobilniPortalNovic.Controllers
             }
             else
             {
-                CategoryPersonalizer personalize = new CategoryPersonalizer(context);
                 articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
             }
 
@@ -56,7 +57,8 @@ namespace MobilniPortalNovic.Controllers
                 return View(new RssHtmlModelView
                 {
                     includedCategories = items.Select(x=>x.Category).GroupBy(x => x.CategoryId).Select(x => x.First()),
-                    newsFiles = items
+                    newsFiles = items,
+                    FilterMessages = personalize.Messages
                 });
             }
             else

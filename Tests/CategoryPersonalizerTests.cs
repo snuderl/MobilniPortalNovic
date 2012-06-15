@@ -67,8 +67,11 @@ namespace Tests
         public void FilterClicksByDateTest()
         {
             clicks.ForEach(x => x.SetDayOfWeekAndTimeOfDay());
-            var result = CategoryPersonalizer.FilterClicksByDate(clicks.AsQueryable(), DateTime.Now);
-            Assert.AreEqual(result.Count(), 2);
+            var result = CategoryPersonalizer.FilterClicksByDayOfWeek(clicks.AsQueryable(), DateTime.Now);
+            Assert.AreEqual(result.Count(), 3);
+
+            result = CategoryPersonalizer.FilterClickyByTimeOfDay(clicks.AsQueryable(), DateTime.Now);
+            Assert.AreEqual(result.Count(), 3);
         }
     }
 }

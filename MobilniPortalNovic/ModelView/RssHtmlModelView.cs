@@ -10,5 +10,6 @@ namespace MobilniPortalNovic.ModelView
     {
         public IEnumerable<NewsFile> newsFiles;
         public IEnumerable<Category> includedCategories;
+        public IEnumerable<String> FilterMessages;
     }
 }

@@ -1,17 +1,26 @@
 ﻿@model RssHtmlModelView
-
 @{
     Layout = null;
 }
 
+<h2>Used filters</h2>
+<ul>
+    @foreach (var m in Model.FilterMessages)
+    {
+        <li>@m</li>
+    }
+</ul>
+
 <h2>Included categories</h2>
 <ul>
-@foreach(var category in Model.includedCategories){
-    <li>@category.Name</li>
-}
+    @foreach (var category in Model.includedCategories)
+    {
+        <li>@category.Name</li>
+    }
 </ul>
 
 <h3>News files</h3>
-@foreach(var news in Model.newsFiles){
+@foreach (var news in Model.newsFiles)
+{
     <li>@news.Title</li>
 }
