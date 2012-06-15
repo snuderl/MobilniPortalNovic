@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Web.Mvc;
 using MobilniPortalNovic.Helpers;
+using MobilniPortalNovic.ModelView;
 using MobilniPortalNovicLib.Models;
 using MobilniPortalNovicLib.Personalize;
 
@@ -36,7 +37,7 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /Feed/
-        public ActionResult Index(int page = 0, int userId = 0)
+        public ActionResult Index(int page = 0, int userId = 0, string format = "rss")
         {
             IQueryable<NewsFile> articles;
             if (userId == 0)
@@ -49,7 +50,19 @@ namespace MobilniPortalNovic.Controllers
                 articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
             }
 
-            return new FeedResult(listToRss(paging(articles, page).ToList()));
+            if (format == "html")
+            {
+                var items = articles.ToList();
+                return View(new RssHtmlModelView
+                {
+                    includedCategories = items.Select(x=>x.Category).GroupBy(x => x.CategoryId).Select(x => x.First()),
+                    newsFiles = items
+                });
+            }
+            else
+            {
+                return new FeedResult(listToRss(paging(articles, page).ToList()));
+            }
         }
 
         public ActionResult CategoryView(string category, int page = 0)

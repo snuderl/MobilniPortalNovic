@@ -3,41 +3,50 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+    <h2>Details</h2>
 
-<fieldset>
-    <legend>User</legend>
+    <fieldset>
+        <legend>User</legend>
 
-    <div class="display-label">Username</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Username)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        <div class="display-label">Username</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Username)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
-<div class="Feed counts">
-    
-    <h1>Feed counts</h1>
-    @foreach (var i in Model.feedStats)
-    {
-        @i.Key <text>||</text>  @i.Value <br />
-    }
-</div>
-<div class="Category counts">
-    
-    <h1>Click counts</h1>
-    @foreach (var i in Model.categoryStats)
-    {
-        @i.Key.Name <text>||</text>  @i.Value <text> || @((((float)i.Value)/(float)Model.clicks.Count()).ToString("%#0.00"))</text><br />
-    }
-</div>
+    </p>
+    <div class="leftCol">
+        <div class="Feed counts">
 
-<div class="clicks">
-    <h1>Clicks</h1>
-    @foreach (var i in Model.clicks)
-    {
-        @Html.ActionLink(i.NewsFile.Title, "Details", new{ controller="NewsFiles", id=i.NewsFile.NewsId}) <br />
-    }
-</div>
+            <h1>Feed counts</h1>
+            @foreach (var i in Model.feedStats)
+            {
+                @i.Key <text>||</text>  @i.Value <br />
+            }
+        </div>
+        <div class="Category counts">
+
+            <h1>Click counts</h1>
+            @foreach (var i in Model.categoryStats)
+            {
+                @i.Key.Name <text>||</text>  @i.Value <text> || @((((float)i.Value) / (float)Model.clicks.Count()).ToString("%#0.00"))</text><br />
+            }
+        </div>
+
+        <div class="clicks">
+            <h1>Clicks</h1>
+            @foreach (var i in Model.clicks)
+            {
+                @Html.ActionLink(i.NewsFile.Title, "Details", new { controller = "NewsFiles", id = i.NewsFile.NewsId }) <br />
+            }
+        </div>
+    </div>
+    <div class="rightCol">
+        @Html.Action("Index", new { controller = "Feed", format = "html", userId = Model.Id });
+    </div>
+
+    <div id="bottom">
+        <br style="clear: both;" />
+    </div>
