@@ -16,12 +16,15 @@ namespace MobilniPortalNovicLib.Personalize
         public float CategoryTreshold { get; set; }
         public List<String> Messages { get; private set; }
         public int MinimalClicks { get; set; }
+        public int HourOffset { get; set; }
 
         public CategoryPersonalizer(MobilniPortalNovicContext12 context)
         {
             this.Context = context;
             CategoryTreshold = 70;
             Messages = new List<String>();
+            HourOffset = 2;
+            MinimalClicks = 10;
         }
 
         /// <summary>
@@ -32,8 +35,13 @@ namespace MobilniPortalNovicLib.Personalize
         public IQueryable<NewsFile> GetNews(User u)
         {
             var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == u.UserId);
+            int count = clicks.Count();
+            if (count < MinimalClicks)
+            {
+                return Context.NewsFiles.OrderByDescending(x => x.PubDate);
+            }
 
-            var filteredByTimeOfDay = FilterClickyByTimeOfDay(clicks, DateTime.Now);
+            var filteredByTimeOfDay = FilterClickyByTimeOfDay(clicks, DateTime.Now, HourOffset);
             if (filteredByTimeOfDay.Count() > MinimalClicks)
             {
                 Messages.Add("Time of day filter applied");
@@ -80,9 +88,15 @@ namespace MobilniPortalNovicLib.Personalize
             return goodCategories;
         }
 
-        public static IQueryable<ClickCounter> FilterClickyByTimeOfDay(IQueryable<ClickCounter> clicks, DateTime target)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clicks">List of clicks</param>
+        /// <param name="target">DateTime when to look for clicks</param>
+        /// <param name="timeOffsetHours">Hours around given target to look for clicks</param>
+        /// <returns></returns>
+        public static IQueryable<ClickCounter> FilterClickyByTimeOfDay(IQueryable<ClickCounter> clicks, DateTime target, int timeOffsetHours = 1)
         {
-            var timeOffsetHours = 1;
             var upper = target.TimeOfDay.Add(new TimeSpan(timeOffsetHours, 0, 1)).TotalMinutes;
             upper = Math.Min(DateTimeHelpers.MaxDayOfTime, upper);
             var lower = target.TimeOfDay.Subtract(new TimeSpan(timeOffsetHours, 0, 1)).TotalMinutes;
