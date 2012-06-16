@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -25,7 +26,8 @@ namespace Web.Controllers
                     Children = categories.Where(y=>y.ParentCategoryId==x.CategoryId).Select(y=>
                         new{
                             Name=y.Name,
-                            Id = x.CategoryId
+                            Id = x.CategoryId,
+                            Children=new List<Category>()
                         })
                 });
                 return Json(jsonObject, JsonRequestBehavior.AllowGet);
