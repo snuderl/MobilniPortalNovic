@@ -66,9 +66,10 @@ namespace Tests
         [TestMethod]
         public void FilterClicksByDateTest()
         {
+            var dateTime = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
             clicks.ForEach(x => x.SetDayOfWeekAndTimeOfDay());
             var result = CategoryPersonalizer.FilterClicksByDayOfWeek(clicks.AsQueryable(), DateTime.Now);
-            Assert.AreEqual(result.Count(), 3);
+            Assert.AreEqual(result.Count(), 4);
 
             result = CategoryPersonalizer.FilterClickyByTimeOfDay(clicks.AsQueryable(), DateTime.Now);
             Assert.AreEqual(result.Count(), 3);
