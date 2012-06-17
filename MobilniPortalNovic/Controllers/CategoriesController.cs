@@ -7,6 +7,13 @@ using MobilniPortalNovicLib.Models;
 
 namespace Web.Controllers
 {
+    public class JsonCategory
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public IEnumerable<JsonCategory> Children { get; set; }
+    }
+
     public class CategoriesController : Controller
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
@@ -16,20 +23,29 @@ namespace Web.Controllers
 
         public ActionResult Index(string format = "html")
         {
-            var categories = context.Categories.ToList();
+            var categories = context.Categories.Include("ParentCategory").ToList();
             if (format == "json")
             {
-                var jsonObject = categories.Where(x => x.ParentCategoryId == null).Select(x => new
+                var jsonObject = categories.Where(x => x.ParentCategoryId == null).Select(x => new JsonCategory
                 {
                     Name = x.Name,
                     Id = x.CategoryId,
-                    Children = categories.Where(y=>y.ParentCategoryId==x.CategoryId).Select(y=>
-                        new{
-                            Name=y.Name,
+                    Children = categories.Where(y => y.ParentCategoryId == x.CategoryId).Select(y =>
+                    {
+                        var name = y.Name;
+                        if (name == "Novice")
+                        {
+                            name = x.Name + " novice";
+                        }
+                        return new JsonCategory
+                        {
+                            Name = name,
                             Id = x.CategoryId,
-                            Children=new List<Category>()
-                        })
+                            Children = new List<JsonCategory>()
+                        };
+                    })
                 });
+
                 return Json(jsonObject, JsonRequestBehavior.AllowGet);
             }
             else
@@ -37,6 +53,8 @@ namespace Web.Controllers
                 return View(categories.ToList());
             }
         }
+
+
 
         //
         // GET: /Categories/Details/5

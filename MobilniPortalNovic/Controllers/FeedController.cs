@@ -21,7 +21,12 @@ namespace MobilniPortalNovic.Controllers
                 p =>
                 {
                     var i = new SyndicationItem(p.Title, p.ShortContent, uriMaker(p.NewsId), p.NewsId.ToString(), p.PubDate);
-                    i.Categories.Add(new SyndicationCategory(p.Category.Name));
+                    var catString = p.Category.Name;
+                    if (catString == "Novice")
+                    {
+                        catString = p.Category.ParentCategory.Name + " novice";
+                    }
+                    i.Categories.Add(new SyndicationCategory(catString));
                     i.PublishDate = p.PubDate;
                     return i;
                 });
