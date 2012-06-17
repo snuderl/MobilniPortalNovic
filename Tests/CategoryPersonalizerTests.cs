@@ -51,14 +51,15 @@ namespace Tests
         [TestInitialize]
         public void SetUp()
         {
+            var date = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
             categoriesSmall = new List<Category> { cat1, cat2, cat3 };
             clicks = new List<ClickCounter>{
-                new ClickCounter{ NewsId=1, NewsFile=n1, ClickDate = DateTime.Now},
-                new ClickCounter{ NewsId=2, NewsFile=n2, ClickDate = DateTime.Now.AddHours(2)},
-                new ClickCounter{ NewsId=3, NewsFile=n3, ClickDate = DateTime.Now.AddHours(-3)},
-                new ClickCounter{ NewsId=4, NewsFile=n4, ClickDate = DateTime.Now.AddDays(1)},
-                new ClickCounter{ NewsId=5, NewsFile=n5, ClickDate = DateTime.Now.AddDays(2)},
-                new ClickCounter{ NewsId=6, NewsFile=n6, ClickDate = DateTime.Now.AddDays(3).AddHours(2)}
+                new ClickCounter{ NewsId=1, NewsFile=n1, ClickDate = date},
+                new ClickCounter{ NewsId=2, NewsFile=n2, ClickDate = date.AddHours(2)},
+                new ClickCounter{ NewsId=3, NewsFile=n3, ClickDate = date.AddHours(-3)},
+                new ClickCounter{ NewsId=4, NewsFile=n4, ClickDate = date.AddDays(1)},
+                new ClickCounter{ NewsId=5, NewsFile=n5, ClickDate = date.AddDays(2)},
+                new ClickCounter{ NewsId=6, NewsFile=n6, ClickDate = date.AddDays(3).AddHours(2)}
             };
 
         }
@@ -68,10 +69,10 @@ namespace Tests
         {
             var dateTime = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
             clicks.ForEach(x => x.SetDayOfWeekAndTimeOfDay());
-            var result = CategoryPersonalizer.FilterClicksByDayOfWeek(clicks.AsQueryable(), DateTime.Now);
+            var result = CategoryPersonalizer.FilterClicksByDayOfWeek(clicks.AsQueryable(), dateTime);
             Assert.AreEqual(result.Count(), 4);
 
-            result = CategoryPersonalizer.FilterClickyByTimeOfDay(clicks.AsQueryable(), DateTime.Now);
+            result = CategoryPersonalizer.FilterClickyByTimeOfDay(clicks.AsQueryable(), dateTime);
             Assert.AreEqual(result.Count(), 3);
         }
     }

@@ -99,9 +99,9 @@ namespace MobilniPortalNovic.Controllers
             return Json(d, JsonRequestBehavior.AllowGet);
         }
 
-        private IQueryable<NewsFile> paging(IQueryable<NewsFile> query, int page = 0, int take = 15, int skip = 15)
+        private IQueryable<NewsFile> paging(IQueryable<NewsFile> query, int page = 0, int pageSize = 30)
         {
-            return query.Skip(page * skip).Take(15);
+            return query.Skip(page * pageSize).Take(pageSize);
         }
     }
 }
