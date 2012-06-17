@@ -37,9 +37,8 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /Feed/
-        public ActionResult Index(int page = 0, int userId = 0, string format = "rss")
+        public ActionResult Index(DateTime? lastDate, int userId = 0, string format = "rss")
         {
-
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
             if (userId == 0)
@@ -49,6 +48,9 @@ namespace MobilniPortalNovic.Controllers
             else
             {
                 articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
+            }
+            if(lastDate!=null){
+                articles=articles.Where(x=>x.PubDate<lastDate);
             }
 
             if (format == "html")
@@ -63,7 +65,36 @@ namespace MobilniPortalNovic.Controllers
             }
             else
             {
-                return new FeedResult(listToRss(paging(articles, page).ToList()));
+                return new FeedResult(listToRss(articles.Take(30).ToList()));
+            }
+        }
+
+
+        //
+        // GET: /Feed/
+        public ActionResult IndexSkip(DateTime? lastDate, string format="rss")
+        {
+
+            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
+            IQueryable<NewsFile> articles;
+            if (0 == 0)
+            {
+                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
+            }
+
+            if (format == "html")
+            {
+                var items = articles.ToList();
+                return View(new RssHtmlModelView
+                {
+                    includedCategories = items.Select(x => x.Category).GroupBy(x => x.CategoryId).Select(x => x.First()),
+                    newsFiles = items,
+                    FilterMessages = personalize.Messages
+                });
+            }
+            else
+            {
+                return new FeedResult(listToRss(articles.Where(x => x.PubDate<lastDate).Take(30).ToList()));
             }
         }
 
