@@ -67,9 +67,9 @@ namespace MobilniPortalNovic.Controllers
             }
         }
 
-        public ActionResult CategoryView(string category, int page = 0)
+        public ActionResult CategoryView(int categoryId, int page = 0)
         {
-            var articles = context.NewsFiles.Where(x => x.Category.Name == category).OrderByDescending(x => x.PubDate);
+            var articles = context.NewsFiles.Where(x => x.Category.CategoryId == categoryId || x.Category.ParentCategory.ParentCategoryId == categoryId).OrderByDescending(x => x.PubDate);
             return new FeedResult(listToRss(paging(articles, page).ToList()));
         }
 
