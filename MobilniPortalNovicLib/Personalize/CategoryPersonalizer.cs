@@ -17,6 +17,7 @@ namespace MobilniPortalNovicLib.Personalize
         public List<String> Messages { get; private set; }
         public int MinimalClicks { get; set; }
         public int HourOffset { get; set; }
+        public List<Category> GoodCategories { get; set; }
 
         public CategoryPersonalizer(MobilniPortalNovicContext12 context)
         {
@@ -62,6 +63,8 @@ namespace MobilniPortalNovicLib.Personalize
             }
 
             var goodCategories = GetDesiredCategories(filteredByDayOfWeek.ToList(), CategoryTreshold);
+            GoodCategories = Context.Categories.Include("ParentCategory").Where(x => goodCategories.Contains(x.CategoryId)).ToList();
+
 
             return Context.NewsFiles.Where(x => goodCategories.Contains(x.CategoryId)).OrderByDescending(x => x.PubDate);
         }

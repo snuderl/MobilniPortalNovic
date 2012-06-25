@@ -1,0 +1,45 @@
+﻿@model PagedList.IPagedList<MobilniPortalNovicLib.Models.NewsFile>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<table>
+    <tr>
+        <th>Title
+        </th>
+        ShortContent
+        <th></th>
+        <th>PubDate
+        </th>
+        <th>Feed
+        </th>
+        <th>Category</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.ShortContent
+            </td>
+            <td>
+                @String.Format("{0:g}", item.PubDate)
+            </td>
+            <td>
+                @item.Feed.FeedName
+            </td>
+            <td>@item.Category.Name</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.NewsId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.NewsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.NewsId })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.GetRequiredString("action"), new { page }))
+</div>

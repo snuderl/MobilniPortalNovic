@@ -1,5 +1,4 @@
-@model IEnumerable<MobilniPortalNovicLib.Models.NewsFile>
-
+@model PagedList.IPagedList<MobilniPortalNovicLib.Models.NewsFile>
 @{
     ViewBag.Title = "Index";
 }
@@ -10,53 +9,8 @@
     @Html.ActionLink("Create New", "Create")
     @Html.ActionLink("Delete all", "DeleteAll")
 </p>
-<table>
-    <tr>
-        <th></th>
-        <th>
-            ShortContent
-        </th>
-        <th>
-            Title
-        </th>
-        <th>
-            PubDate
-        </th>
-        <th>
-            Feed
-        </th>        
-        <th>Category</th>
-        <th>
-            Content
-        </th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.NewsId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.NewsId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.NewsId })
-        </td>
-        <td>
-			@item.ShortContent
-        </td>
-        <td>
-			@item.Title
-        </td>
-        <td>
-			@String.Format("{0:g}", item.PubDate)
-        </td>
-        <td>
-			@Html.DisplayTextFor(_ => item.Feed.FeedName).ToString()
-        </td>
-                <td>@item.Category.Name</td>
-        <td>
-			@Html.Raw(item.Content)
-        </td>
-    </tr>
-}
+@Html.Partial("_NewsFilesTable", Model)
 
-</table>
 
 

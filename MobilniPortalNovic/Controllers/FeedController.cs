@@ -7,6 +7,7 @@ using MobilniPortalNovic.Helpers;
 using MobilniPortalNovic.ModelView;
 using MobilniPortalNovicLib.Models;
 using MobilniPortalNovicLib.Personalize;
+using PagedList;
 
 namespace MobilniPortalNovic.Controllers
 {
@@ -42,7 +43,7 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /Feed/
-        public ActionResult Index(DateTime? lastDate, int userId = 0, string format = "rss")
+        public ActionResult Index(DateTime? lastDate, int userId = 0)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
@@ -54,53 +55,67 @@ namespace MobilniPortalNovic.Controllers
             {
                 articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
             }
-            if(lastDate!=null){
-                articles=articles.Where(x=>x.PubDate<lastDate);
+            if (lastDate != null)
+            {
+                articles = articles.Where(x => x.PubDate < lastDate);
             }
 
-            if (format == "html")
+            return new FeedResult(listToRss(articles.Take(30).ToList()));
+        }
+
+        //
+        // GET: /Feed/
+        public ActionResult IndexHtml(int userId = 0,int page=1)
+        {
+            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
+            IQueryable<NewsFile> articles;
+            if (userId == 0)
             {
-                var items = articles.ToList();
-                return View(new RssHtmlModelView
-                {
-                    includedCategories = items.Select(x=>x.Category).GroupBy(x => x.CategoryId).Select(x => x.First()),
-                    newsFiles = items,
-                    FilterMessages = personalize.Messages
-                });
+                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
             }
             else
             {
-                return new FeedResult(listToRss(articles.Take(30).ToList()));
+                articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
             }
+            var items = articles;
+            return View("Index", new RssHtmlModelView
+            {
+                includedCategories = items.Select(x => x.Category).GroupBy(x => x.CategoryId).Select(x => x.FirstOrDefault()).ToList(),
+                newsFiles = items.Take(30).ToList(),
+                FilterMessages = personalize.Messages
+            });
         }
+
+        public ActionResult PersonalizedHtmlTable(int userId = 0, int page = 1)
+        {
+            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
+            IQueryable<NewsFile> articles;
+            if (userId == 0)
+            {
+                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
+            }
+            else
+            {
+                articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
+            }
+            var items = articles.ToList();
+            return View("~/Views/NewsFiles/Index.cshtml", items.ToPagedList(page, 25));
+        }
+
+
 
 
         //
         // GET: /Feed/
-        public ActionResult IndexSkip(DateTime? lastDate, string format="rss")
+        public ActionResult IndexSkip(DateTime? lastDate, string format = "rss")
         {
 
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
-            if (0 == 0)
-            {
-                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
-            }
+            articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
 
-            if (format == "html")
-            {
-                var items = articles.ToList();
-                return View(new RssHtmlModelView
-                {
-                    includedCategories = items.Select(x => x.Category).GroupBy(x => x.CategoryId).Select(x => x.First()),
-                    newsFiles = items,
-                    FilterMessages = personalize.Messages
-                });
-            }
-            else
-            {
-                return new FeedResult(listToRss(articles.Where(x => x.PubDate<lastDate).Take(30).ToList()));
-            }
+
+            return new FeedResult(listToRss(articles.Where(x => x.PubDate < lastDate).Take(30).ToList()));
         }
 
         public ActionResult CategoryView(int id, int page = 0)

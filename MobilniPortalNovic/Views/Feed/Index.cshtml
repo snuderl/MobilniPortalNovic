@@ -20,7 +20,10 @@
 </ul>
 
 <h3>News files</h3>
-@foreach (var news in Model.newsFiles)
-{
-    <li>@news.Title</li>
-}
+<ul>
+    @foreach (var item in Model.newsFiles)
+    {
+        <li>@item.Title</li>
+    }
+</ul>
+@Html.ActionLink("Personalized news", "PersonalizedHtmlTable")

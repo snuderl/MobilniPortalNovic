@@ -1,5 +1,4 @@
-@model MobilniPortalNovicLib.Models.Category
-
+@model CategoryModelView
 @{
     ViewBag.Title = "Details";
 }
@@ -10,21 +9,31 @@
     <legend>Category</legend>
 
     <div class="display-label">Name</div>
-    <div class="display-field">@Model.Name</div>
-    <div class="display-label">Parent</div>
-    <div class="display-field">
-        @(Model.ParentCategory==null ? "None" : Model.ParentCategory.Name)
+    <div class="display-field">@Model.Category.Display()</div>
+    @if (Model.Category.ParentCategory != null)
+    {
+        <div class="display-label">Parent</div>
+        <div class="display-field">
+            @Html.ActionLink(Model.Category.ParentCategory.Name , "Details", new { id = Model.Category.ParentCategoryId })
         </div>
-    <div class="display-label">Children</div>
-    <div class="display-field">
-        @foreach (var i in Model.Children)
-        {
-            <text> </text>@i.Name
-        }
+    }
+    @if (Model.Category.Children != null && Model.Category.Children.Count() > 0)
+    {
+        <div class="display-label">Children (@Model.Category.Children.Count())</div>
+        <div class="display-field">
+            <ul>
+                @foreach (var i in Model.Category.Children)
+                {
+                    <li>@Html.ActionLink(i.Display(), "Details", new { id = i.CategoryId })  </li>
+                }
+            </ul>
+
         </div>
+    }
+    <div> News count = @Model.NewsCount </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.CategoryId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Category.CategoryId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 

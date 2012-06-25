@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
+using MobilniPortalNovic.ModelView;
 using MobilniPortalNovicLib.Models;
 
 namespace Web.Controllers
@@ -61,8 +62,12 @@ namespace Web.Controllers
 
         public ViewResult Details(int id)
         {
-            Category category = context.Categories.Single(x => x.CategoryId == id);
-            return View(category);
+            Category category = context.Categories.Include("ParentCategory").Include("Children").Single(x => x.CategoryId == id);
+            return View(new CategoryModelView
+            {
+                Category = category,
+                NewsCount=context.NewsFiles.Where(x=>category.CategoryId==x.CategoryId).Count()
+            });
         }
 
         //

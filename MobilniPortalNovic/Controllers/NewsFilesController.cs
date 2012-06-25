@@ -1,7 +1,9 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
 using MobilniPortalNovicLib.Models;
+using PagedList;
 
 namespace Web.Controllers
 {
@@ -12,9 +14,13 @@ namespace Web.Controllers
         //
         // GET: /NewsFiles/
 
-        public ViewResult Index()
+        [OutputCache(Duration=3600, Location=OutputCacheLocation.ServerAndClient, VaryByParam="page")]
+        public ViewResult Index(int? page)
         {
-            return View(context.NewsFiles.Include(newsfile => newsfile.Feed).OrderByDescending(x => x.PubDate).ToList());
+            var news = context.NewsFiles.Include(newsfile => newsfile.Feed).OrderByDescending(x => x.PubDate);
+            var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
+            var onePageOfProducts = news.ToPagedList(pageNumber, 25); // will only contain 25 products max because of the pageSize
+            return View(onePageOfProducts);
         }
 
         //
