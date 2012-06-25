@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MobilniPortalNovicLib.Helpers;
 using MobilniPortalNovicLib.Models;
@@ -15,7 +16,7 @@ namespace Worker
             this.context = context;
         }
 
-        public IEnumerable<ClickCounter> SimulateClicks(int userId, int Category, int count, Func<DateTime> dateTimeGenerator)
+        public IEnumerable<ClickCounter> SimulateClicks(int userId, int Category, int count, Func<DateTime> dateTimeGenerator, Func<String> locationGenerator)
         {
             var list = new List<ClickCounter>();
             Random rnd = new Random();
@@ -25,7 +26,9 @@ namespace Worker
             var rows = CategoryHelpers.getRowsByCategory(newsFiles, Category, categories).OrderBy(x => new Guid()).Take(count).ToList();
             foreach (var r in rows)
             {
-                var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = "null" };
+                var location = locationGenerator();
+                Debug.WriteLine(location);
+                var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = location};
                 click.SetDayOfWeekAndTimeOfDay();
                 list.Add(context.Clicks.Add(click));
             }

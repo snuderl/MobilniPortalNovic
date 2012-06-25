@@ -19,7 +19,7 @@ namespace Tests
             var categoryId = context.Categories.Where(x => x.Name == "Sportal").Select(x => x.CategoryId).First();
             var userId = 1;
             var count = 10;
-            var query = f.SimulateClicks(userId, categoryId, count, () => d);
+            var query = f.SimulateClicks(userId, categoryId, count, () => d, ()=>null);
             var dict = CategoryHelpers.CategoryGetChildrensFromParent(context.Categories.ToList());
 
             foreach (var r in query)

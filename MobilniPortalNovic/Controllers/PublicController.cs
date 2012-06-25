@@ -3,16 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MobilniPortalNovic.ModelView;
 using MobilniPortalNovicLib.Models;
+using PagedList;
+using MobilniPortalNovicLib.Personalize;
 
 namespace MobilniPortalNovic.Controllers
 {
     public class PublicController : Controller
     {
-        public ActionResult Index()
+
+        MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
+        //
+        // GET: /Feed/
+        public ActionResult Index(int page = 1)
         {
-            return View();
+            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
+            var userName = Session["username"].ToString();
+            IQueryable<NewsFile> articles = personalize.GetNews(context.Users.Where(x => x.Username == userName).First()).OrderByDescending(x => x.PubDate);
+            var items = articles;
+            return View("~/Views/Feed/Index.cshtml", new RssHtmlModelView
+            {
+                includedCategories = items.Select(x => x.Category).GroupBy(x => x.CategoryId).Select(x => x.FirstOrDefault()).ToList(),
+                newsFiles = items.Take(30).ToList(),
+                FilterMessages = personalize.Messages
+            });
         }
+
+        public ActionResult PersonalizedHtmlTable(int userId = 0, int page = 1)
+        {
+            CategoryPersonalizer personalize = new CategoryPersonalizer(context);
+            IQueryable<NewsFile> articles;
+            if (userId == 0)
+            {
+                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
+            }
+            else
+            {
+                articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
+            }
+            var items = articles.ToList();
+            return View("~/Views/NewsFiles/Index.cshtml", items.ToPagedList(page, 25));
+        }
+
 
         //
         // GET: /Public/

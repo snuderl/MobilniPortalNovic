@@ -5,6 +5,26 @@ using MobilniPortalNovicLib.Helpers;
 
 namespace MobilniPortalNovicLib.Models
 {
+    public class Coordinates
+    {
+        public float Longitude { get; set; }
+        public float Latitude { get; set; }
+
+        public static Coordinates FromString(string s)
+        {
+            String[] i = s.Split('|');
+            var c = new Coordinates();
+            c.Longitude = float.Parse(i[0]);
+            c.Latitude = float.Parse(i[1]);
+            return c;        
+        }
+
+        public String ConvertToString()
+        {
+            return this.Longitude + "|" + this.Latitude;
+        }
+    }
+
     public class NewsSite
     {
         [Key]
