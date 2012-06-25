@@ -127,6 +127,11 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public String Username { get; set; }
 
+        [Required]
+        public String Password { get; set; }
+
+        public Guid AccessToken { get; set; }
+
         public virtual IEnumerable<ClickCounter> Clicks { get; set; }
     }
 }

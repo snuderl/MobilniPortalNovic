@@ -48,11 +48,11 @@ namespace MobilniPortalNovicLib.Migrations
                 );
 
             context.Users.AddOrUpdate(
-                new User { Username = "snuderl", UserId = 1 },
-                new User { Username = "Blaž", UserId = 2 },
-                new User { Username = "Anja", UserId = 3 },
-                new User { Username = "Matej", UserId = 4 },
-                new User { Username = "Samo", UserId = 5 }
+                new User { Username = "snuderl", UserId = 1, Password = "test", AccessToken = Guid.NewGuid() },
+                new User { Username = "Blaž", UserId = 2, Password = "test", AccessToken = Guid.NewGuid() },
+                new User { Username = "Anja", UserId = 3, Password = "test", AccessToken=Guid.NewGuid() },
+                new User { Username = "Matej", UserId = 4, Password = "test", AccessToken = Guid.NewGuid() },
+                new User { Username = "Samo", UserId = 5, Password = "test", AccessToken=Guid.NewGuid() }
                 );
         }
     }

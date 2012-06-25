@@ -106,6 +106,10 @@
     <Compile Include="Migrations\201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.Designer.cs">
       <DependentUpon>201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206251443384_UserCredentials.cs" />
+    <Compile Include="Migrations\201206251443384_UserCredentials.Designer.cs">
+      <DependentUpon>201206251443384_UserCredentials.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
