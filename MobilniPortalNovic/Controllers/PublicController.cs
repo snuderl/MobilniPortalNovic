@@ -7,6 +7,7 @@ using MobilniPortalNovic.ModelView;
 using MobilniPortalNovicLib.Models;
 using PagedList;
 using MobilniPortalNovicLib.Personalize;
+using MobilniPortalNovic.Helpers;
 
 namespace MobilniPortalNovic.Controllers
 {
@@ -16,6 +17,8 @@ namespace MobilniPortalNovic.Controllers
         MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
         //
         // GET: /Feed/
+
+        [CustomAuthorize]
         public ActionResult Index(int page = 1)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
@@ -30,18 +33,12 @@ namespace MobilniPortalNovic.Controllers
             });
         }
 
-        public ActionResult PersonalizedHtmlTable(int userId = 0, int page = 1)
+
+        [CustomAuthorize]
+        public ActionResult PersonalizedHtmlTable(int id, int page = 1)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
-            IQueryable<NewsFile> articles;
-            if (userId == 0)
-            {
-                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
-            }
-            else
-            {
-                articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
-            }
+            IQueryable<NewsFile> articles = personalize.GetNews(context.Users.Find(id)).OrderByDescending(x => x.PubDate);
             var items = articles.ToList();
             return View("~/Views/NewsFiles/Index.cshtml", items.ToPagedList(page, 25));
         }

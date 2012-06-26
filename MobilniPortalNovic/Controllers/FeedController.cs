@@ -65,7 +65,7 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /Feed/
-        public ActionResult IndexHtml(int userId = 0,int page=1)
+        public ActionResult IndexHtml(int userId = 0, int page = 1)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
@@ -86,18 +86,11 @@ namespace MobilniPortalNovic.Controllers
             });
         }
 
-        public ActionResult PersonalizedHtmlTable(int userId = 0, int page = 1)
+        public ActionResult PersonalizedHtmlTable(int id, int page = 1)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
-            IQueryable<NewsFile> articles;
-            if (userId == 0)
-            {
-                articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
-            }
-            else
-            {
-                articles = personalize.GetNews(context.Users.Find(userId)).OrderByDescending(x => x.PubDate);
-            }
+            IQueryable<NewsFile> articles = personalize.GetNews(context.Users.Find(id)).OrderByDescending(x => x.PubDate);
+
             var items = articles.ToList();
             return View("~/Views/NewsFiles/Index.cshtml", items.ToPagedList(page, 25));
         }
