@@ -42,36 +42,32 @@ namespace Worker
 
                     //Time function
                     Console.WriteLine("Hour offset from now: (+-random minutes) dayOffset (+-randomDays)");
-                    List<int> offset = Console.ReadLine().Split(' ').ToList().Select(x=>Int32.Parse(x)).ToList();
+                    List<int> offset = Console.ReadLine().Split(' ').ToList().Select(x => Int32.Parse(x)).ToList();
                     List<int> defaults = new List<int> { 0, 60, 0, 0 };
                     //Adds default values to not entered values
                     offset.AddRange(defaults.Skip(offset.Count));
-                    Console.WriteLine("City(default null) and distance offset");
-                    var city = Console.ReadLine().Split(' ');
 
-                    Func<String> coordinatesRandom = new Func<string>(() =>
+
+
+                    Func<String> coordinatesRandom;
+                    Console.WriteLine("Location query String");
+                    var city = Console.ReadLine();
+                    if (city.Length != 0)
                     {
-                        if (city.Count() != 2)
-                            return "null";
+                        Console.WriteLine("Location distance offset:");
+                        var distanceOffset = Console.ReadLine();
 
-                        var coordinates = GeoCode(city[0]);
-                        var coordOffset = city[1];
-
-                        return coordinates.ToString();
-                    });
-
-                        
-                    Random rnd = new Random();
-                    Func<DateTime> dateTimeRandom = new Func<DateTime>(()=>
+                        Random rnd = new Random();
+                        coordinatesRandom = CreateCoordinatesRandomFunc(city, Int32.Parse(distanceOffset));
+                    }
+                    else
                     {
-                        int HourOffset = offset[0];
-                        int randomMinutesOffset = offset[1];
-                        int daysOffset = offset[2];
-                        int randomDaysOffset = offset[3];
-                        var time = DateTime.Now.AddHours(HourOffset).AddMinutes(rnd.Next(-randomMinutesOffset-1, randomMinutesOffset));
-                        time = time.AddDays(daysOffset).AddDays(rnd.Next(-randomDaysOffset-1, randomDaysOffset));
-                        return time;
-                    });
+
+                        coordinatesRandom = () => "null";
+                    }
+
+
+                    Func<DateTime> dateTimeRandom = CreateDateTimeRandomFunc(offset[0], offset[1], offset[2], offset[3]);
 
 
                     var clicks = new FillDatabase(new MobilniPortalNovicContext12()).SimulateClicks(userId,
@@ -90,7 +86,36 @@ namespace Worker
             }
         }
 
-        private static Coordinates GeoCode(string location)
+        public static Func<String> CreateCoordinatesRandomFunc(String query, int KilometerRandomOffset)
+        {
+            return () =>
+            {
+                Random rnd = new Random();
+                var coordinates = GeoCode(query);
+                var dy = rnd.Next(0, 100);
+                var dx = 100 - dy;
+
+                //111km == 1 deegre
+                float km = ((float)KilometerRandomOffset) / 111f;
+
+                coordinates.Latitude = coordinates.Latitude + (km * dy) / 100;
+                coordinates.Longitude = coordinates.Longitude + (km * dx) / 100;
+                return coordinates.ConvertToString();
+            };
+        }
+
+        public static Func<DateTime> CreateDateTimeRandomFunc(int HourOffset, int randomMinutesOffset, int daysOffset, int randomDaysOffset)
+        {
+            return () =>
+            {
+                Random rnd = new Random();
+                var time = DateTime.Now.AddHours(HourOffset).AddMinutes(rnd.Next(-randomMinutesOffset - 1, randomMinutesOffset));
+                time = time.AddDays(daysOffset).AddDays(rnd.Next(-randomDaysOffset - 1, randomDaysOffset));
+                return time;
+            };
+        }
+
+        public static Coordinates GeoCode(string location)
         {
             string url = "http://maps.google.com/maps/geo?output=xml&key=AIzaSyDcfCqe30hcD88r8dpRphaAc1GuWpsjjsA&q=" + System.Web.HttpUtility.UrlEncode(location);
             WebRequest req = HttpWebRequest.Create(url);
@@ -101,7 +126,7 @@ namespace Worker
                 Match coord = Regex.Match(sr.ReadToEnd(), "<coordinates>.*</coordinates>");
                 if (!coord.Success) return null;
                 var v = coord.Value.Substring(13, coord.Length - 27).Split(',');
-                return new Coordinates { Latitude = float.Parse(v[0]), Longitude = float.Parse(v[1]) };
+                return new Coordinates { Latitude = float.Parse(v[0].Replace(".", ",")), Longitude = float.Parse(v[1].Replace('.', ',')) };
             }
             finally
             {
