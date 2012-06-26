@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
+using MobilniPortalNovic.Helpers;
+using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovic
 {
@@ -30,6 +32,7 @@ namespace MobilniPortalNovic
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(ClickCounter), new ClickModelBinder());
 
             //Scheduler sched = new Scheduler(120);
             //sched.StartUpdating();

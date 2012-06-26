@@ -96,6 +96,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CategoryHelper.cs" />
+    <Compile Include="Helpers\Click.cs" />
+    <Compile Include="Helpers\ClickHelper.cs" />
     <Compile Include="Helpers\CustomAuthorize.cs" />
     <Compile Include="Helpers\FeedResult.cs" />
     <Compile Include="Helpers\UriExtensions.cs" />

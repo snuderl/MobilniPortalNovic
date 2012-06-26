@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201206251443384_UserCredentials.Designer.cs">
       <DependentUpon>201206251443384_UserCredentials.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201206261623553_test.cs" />
+    <Compile Include="Migrations\201206261623553_test.Designer.cs">
+      <DependentUpon>201206261623553_test.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />

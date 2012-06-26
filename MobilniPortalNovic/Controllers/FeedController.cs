@@ -122,12 +122,14 @@ namespace MobilniPortalNovic.Controllers
             return new Uri(Url.Action("NewsFile", "Feed", new { id = id }, "http")).SetPort(80);
         }
 
-        [HttpPost]
         public String Click(ClickCounter click)
         {
+
             if (ModelState.IsValid)
             {
                 click.CategoryId = context.NewsFiles.Where(x => x.NewsId == click.NewsId).Select(x => x.CategoryId).First();
+
+                click.SetDayOfWeekAndTimeOfDay();
                 context.Clicks.Add(click);
                 context.SaveChanges();
                 return "Click saved";
