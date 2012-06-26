@@ -116,10 +116,10 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public int UserId { get; set; }
 
-        [Required, Range(1,7)]
+        [Range(1,7)]
         public int DayOfWeek { get; set; }
 
-        [Required, Range(1, 1440)]
+        [Range(1, 1440)]
         public int TimeOfDay { get; set; }
 
         [Required]
