@@ -122,7 +122,6 @@ namespace MobilniPortalNovicLib.Models
         [Range(1, 1440)]
         public int TimeOfDay { get; set; }
 
-        [Required]
         public int CategoryId { get; set; }
 
         public virtual NewsFile NewsFile { get; set; }
