@@ -40,33 +40,6 @@ namespace MobilniPortalNovic.Controllers
         }
 
         //
-        // GET: /ClickCounters/Create
-
-        public ActionResult Create()
-        {
-            ViewBag.PossibleUsers = context.Users;
-            return View();
-        }
-
-        //
-        // POST: /ClickCounters/Create
-
-        [HttpPost]
-        public ActionResult Create(ClickCounter clickcounter)
-        {
-            if (ModelState.IsValid)
-            {
-                clickcounter.SetDayOfWeekAndTimeOfDay();
-                context.Clicks.Add(clickcounter);
-                context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.PossibleUsers = context.Users;
-            return View(clickcounter);
-        }
-
-        //
         // GET: /ClickCounters/Edit/5
 
         public ActionResult Edit(int id)
