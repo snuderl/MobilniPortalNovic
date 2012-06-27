@@ -54,12 +54,12 @@ namespace Tests
             var date = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
             categoriesSmall = new List<Category> { cat1, cat2, cat3 };
             clicks = new List<ClickCounter>{
-                new ClickCounter{ NewsId=1, NewsFile=n1, ClickDate = date},
-                new ClickCounter{ NewsId=2, NewsFile=n2, ClickDate = date.AddHours(2)},
-                new ClickCounter{ NewsId=3, NewsFile=n3, ClickDate = date.AddHours(-3)},
-                new ClickCounter{ NewsId=4, NewsFile=n4, ClickDate = date.AddDays(1)},
-                new ClickCounter{ NewsId=5, NewsFile=n5, ClickDate = date.AddDays(2)},
-                new ClickCounter{ NewsId=6, NewsFile=n6, ClickDate = date.AddDays(3).AddHours(2)}
+                new ClickCounter{ NewsId=1, NewsFile=n1, ClickDate = date, Longitude=1, Latitude=1},
+                new ClickCounter{ NewsId=2, NewsFile=n2, ClickDate = date.AddHours(2), Longitude=1, Latitude=1},
+                new ClickCounter{ NewsId=3, NewsFile=n3, ClickDate = date.AddHours(-3), Longitude=4, Latitude=4},
+                new ClickCounter{ NewsId=4, NewsFile=n4, ClickDate = date.AddDays(1), Longitude=1, Latitude=21},
+                new ClickCounter{ NewsId=5, NewsFile=n5, ClickDate = date.AddDays(2), Longitude=1, Latitude=null},
+                new ClickCounter{ NewsId=6, NewsFile=n6, ClickDate = date.AddDays(3).AddHours(2), Longitude=null, Latitude=1}
             };
 
         }
@@ -74,6 +74,27 @@ namespace Tests
 
             result = CategoryPersonalizer.FilterClickyByTimeOfDay(clicks.AsQueryable(), dateTime);
             Assert.AreEqual(result.Count(), 3);
+        }
+
+        [TestMethod]
+        public void NClosestLocations()
+        {
+            var dateTime = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
+            clicks.ForEach(x => x.SetDayOfWeekAndTimeOfDay());
+            var result = CategoryPersonalizer.FilterByNNearestClicks(clicks.AsQueryable(), 2, new Coordinates { Longitude = 1, Latitude = 1 });
+            Assert.AreEqual(result.Count(), 2);
+            Assert.AreEqual(result.Contains(clicks[0]), true);
+            Assert.AreEqual(result.Contains(clicks[1]), true);
+
+            result = CategoryPersonalizer.FilterByNNearestClicks(clicks.AsQueryable(), 5, new Coordinates { Longitude = 1, Latitude = 1 });
+            Assert.AreEqual(result.Count(), 4);
+            Assert.AreEqual(result.Contains(clicks[0]), true);
+            Assert.AreEqual(result.Contains(clicks[1]), true);
+
+
+            result = CategoryPersonalizer.FilterByNNearestClicks(clicks.AsQueryable(), 1, new Coordinates { Longitude =20, Latitude = 20 });
+            Assert.AreEqual(result.Count(), 1);
+            Assert.AreEqual(result.Contains(clicks[3]), true);
         }
     }
 }

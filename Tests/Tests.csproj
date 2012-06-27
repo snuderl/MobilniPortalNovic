@@ -71,6 +71,7 @@
     <Compile Include="CategoriesHelpersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CategoryPersonalizerTests.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobilniPortalNovicLib\MobilniPortalNovicLib.csproj">
