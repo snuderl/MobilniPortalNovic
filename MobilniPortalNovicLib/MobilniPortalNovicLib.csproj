@@ -70,54 +70,15 @@
     <Compile Include="Helpers\DateTimeHelpers.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Migrations\201205301209218_First.cs" />
-    <Compile Include="Migrations\201205301209218_First.Designer.cs">
-      <DependentUpon>201205301209218_First.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206031452235_ClickCounterCategoryadded.cs" />
-    <Compile Include="Migrations\201206031452235_ClickCounterCategoryadded.Designer.cs">
-      <DependentUpon>201206031452235_ClickCounterCategoryadded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206031455279_NewsFileCategoryadded.cs" />
-    <Compile Include="Migrations\201206031455279_NewsFileCategoryadded.Designer.cs">
-      <DependentUpon>201206031455279_NewsFileCategoryadded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206060805130_NewsFileLink.cs" />
-    <Compile Include="Migrations\201206060805130_NewsFileLink.Designer.cs">
-      <DependentUpon>201206060805130_NewsFileLink.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206061115177_ForeignKey.cs" />
-    <Compile Include="Migrations\201206061115177_ForeignKey.Designer.cs">
-      <DependentUpon>201206061115177_ForeignKey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206091050411_UniqueContraintsAndIndexOnDate.cs" />
-    <Compile Include="Migrations\201206091050411_UniqueContraintsAndIndexOnDate.Designer.cs">
-      <DependentUpon>201206091050411_UniqueContraintsAndIndexOnDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206091108526_RequiredFields.cs" />
-    <Compile Include="Migrations\201206091108526_RequiredFields.Designer.cs">
-      <DependentUpon>201206091108526_RequiredFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206091140192_FeedCategoryRemoved.cs" />
-    <Compile Include="Migrations\201206091140192_FeedCategoryRemoved.Designer.cs">
-      <DependentUpon>201206091140192_FeedCategoryRemoved.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.cs" />
-    <Compile Include="Migrations\201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.Designer.cs">
-      <DependentUpon>201206131033273_ClicksGotTimeOfDayAndDayOfWeekField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206251443384_UserCredentials.cs" />
-    <Compile Include="Migrations\201206251443384_UserCredentials.Designer.cs">
-      <DependentUpon>201206251443384_UserCredentials.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201206261623553_test.cs" />
-    <Compile Include="Migrations\201206261623553_test.Designer.cs">
-      <DependentUpon>201206261623553_test.cs</DependentUpon>
+    <Compile Include="Migrations\201206270932010_Db.cs" />
+    <Compile Include="Migrations\201206270932010_Db.Designer.cs">
+      <DependentUpon>201206270932010_Db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feed.cs" />
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
     <Compile Include="Personalize\CategoryPersonalizer.cs" />
+    <Compile Include="Personalize\CoordinateHelper.cs" />
     <Compile Include="Personalize\IPersonalize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

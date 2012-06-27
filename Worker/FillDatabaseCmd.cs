@@ -49,7 +49,7 @@ namespace Worker
 
 
 
-                    Func<String> coordinatesRandom;
+                    Func<Coordinates> coordinatesRandom;
                     Console.WriteLine("Location query String");
                     var city = Console.ReadLine();
                     if (city.Length != 0)
@@ -63,7 +63,7 @@ namespace Worker
                     else
                     {
 
-                        coordinatesRandom = () => "null";
+                        coordinatesRandom = () => null;
                     }
 
 
@@ -86,7 +86,7 @@ namespace Worker
             }
         }
 
-        public static Func<String> CreateCoordinatesRandomFunc(String query, int KilometerRandomOffset)
+        public static Func<Coordinates> CreateCoordinatesRandomFunc(String query, int KilometerRandomOffset)
         {
             return () =>
             {
@@ -100,7 +100,7 @@ namespace Worker
 
                 coordinates.Latitude = coordinates.Latitude + (km * dy) / 100;
                 coordinates.Longitude = coordinates.Longitude + (km * dx) / 100;
-                return coordinates.ConvertToString();
+                return coordinates;
             };
         }
 

@@ -32,12 +32,12 @@ namespace MobilniPortalNovicLib.Migrations
                 );
 
             context.Feeds.AddOrUpdate(
-                new Feed { FeedName = "Sportal", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=sportal" },
-                new Feed { FeedName = "Scena", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=scena" },
-                new Feed { FeedName = "Avtomoto", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=avtomoto" },
-                new Feed { FeedName = "Trendi", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=trendi" },
-                new Feed { FeedName = "Kultura", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" },
-            new Feed { FeedName = "TV & Video", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=tv" }
+                new Feed { LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), FeedName = "Sportal", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=sportal" },
+                new Feed { LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), FeedName = "Scena", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=scena" },
+                new Feed { LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), FeedName = "Avtomoto", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=avtomoto" },
+                new Feed { LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), FeedName = "Trendi", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=trendi" },
+                new Feed { LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), FeedName = "Kultura", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=kultura" },
+            new Feed { LastUpdated = DateTime.Parse("2008-11-01T19:35:00.0000000Z"), FeedName = "TV & Video", NewsSiteId = 1, url = @"http://www.siol.net/rss.aspx?path=tv" }
            , new Feed
            {
                FeedName = "Novice",

@@ -109,6 +109,28 @@ namespace MobilniPortalNovicLib.Personalize
             return clicksByHour;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clicks">Click queryable</param>
+        /// <param name="N">Number of nearest clicks</param>
+        /// <param name="GivenPosition">Position to look fod</param>
+        /// <returns></returns>
+        public static IQueryable<ClickCounter> FilterByNNearestClicks(IQueryable<ClickCounter> clicks, int N, Coordinates GivenPosition)
+        {
+            var l = clicks.Where(x=>x.Latitude!=null && x.Longitude!=null).ToList();
+            var closest = l.OrderBy(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition)).Take(N);
+            return closest.AsQueryable();            
+        }
+
+        public static IQueryable<ClickCounter> FilterByClicksInGivenRadius(IQueryable<ClickCounter> clicks, double radiusInKm, Coordinates GivenPosition)
+        {
+            var l = clicks.Where(x => x.Latitude != null && x.Longitude != null).ToList();
+            var closest = l.Where(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition) < radiusInKm/1000);
+            return closest.AsQueryable();
+        }
+
         public static IQueryable<ClickCounter> FilterClicksByDayOfWeek(IQueryable<ClickCounter> clicks, DateTime target)
         {
             var targetDays = new List<int>();

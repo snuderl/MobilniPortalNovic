@@ -16,7 +16,7 @@ namespace Worker
             this.context = context;
         }
 
-        public IEnumerable<ClickCounter> SimulateClicks(int userId, int Category, int count, Func<DateTime> dateTimeGenerator, Func<String> locationGenerator)
+        public IEnumerable<ClickCounter> SimulateClicks(int userId, int Category, int count, Func<DateTime> dateTimeGenerator, Func<Coordinates> locationGenerator)
         {
             var list = new List<ClickCounter>();
             Random rnd = new Random();
@@ -27,7 +27,8 @@ namespace Worker
             foreach (var r in rows)
             {
                 var location = locationGenerator();
-                var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId, Location = location};
+                var click = new ClickCounter { CategoryId = r.CategoryId, ClickDate = dateTimeGenerator(), NewsId = r.NewsId, UserId = userId};
+                click.SetLocation(location);
                 click.SetDayOfWeekAndTimeOfDay();
                 list.Add(context.Clicks.Add(click));
             }

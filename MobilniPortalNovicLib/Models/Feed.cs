@@ -7,17 +7,9 @@ namespace MobilniPortalNovicLib.Models
 {
     public class Coordinates
     {
-        public float Longitude { get; set; }
-        public float Latitude { get; set; }
+        public double Longitude { get; set; }
 
-        public static Coordinates FromString(string s)
-        {
-            String[] i = s.Split('|');
-            var c = new Coordinates();
-            c.Longitude = float.Parse(i[0]);
-            c.Latitude = float.Parse(i[1]);
-            return c;        
-        }
+        public double Latitude { get; set; }
 
         public String ConvertToString()
         {
@@ -107,8 +99,31 @@ namespace MobilniPortalNovicLib.Models
 
         [Required]
         public DateTime ClickDate { get; set; }
+        
+        public double? Longitude { get; set; }
 
-        public String Location { get; set; }
+        public double? Latitude { get; set; }
+
+        public Coordinates Coordinates { get {
+            return Longitude == null || Latitude == null ?
+                null :
+                new Coordinates { Longitude = this.Longitude.Value, Latitude = this.Latitude.Value
+                };
+        } }
+
+        public void SetLocation(Coordinates coord)
+        {
+            if (coord == null)
+            {
+                Longitude = null;
+                Latitude = null;
+            }
+            else
+            {
+                Longitude = coord.Longitude;
+                Latitude = coord.Latitude;
+            }
+        }
 
         [Required]
         public int NewsId { get; set; }
@@ -116,7 +131,7 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public int UserId { get; set; }
 
-        [Range(1,7)]
+        [Range(1, 7)]
         public int DayOfWeek { get; set; }
 
         [Range(1, 1440)]
@@ -134,7 +149,6 @@ namespace MobilniPortalNovicLib.Models
         {
             DayOfWeek = DateTimeHelpers.weekDays.IndexOf(ClickDate.DayOfWeek) + 1;
             TimeOfDay = (int)ClickDate.TimeOfDay.TotalMinutes;
-
         }
     }
 
