@@ -138,7 +138,7 @@ namespace MobilniPortalNovic.Controllers
             return query.Skip(page * pageSize).Take(pageSize);
         }
 
-        private Rss20FeedFormatter listToRss(IEnumerable<NewsFile> news, List<String> messages = new List<String>())
+        private Rss20FeedFormatter listToRss(IEnumerable<NewsFile> news, List<String> messages = null)
         {
             var set = new HashSet<String>();
             var articles = news.Select(
@@ -149,7 +149,12 @@ namespace MobilniPortalNovic.Controllers
                     i.PublishDate = p.PubDate;
                     return i;
                 });
-            var head = new SyndicationFeed("Novice", "Your source to knowledge", new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
+            var message = "Your source to knowledge\n";
+            if (messages != null)
+            {
+                messages.ForEach(x => message += x + "\n");
+            }
+            var head = new SyndicationFeed("Novice", message, new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
             set = new HashSet<string>(articles.Select(x => x.Categories.Select(y => y.Name).First()));
             foreach (var i in set)
             {
