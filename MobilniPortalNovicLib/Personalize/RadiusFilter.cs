@@ -30,7 +30,7 @@ namespace MobilniPortalNovicLib.Personalize
         public IQueryable<ClickCounter> FilterByClicksInGivenRadius(IQueryable<ClickCounter> clicks, double radiusInKm, Coordinates GivenPosition)
         {
             var l = clicks.Where(x => x.Latitude != null && x.Longitude != null).ToList();
-            var closest = l.Where(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition) < radiusInKm / 1000);
+            var closest = l.Where(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition) < radiusInKm * 1000);
             return closest.AsQueryable();
         }
     }

@@ -16,7 +16,7 @@ namespace MobilniPortalNovicLib.Personalize
         private NewsRequest(User u, Coordinates l)
         {
             TargetTime = DateTime.Now;
-            Location = null;
+            Location = l;
             RadiusInKm = 10;
             User = u;
         }
@@ -78,7 +78,8 @@ namespace MobilniPortalNovicLib.Personalize
             {
                 Filters.Add(new RadiusFilter(nr.RadiusInKm, nr.Location));
             }
-            if(nr.TargetTime!=null){
+            if (nr.TargetTime != null)
+            {
                 Filters.Add(new TimeOfDayFilter(nr.TargetTime));
                 Filters.Add(new DayOfWeekFilter(nr.TargetTime));
             }
@@ -88,7 +89,8 @@ namespace MobilniPortalNovicLib.Personalize
             foreach (Filter f in Filters)
             {
                 var tmp = f.Filter(clicks);
-                if (tmp.Count() > MinimalClicks)
+                var count = tmp.Count();
+                if (count > MinimalClicks)
                 {
                     clicks = tmp;
                     Messages.Add(f.GetMessage());

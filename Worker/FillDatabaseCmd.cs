@@ -88,12 +88,13 @@ namespace Worker
 
         public static Func<Coordinates> CreateCoordinatesRandomFunc(String query, int KilometerRandomOffset)
         {
+            var Coord = GeoCode(query);
             return () =>
             {
                 Random rnd = new Random();
-                var coordinates = GeoCode(query);
-                var dy = rnd.Next(0, 100);
-                var dx = 100 - dy;
+                var coordinates = new Coordinates { Latitude = Coord.Latitude, Longitude = Coord.Longitude };
+                double dy = rnd.Next(0, 100);
+                double dx = 100 - dy;
 
                 //111km == 1 deegre
                 float km = ((float)KilometerRandomOffset) / 111f;

@@ -25,7 +25,7 @@ namespace MobilniPortalNovicLib.Personalize
 
         public String GetMessage()
         {
-            return "Time of day filter";
+            return "Time of day filter: +-"+ timeOffsetHours+"h.";
         }
 
 
