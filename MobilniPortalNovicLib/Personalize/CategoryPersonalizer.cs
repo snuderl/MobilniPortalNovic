@@ -13,12 +13,30 @@ namespace MobilniPortalNovicLib.Personalize
         public User User { get; set; }
         public int RadiusInKm { get; set; }
 
-        public NewsRequest(User u, Coordinates l=null)
+        private NewsRequest(User u, Coordinates l)
         {
             TargetTime = DateTime.Now;
             Location = null;
             RadiusInKm = 10;
             User = u;
+        }
+
+        public static NewsRequest Construct(int id, MobilniPortalNovicContext12 context, Coordinates l = null)
+        {
+            var user = context.Users.Find(id);
+            return new NewsRequest(user, l);
+        }
+
+        public static NewsRequest Construct(Guid token, MobilniPortalNovicContext12 context, Coordinates l = null)
+        {
+            var user = context.Users.Where(x => x.AccessToken == token).First();
+            return new NewsRequest(user, l);
+        }
+
+        public static NewsRequest Construct(String username, MobilniPortalNovicContext12 context, Coordinates l = null)
+        {
+            var user = context.Users.Where(x => x.Username == username).First();
+            return new NewsRequest(user, l);
         }
     }
 

@@ -23,7 +23,7 @@ namespace MobilniPortalNovic.Controllers
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             var userName = Session["username"].ToString();
-            var request = new NewsRequest(context.Users.Where(x => x.Username == userName).First());
+            var request = NewsRequest.Construct(userName, context);
             IQueryable<NewsFile> articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             var items = articles;
             return View("~/Views/Feed/Index.cshtml", new RssHtmlModelView
@@ -40,7 +40,7 @@ namespace MobilniPortalNovic.Controllers
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             var username = Session["username"].ToString();
-            var request = new NewsRequest(context.Users.Where(x=>x.Username==username).First());
+            var request = NewsRequest.Construct(username, context);
             IQueryable<NewsFile> articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             var items = articles.ToList();
             return View("~/Views/NewsFiles/Index.cshtml", items.ToPagedList(page, 25));
@@ -64,7 +64,6 @@ namespace MobilniPortalNovic.Controllers
             }
             return View(new User());
         }
-
 
     }
 }

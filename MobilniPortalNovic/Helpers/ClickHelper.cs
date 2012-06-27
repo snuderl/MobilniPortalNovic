@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MobilniPortalNovicLib.Models;
+using MobilniPortalNovicLib.Personalize;
 
 namespace MobilniPortalNovic.Helpers
 {
@@ -16,4 +17,5 @@ namespace MobilniPortalNovic.Helpers
             recipe.SetDayOfWeekAndTimeOfDay();
         }
     }
+
 }

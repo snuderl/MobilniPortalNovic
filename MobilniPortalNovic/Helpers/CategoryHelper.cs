@@ -10,9 +10,13 @@ namespace MobilniPortalNovic.Helpers
     {
         public static String Display(this Category category)
         {
-            if (category.ParentCategoryId != null && (category.Name == "Novice" || category.Name.Equals("Novice")))
+            List<String> replace = new List<String> { "Novice", "Drugo" };
+            if (category.ParentCategoryId != null)
             {
-                return category.ParentCategory.Name + " novice";
+                if (replace.Contains(category.Name))
+                {
+                    return category.ParentCategory.Name + " " + category.Name.ToLower();
+                }
             }
             return category.Name;
         }

@@ -18,7 +18,6 @@ namespace Web.Controllers
     public class CategoriesController : Controller
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
-
         //
         // GET: /Categories/
 
