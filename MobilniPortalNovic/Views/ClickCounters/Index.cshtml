@@ -44,7 +44,7 @@
 			@String.Format("{0:g}", item.ClickDate)
         </td>
         <td>
-			@item.Coordinates.ConvertToString()
+			@item.DisplayCoordinates()
         </td>
         <td>
 			@Html.ActionLink(item.NewsId.ToString(), "Details",  new {controller="NewsFiles", id=item.NewsId });

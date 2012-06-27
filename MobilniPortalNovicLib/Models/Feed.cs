@@ -11,10 +11,7 @@ namespace MobilniPortalNovicLib.Models
 
         public double Latitude { get; set; }
 
-        public String ConvertToString()
-        {
-            return this.Longitude + "|" + this.Latitude;
-        }
+
     }
 
     public class NewsSite
@@ -110,6 +107,15 @@ namespace MobilniPortalNovicLib.Models
                 new Coordinates { Longitude = this.Longitude.Value, Latitude = this.Latitude.Value
                 };
         } }
+
+        public String DisplayCoordinates()
+        {
+            if (Longitude == null || Latitude == null)
+            {
+                return "null";
+            }
+            return this.Longitude + "|" + this.Latitude;
+        }
 
         public void SetLocation(Coordinates coord)
         {

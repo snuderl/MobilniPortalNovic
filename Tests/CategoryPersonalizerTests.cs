@@ -68,11 +68,12 @@ namespace Tests
         public void FilterClicksByDateTest()
         {
             var dateTime = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
+            var TimeOfDayFilter = new TimeOfDayFilter(dateTime);
             clicks.ForEach(x => x.SetDayOfWeekAndTimeOfDay());
-            var result = CategoryPersonalizer.FilterClicksByDayOfWeek(clicks.AsQueryable(), dateTime);
-            Assert.AreEqual(result.Count(), 4);
+            var result = TimeOfDayFilter.Filter(clicks.AsQueryable());
+            Assert.AreEqual(result.Count(), 3);
 
-            result = CategoryPersonalizer.FilterClickyByTimeOfDay(clicks.AsQueryable(), dateTime);
+            result = TimeOfDayFilter.Filter(clicks.AsQueryable());
             Assert.AreEqual(result.Count(), 3);
         }
 

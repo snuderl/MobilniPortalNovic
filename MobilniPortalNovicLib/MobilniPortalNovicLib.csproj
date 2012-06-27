@@ -79,7 +79,10 @@
     <Compile Include="Models\MobilniPortalNovicContext.cs" />
     <Compile Include="Personalize\CategoryPersonalizer.cs" />
     <Compile Include="Personalize\CoordinateHelper.cs" />
+    <Compile Include="Personalize\DayOfWeekFilter.cs" />
     <Compile Include="Personalize\IPersonalize.cs" />
+    <Compile Include="Personalize\RadiusFilter.cs" />
+    <Compile Include="Personalize\TimeOfDayFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

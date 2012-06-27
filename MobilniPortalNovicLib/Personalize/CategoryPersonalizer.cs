@@ -6,26 +6,43 @@ using MobilniPortalNovicLib.Models;
 
 namespace MobilniPortalNovicLib.Personalize
 {
+    public class NewsRequest
+    {
+        public DateTime TargetTime { get; set; }
+        public Coordinates Location { get; set; }
+        public User User { get; set; }
+        public int RadiusInKm { get; set; }
+
+        public NewsRequest(User u, Coordinates l=null)
+        {
+            TargetTime = DateTime.Now;
+            Location = null;
+            RadiusInKm = 10;
+            User = u;
+        }
+    }
+
+
     public class CategoryPersonalizer : IPersonalize
     {
         public MobilniPortalNovicContext12 Context { get; set; }
 
-        /// <summary>
-        /// Percent of categories to include
-        /// </summary>
-        public float CategoryTreshold { get; set; }
         public List<String> Messages { get; private set; }
-        public int MinimalClicks { get; set; }
-        public int HourOffset { get; set; }
         public List<Category> GoodCategories { get; set; }
+        public List<Filter> Filters { get; set; }
+
+
+        public int MinimalClicks { get; set; }
+        public float CategoryTreshold { get; set; }
 
         public CategoryPersonalizer(MobilniPortalNovicContext12 context)
         {
             this.Context = context;
             CategoryTreshold = 70;
             Messages = new List<String>();
-            HourOffset = 2;
+            GoodCategories = new List<Category>();
             MinimalClicks = 10;
+            Filters = new List<Filter>();
         }
 
         /// <summary>
@@ -33,36 +50,34 @@ namespace MobilniPortalNovicLib.Personalize
         /// </summary>
         /// <param name="u"></param>
         /// <returns></returns>
-        public IQueryable<NewsFile> GetNews(User u)
+        public IQueryable<NewsFile> GetNews(NewsRequest nr)
         {
-            var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == u.UserId);
-            int count = clicks.Count();
-            if (count < MinimalClicks)
+            Messages.Clear();
+            GoodCategories.Clear();
+            Filters.Clear();
+
+            if (nr.Location != null)
             {
-                return Context.NewsFiles.OrderByDescending(x => x.PubDate);
+                Filters.Add(new RadiusFilter(nr.RadiusInKm, nr.Location));
+            }
+            if(nr.TargetTime!=null){
+                Filters.Add(new TimeOfDayFilter(nr.TargetTime));
+                Filters.Add(new DayOfWeekFilter(nr.TargetTime));
             }
 
-            var filteredByTimeOfDay = FilterClickyByTimeOfDay(clicks, DateTime.Now, HourOffset);
-            if (filteredByTimeOfDay.Count() > MinimalClicks)
+
+            var clicks = Context.Clicks.Include("NewsFile").Where(x => x.UserId == nr.User.UserId);
+            foreach (Filter f in Filters)
             {
-                Messages.Add("Time of day filter applied");
-            }
-            else
-            {
-                filteredByTimeOfDay = clicks;
+                var tmp = f.Filter(clicks);
+                if (tmp.Count() > MinimalClicks)
+                {
+                    clicks = tmp;
+                    Messages.Add(f.GetMessage());
+                }
             }
 
-            var filteredByDayOfWeek = FilterClicksByDayOfWeek(filteredByTimeOfDay, DateTime.Now);
-            if (filteredByDayOfWeek.Count() > MinimalClicks)
-            {
-                Messages.Add("Day of week filter applied");
-            }
-            else
-            {
-                filteredByDayOfWeek = clicks;
-            }
-
-            var goodCategories = GetDesiredCategories(filteredByDayOfWeek.ToList(), CategoryTreshold);
+            var goodCategories = GetDesiredCategories(clicks.ToList(), CategoryTreshold);
             GoodCategories = Context.Categories.Include("ParentCategory").Where(x => goodCategories.Contains(x.CategoryId)).ToList();
 
 
@@ -91,24 +106,6 @@ namespace MobilniPortalNovicLib.Personalize
             return goodCategories;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="clicks">List of clicks</param>
-        /// <param name="target">DateTime when to look for clicks</param>
-        /// <param name="timeOffsetHours">Hours around given target to look for clicks</param>
-        /// <returns></returns>
-        public static IQueryable<ClickCounter> FilterClickyByTimeOfDay(IQueryable<ClickCounter> clicks, DateTime target, int timeOffsetHours = 1)
-        {
-            var upper = target.TimeOfDay.Add(new TimeSpan(timeOffsetHours, 0, 1)).TotalMinutes;
-            upper = Math.Min(DateTimeHelpers.MaxDayOfTime, upper);
-            var lower = target.TimeOfDay.Subtract(new TimeSpan(timeOffsetHours, 0, 1)).TotalMinutes;
-            lower = Math.Max(0, lower);
-
-            var clicksByHour = clicks.Where(x => x.TimeOfDay < upper && x.TimeOfDay > lower);
-            return clicksByHour;
-        }
-
 
         /// <summary>
         /// 
@@ -119,41 +116,15 @@ namespace MobilniPortalNovicLib.Personalize
         /// <returns></returns>
         public static IQueryable<ClickCounter> FilterByNNearestClicks(IQueryable<ClickCounter> clicks, int N, Coordinates GivenPosition)
         {
-            var l = clicks.Where(x=>x.Latitude!=null && x.Longitude!=null).ToList();
-            var closest = l.OrderBy(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition)).Take(N);
-            return closest.AsQueryable();            
-        }
-
-        public static IQueryable<ClickCounter> FilterByClicksInGivenRadius(IQueryable<ClickCounter> clicks, double radiusInKm, Coordinates GivenPosition)
-        {
             var l = clicks.Where(x => x.Latitude != null && x.Longitude != null).ToList();
-            var closest = l.Where(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition) < radiusInKm/1000);
+            var closest = l.OrderBy(x => CoordinateHelper.DistanceInM(x.Coordinates, GivenPosition)).Take(N);
             return closest.AsQueryable();
         }
 
-        public static IQueryable<ClickCounter> FilterClicksByDayOfWeek(IQueryable<ClickCounter> clicks, DateTime target)
-        {
-            var targetDays = new List<int>();
-            if (DateTimeHelpers.WorkWeek.Contains(target.DayOfWeek))
-            {
-                int position = DateTimeHelpers.WorkWeek.IndexOf(target.DayOfWeek) + 1;
-                targetDays.Add(position);
-                if (position > 0)
-                {
-                    targetDays.Add(position - 1);
-                }
-                if (position - 1 < DateTimeHelpers.WorkWeek.Count - 1)
-                {
-                    targetDays.Add(position + 1);
-                }
-            }
-            else
-            {
-                targetDays = new List<int> { 6, 7 };
-            }
 
-            var clicksByDay = clicks.Where(x => targetDays.Contains(x.DayOfWeek));
-            return clicksByDay;
+        public void AddMessage(string s)
+        {
+            throw new NotImplementedException();
         }
     }
 }
