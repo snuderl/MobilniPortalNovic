@@ -131,6 +131,7 @@ namespace MobilniPortalNovicLib.Personalize
                 total += ((float)enumerator.Current.Value) / totalClicks;
                 goodCategories.Add(enumerator.Current.Key);
             }
+            goodCategories.Remove(0);
             return goodCategories;
         }
 
