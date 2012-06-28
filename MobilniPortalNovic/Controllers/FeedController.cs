@@ -92,13 +92,16 @@ namespace MobilniPortalNovic.Controllers
             return new Uri(Url.Action("NewsFile", "Feed", new { id = id }, "http")).SetPort(80);
         }
 
-        public String Click(ClickCounter click, String token)
+        [HttpPost]
+        public String Click(DateTime ClickDate, String token, int? newsId)
         {
 
-            if (token!=null)
+            if (ClickDate!=null&&token!=null&&newsId!=null)
             {
-                click.CategoryId = context.NewsFiles.Where(x => x.NewsId == click.NewsId).Select(x => x.CategoryId).First();
-                click.UserId = context.Users.Where(x => x.AccessToken == Guid.Parse(token)).First().UserId;
+                var categoryId = context.NewsFiles.Where(x => x.NewsId == newsId.Value).Select(x => x.CategoryId).First();
+                Guid g = Guid.Parse(token);
+                var userId = context.Users.Where(x => x.AccessToken == g).First().UserId;
+                var click = new ClickCounter { UserId = userId, ClickDate = ClickDate, CategoryId = categoryId, NewsId = newsId.Value };
                 click.SetDayOfWeekAndTimeOfDay();
                 context.Clicks.Add(click);
                 context.SaveChanges();
