@@ -15,6 +15,35 @@ namespace MobilniPortalNovic.Controllers
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
 
+        [HttpPost]
+        public String Register(String username, String password)
+        {
+            try
+            {
+                var user = new User { Username = username, Password = password, AccessToken = Guid.NewGuid() };
+                context.Users.Add(user);
+                context.SaveChanges();
+                return "Account succesffuly created";
+            }
+            catch (Exception)
+            {
+                return "Registration failed";
+            }
+        }
+
+        [HttpPost]
+        public String Login(String username, String password)
+        {
+            var user = context.Users.Where(x => x.Username == username && x.Password == password).FirstOrDefault();
+            if (user == null)
+            {
+                return "";
+            }
+            else
+            {
+                return user.AccessToken.ToString();
+            }
+        }
 
 
         #region Api
@@ -38,7 +67,7 @@ namespace MobilniPortalNovic.Controllers
                 articles = articles.Where(x => x.PubDate < lastDate);
             }
 
-            return new FeedResult(listToRss(articles.Take(30).ToList(), personalize.Messages));
+            return new FeedResult(listToRss(articles.Take(15).ToList(), personalize.Messages));
         }
 
         public ActionResult GetNew(DateTime firstDate, int userId, Coordinates location = null)
