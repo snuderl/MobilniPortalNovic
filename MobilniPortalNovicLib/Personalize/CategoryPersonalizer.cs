@@ -98,7 +98,15 @@ namespace MobilniPortalNovicLib.Personalize
             }
 
             var goodCategories = GetDesiredCategories(clicks.ToList(), CategoryTreshold);
-            GoodCategories = Context.Categories.Include("ParentCategory").Where(x => goodCategories.Contains(x.CategoryId)).ToList();
+            if (goodCategories.Count == 0)
+            {
+                GoodCategories = Context.Categories.Include("ParentCategory").ToList();
+                goodCategories = new HashSet<int>(GoodCategories.Select(x => x.CategoryId));
+            }
+            else
+            {
+                GoodCategories = Context.Categories.Include("ParentCategory").Where(x => goodCategories.Contains(x.CategoryId)).ToList();
+            }
 
 
             return Context.NewsFiles.Where(x => goodCategories.Contains(x.CategoryId)).OrderByDescending(x => x.PubDate);

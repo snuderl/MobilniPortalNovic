@@ -15,6 +15,7 @@ namespace MobilniPortalNovic.Controllers
     {
         private MobilniPortalNovicContext12 context = new MobilniPortalNovicContext12();
 
+        #region RegistrationAndLogin
         [HttpPost]
         public String Register(String username, String password)
         {
@@ -44,7 +45,8 @@ namespace MobilniPortalNovic.Controllers
                 return user.AccessToken.ToString();
             }
         }
-
+        
+        #endregion
 
         #region Api
         //
