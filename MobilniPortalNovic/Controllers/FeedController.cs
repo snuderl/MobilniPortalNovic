@@ -184,7 +184,7 @@ namespace MobilniPortalNovic.Controllers
                     return i;
                 });
             var message = "";
-            if (messages != null)
+            if (messages.Count>0)
             {
                 messages.ForEach(x => message += x + "\n");
             }
