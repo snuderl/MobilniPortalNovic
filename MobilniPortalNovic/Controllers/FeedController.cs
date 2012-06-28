@@ -78,6 +78,7 @@ namespace MobilniPortalNovic.Controllers
             IQueryable<NewsFile> articles;
             var request = NewsRequest.Construct(Guid.Parse(token), context, location);
             articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
+            firstDate = firstDate.AddSeconds(1);
             articles = articles.Where(x => x.PubDate > firstDate);
 
             return new FeedResult(listToRss(articles.ToList(), personalize.Messages));

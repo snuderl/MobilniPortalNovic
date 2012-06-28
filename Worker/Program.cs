@@ -88,6 +88,39 @@ namespace Worker
                     Console.WriteLine("Last run {0}.", service.LastRun);
                 })
             });
+            inputDictionary.Add("AddNews", new CommandOption
+            {
+                Description="Manuly add news file",
+                Action = new Action(() =>
+                    {
+                        try
+                        {
+                            Console.WriteLine("CategoryName");
+                            var i = Console.ReadLine();
+                            var context = new MobilniPortalNovicContext12();
+                            var cat = context.Categories.Where(x => x.Name == i).FirstOrDefault();
+                            var catId = cat.CategoryId;
+                            NewsFile f = new NewsFile { 
+                                CategoryId = catId,
+                                FeedId = context.Feeds.First().FeedId,
+                                Content = "Poljubna vsebina.",
+                                Title = "Filler news",
+                                ShortContent = "Ta novica je samo za testiranje",
+                                PubDate=DateTime.Now,
+                                Link="http//www.fake.si"
+                            };
+                            
+                            context.NewsFiles.Add(f);
+                            context.SaveChanges();
+                            Console.WriteLine("Added new news file");
+                        }
+                        catch (Exception e)
+                        {
+                            
+                            Console.WriteLine("Bad info");
+                        }
+                    })
+            });
 
             while (true)
             {
