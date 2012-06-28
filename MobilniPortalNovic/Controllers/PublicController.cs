@@ -23,7 +23,7 @@ namespace MobilniPortalNovic.Controllers
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             var userName = Session["username"].ToString();
-            var user = context.Users.Where(x=>x.Username==userName).First();
+            var user = context.Users.Where(x => x.Username == userName).First();
             var request = NewsRequest.Construct(userName, context);
             IQueryable<NewsFile> articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             var items = articles;
@@ -59,7 +59,7 @@ namespace MobilniPortalNovic.Controllers
 
         //
         // GET: /Public/
-        public ActionResult Login()
+        public ActionResult Login(User u)
         {
             if (u != null)
             {
