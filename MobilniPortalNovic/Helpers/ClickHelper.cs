@@ -13,6 +13,7 @@ namespace MobilniPortalNovic.Helpers
         protected override void OnModelUpdated(ControllerContext controllerContext,
                                                ModelBindingContext bindingContext)
         {
+
             var recipe = bindingContext.Model as ClickCounter;
             recipe.SetDayOfWeekAndTimeOfDay();
         }
