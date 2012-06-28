@@ -49,17 +49,17 @@ namespace MobilniPortalNovic.Controllers
         #region Api
         //
         // GET: /Feed/
-        public ActionResult Index(DateTime? lastDate, int userId = 0, Coordinates location = null)
+        public ActionResult Index(DateTime? lastDate, Guid? userId = null, Coordinates location = null)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
-            if (userId == 0)
+            if (userId == null)
             {
                 articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
             }
             else
             {
-                var request = NewsRequest.Construct(userId, context, location);
+                var request = NewsRequest.Construct(userId.Value, context, location);
                 articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             }
             if (lastDate != null)
@@ -70,11 +70,11 @@ namespace MobilniPortalNovic.Controllers
             return new FeedResult(listToRss(articles.Take(15).ToList(), personalize.Messages));
         }
 
-        public ActionResult GetNew(DateTime firstDate, int userId, Coordinates location = null)
+        public ActionResult GetNew(DateTime firstDate, Guid? userId, Coordinates location = null)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
-            var request = NewsRequest.Construct(userId, context, location);
+            var request = NewsRequest.Construct(userId.Value, context, location);
             articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             articles = articles.Where(x => x.PubDate > firstDate);
 
