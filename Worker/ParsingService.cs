@@ -142,6 +142,7 @@ namespace Worker
 
                 List<NewsFileExt> newsList = new List<NewsFileExt>();
                 var time = DateTime.Now;
+
                 //Get items from feed
                 var feeds = repo.Feeds.ToList();
                 feeds.ForEach(x => x.LastUpdated = time);
@@ -178,7 +179,8 @@ namespace Worker
                     foreach (var c in item.Categories.Take(2))
                     {
                         //Skip if already exists or parsed
-                        if(Titles.Contains(item.Title) || FailedTitles.Contains(item.Title)){
+                        if (Titles.Contains(item.Title) || FailedTitles.Contains(item.Title))
+                        {
                             continue;
                         }
 
@@ -202,7 +204,7 @@ namespace Worker
 
                     #endregion GetCategoryIdOrCreateNew
 
-                   
+
                     Titles.Add(item.Title);
                     var i = AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item);
                     repo.NewsFiles.Add(i);
