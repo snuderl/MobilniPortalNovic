@@ -49,17 +49,17 @@ namespace MobilniPortalNovic.Controllers
         #region Api
         //
         // GET: /Feed/
-        public ActionResult Index(DateTime? lastDate, Guid? userId = null, Coordinates location = null)
+        public ActionResult Index(DateTime? lastDate, String token = null, Coordinates location = null)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
-            if (userId == null)
+            if (token == null)
             {
                 articles = context.NewsFiles.OrderByDescending(pub => pub.PubDate);
             }
             else
             {
-                var request = NewsRequest.Construct(userId.Value, context, location);
+                var request = NewsRequest.Construct(Guid.Parse(token), context, location);
                 articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             }
             if (lastDate != null)
@@ -70,11 +70,11 @@ namespace MobilniPortalNovic.Controllers
             return new FeedResult(listToRss(articles.Take(15).ToList(), personalize.Messages));
         }
 
-        public ActionResult GetNew(DateTime firstDate, Guid? userId, Coordinates location = null)
+        public ActionResult GetNew(DateTime firstDate, String token, Coordinates location = null)
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
-            var request = NewsRequest.Construct(userId.Value, context, location);
+            var request = NewsRequest.Construct(Guid.Parse(token), context, location);
             articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             articles = articles.Where(x => x.PubDate > firstDate);
 
@@ -92,13 +92,13 @@ namespace MobilniPortalNovic.Controllers
             return new Uri(Url.Action("NewsFile", "Feed", new { id = id }, "http")).SetPort(80);
         }
 
-        public String Click(ClickCounter click, Guid token)
+        public String Click(ClickCounter click, String token)
         {
 
-            if (click.NewsId!=null && token!=null)
+            if (token!=null)
             {
                 click.CategoryId = context.NewsFiles.Where(x => x.NewsId == click.NewsId).Select(x => x.CategoryId).First();
-                click.UserId = context.Users.Where(x => x.AccessToken == token).First().UserId;
+                click.UserId = context.Users.Where(x => x.AccessToken == Guid.Parse(token)).First().UserId;
                 click.SetDayOfWeekAndTimeOfDay();
                 context.Clicks.Add(click);
                 context.SaveChanges();
