@@ -183,10 +183,14 @@ namespace MobilniPortalNovic.Controllers
                     i.PublishDate = p.PubDate;
                     return i;
                 });
-            var message = "Your source to knowledge\n";
+            var message = "";
             if (messages != null)
             {
                 messages.ForEach(x => message += x + "\n");
+            }
+            else
+            {
+                message = "No filter.";
             }
             var head = new SyndicationFeed("Novice", message, new Uri(Url.Action("Index", "Home", new { }, "http")).SetPort(80), articles);
             set = new HashSet<string>(articles.Select(x => x.Categories.Select(y => y.Name).First()));
