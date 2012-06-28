@@ -121,6 +121,16 @@ namespace Worker
                         }
                     })
             });
+            inputDictionary.Add("clear", new CommandOption
+            {
+                Description = "Clear filler news",
+                Action = new Action(() =>
+                {
+                    var c = new MobilniPortalNovicContext12();
+                    c.NewsFiles.Where(x => x.Title == "Filler news").ToList().ForEach(x => c.NewsFiles.Remove(x));
+                    c.SaveChanges();
+                })
+            });
 
             while (true)
             {
