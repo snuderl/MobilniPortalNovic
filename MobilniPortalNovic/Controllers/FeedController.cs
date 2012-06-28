@@ -84,10 +84,14 @@ namespace MobilniPortalNovic.Controllers
             return new FeedResult(listToRss(articles.ToList(), personalize.Messages));
         }
 
-        public ActionResult CategoryView(int id, int page = 0)
+        public ActionResult CategoryView(int id, DateTime lastDate)
         {
             var articles = context.NewsFiles.Where(x => x.Category.CategoryId == id || x.Category.ParentCategoryId == id).OrderByDescending(x => x.PubDate);
-            return new FeedResult(listToRss(paging(articles, page).ToList()));
+            if (lastDate != null)
+            {
+                articles.Where(x => x.PubDate < lastDate);
+            }
+            return new FeedResult(listToRss(articles.Take(15).ToList()));
         }
 
         private Uri uriMaker(int id)
