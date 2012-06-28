@@ -4,10 +4,7 @@
 <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <table>
     <tr>
-        <th>Title
-        </th>
-        ShortContent
-        <th></th>
+        <th>Title</th>
         <th>PubDate
         </th>
         <th>Feed
@@ -23,9 +20,6 @@
                 @item.Title
             </td>
             <td>
-                @item.ShortContent
-            </td>
-            <td>
                 @String.Format("{0:g}", item.PubDate)
             </td>
             <td>
@@ -33,9 +27,12 @@
             </td>
             <td>@item.Category.Name</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.NewsId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.NewsId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.NewsId })
+                @if (ViewContext.Controller.GetType().Name != "PublicController")
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.NewsId }) <text>| </text>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.NewsId }) <text>| </text>
+                }
+                 @Html.ActionLink("Details", "Details", new { id = item.NewsId })
             </td>
         </tr>
     }

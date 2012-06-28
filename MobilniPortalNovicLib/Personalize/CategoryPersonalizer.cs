@@ -120,7 +120,7 @@ namespace MobilniPortalNovicLib.Personalize
         /// <returns></returns>
         public static HashSet<int> GetDesiredCategories(IEnumerable<ClickCounter> clicks, float treshold)
         {
-            var count = CategoryHelpers.NumberOfCliksPerCategory(clicks.Select(x => x.NewsFile));
+            var count = CategoryHelpers.NumberOfCliksPerCategory(clicks.Select(x => x.NewsFile)).OrderByDescending(x=>x.Value);
             var totalClicks = clicks.Count();
             var goodCategories = new HashSet<int>();
             float total = 0;

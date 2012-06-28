@@ -23,14 +23,16 @@ namespace MobilniPortalNovic.Controllers
         {
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             var userName = Session["username"].ToString();
+            var user = context.Users.Where(x=>x.Username==userName).First();
             var request = NewsRequest.Construct(userName, context);
             IQueryable<NewsFile> articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             var items = articles;
-            return View("~/Views/Feed/Index.cshtml", new RssHtmlModelView
+            return View(new RssHtmlModelView
             {
                 includedCategories = items.Select(x => x.Category).GroupBy(x => x.CategoryId).Select(x => x.FirstOrDefault()).ToList(),
                 newsFiles = items.Take(30).ToList(),
-                FilterMessages = personalize.Messages
+                FilterMessages = personalize.Messages,
+                user = user
             });
         }
 
@@ -43,13 +45,21 @@ namespace MobilniPortalNovic.Controllers
             var request = NewsRequest.Construct(username, context);
             IQueryable<NewsFile> articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
             var items = articles.ToList();
-            return View("~/Views/NewsFiles/Index.cshtml", items.ToPagedList(page, 25));
+            return View(items.ToPagedList(page, 25));
+        }
+
+        [CustomAuthorize]
+
+        public ViewResult Details(int id)
+        {
+            NewsFile newsfile = context.NewsFiles.Single(x => x.NewsId == id);
+            return View(newsfile);
         }
 
 
         //
         // GET: /Public/
-        public ActionResult Login(User u)
+        public ActionResult Login()
         {
             if (u != null)
             {
@@ -62,7 +72,7 @@ namespace MobilniPortalNovic.Controllers
                 ModelState.AddModelError("Error", "Username of parssword is invalid");
                 return View(u);
             }
-            return View(new User());
+            return View();
         }
 
     }

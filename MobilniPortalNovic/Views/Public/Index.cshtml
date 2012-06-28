@@ -1,5 +1,29 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿@model RssHtmlModelView
+     @{
 
-<h2>Index</h2>
+         Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+     }
+<div style="clear:both"></div>
+<br>
+
+<h2>User:</h2>
+@Model.user.Username
+
+<h2>Used filters</h2>
+<ul>
+    @foreach (var m in Model.FilterMessages)
+    {
+        <li>@m</li>
+    }
+</ul>
+
+<h2>Included categories</h2>
+<ul>
+    @foreach (var category in Model.includedCategories)
+    {
+        <li>@category.Name</li>
+    }
+</ul>
+
+<a href="@Url.Action("Index",new {controller = "Feed", action="Index", token=Model.user.AccessToken})"><img src="../../Content/icon-feed-28x28.png" alt="Rss feed"/></a>
+@Html.ActionLink("Personalized news", "PersonalizedHtmlTable")

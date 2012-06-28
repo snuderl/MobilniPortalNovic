@@ -108,6 +108,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site1.css" />
+    <Content Include="Content\icon-feed-28x28.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -267,6 +269,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Public\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_LayoutPublic.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Public\PersonalizedHtmlTable.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Public\Details.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

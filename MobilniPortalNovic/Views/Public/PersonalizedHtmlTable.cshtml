@@ -1,0 +1,13 @@
+﻿@model PagedList.IPagedList<MobilniPortalNovicLib.Models.NewsFile>
+     @{
+
+         Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+     }
+
+
+<div style="clear:both"></div>
+
+@Html.Partial("_NewsFilesTable", Model)
+
+
+
