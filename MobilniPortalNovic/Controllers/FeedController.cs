@@ -45,7 +45,7 @@ namespace MobilniPortalNovic.Controllers
                 return user.AccessToken.ToString();
             }
         }
-        
+
         #endregion
 
         #region Api
@@ -100,7 +100,7 @@ namespace MobilniPortalNovic.Controllers
         }
 
         [HttpPost]
-        public String Click(DateTime ClickDate, String token, int? newsId, Coordinates coordinates=null)
+        public String Click(DateTime ClickDate, String token, int? newsId, Coordinates coordinates = null)
         {
 
             if (ClickDate!=null&&token!=null&&newsId!=null)
@@ -109,6 +109,9 @@ namespace MobilniPortalNovic.Controllers
                 Guid g = Guid.Parse(token);
                 var userId = context.Users.Where(x => x.AccessToken == g).First().UserId;
                 var click = new ClickCounter { UserId = userId, ClickDate = ClickDate, CategoryId = categoryId, NewsId = newsId.Value };
+                if(coordinates!=null && (coordinates.Latitude==0 && coordinates.Longitude==0)){
+                    coordinates=null;
+                }
                 click.SetLocation(coordinates);
                 click.SetDayOfWeekAndTimeOfDay();
                 context.Clicks.Add(click);
@@ -190,7 +193,7 @@ namespace MobilniPortalNovic.Controllers
                     return i;
                 });
             var message = "";
-            if (messages !=null && messages.Count>0)
+            if (messages != null && messages.Count > 0)
             {
                 messages.ForEach(x => message += x + "\n");
             }
