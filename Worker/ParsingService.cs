@@ -209,6 +209,7 @@ namespace Worker
                     var i = AutoMapper.Mapper.Map<NewsFileExt, NewsFile>(item);
                     repo.NewsFiles.Add(i);
                     count += 1;
+
                 }
                 repo.SaveChanges();
                 Console.WriteLine("{0} new sites added.", count);

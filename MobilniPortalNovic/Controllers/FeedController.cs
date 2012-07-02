@@ -77,8 +77,8 @@ namespace MobilniPortalNovic.Controllers
             CategoryPersonalizer personalize = new CategoryPersonalizer(context);
             IQueryable<NewsFile> articles;
             var request = NewsRequest.Construct(Guid.Parse(token), context, location);
+            firstDate.AddSeconds(1);
             articles = personalize.GetNews(request).OrderByDescending(x => x.PubDate);
-            firstDate = firstDate.AddSeconds(1);
             articles = articles.Where(x => x.PubDate > firstDate);
 
             return new FeedResult(listToRss(articles.ToList(), personalize.Messages));
@@ -100,7 +100,7 @@ namespace MobilniPortalNovic.Controllers
         }
 
         [HttpPost]
-        public String Click(DateTime ClickDate, String token, int? newsId)
+        public String Click(DateTime ClickDate, String token, int? newsId, Coordinates coordinates=null)
         {
 
             if (ClickDate!=null&&token!=null&&newsId!=null)
@@ -109,6 +109,7 @@ namespace MobilniPortalNovic.Controllers
                 Guid g = Guid.Parse(token);
                 var userId = context.Users.Where(x => x.AccessToken == g).First().UserId;
                 var click = new ClickCounter { UserId = userId, ClickDate = ClickDate, CategoryId = categoryId, NewsId = newsId.Value };
+                click.SetLocation(coordinates);
                 click.SetDayOfWeekAndTimeOfDay();
                 context.Clicks.Add(click);
                 context.SaveChanges();
