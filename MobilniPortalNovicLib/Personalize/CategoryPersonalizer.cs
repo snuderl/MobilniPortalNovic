@@ -96,15 +96,16 @@ namespace MobilniPortalNovicLib.Personalize
                     Messages.Add(f.GetMessage());
                 }
             }
-
-            var goodCategories = GetDesiredCategories(clicks.ToList(), CategoryTreshold);
-            if (goodCategories.Count == 0)
+            HashSet<int> goodCategories;
+            if (Messages.Count == 0)
             {
+                
                 GoodCategories = Context.Categories.Include("ParentCategory").ToList();
                 goodCategories = new HashSet<int>(GoodCategories.Select(x => x.CategoryId));
             }
             else
             {
+                goodCategories = GetDesiredCategories(clicks.ToList(), CategoryTreshold);
                 GoodCategories = Context.Categories.Include("ParentCategory").Where(x => goodCategories.Contains(x.CategoryId)).ToList();
             }
 
