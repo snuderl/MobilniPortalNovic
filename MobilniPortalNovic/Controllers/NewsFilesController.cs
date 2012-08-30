@@ -13,9 +13,7 @@ namespace Web.Controllers
 
         //
         // GET: /NewsFiles/
-
-        [OutputCache(Duration=3600, Location=OutputCacheLocation.ServerAndClient, VaryByParam="page")]
-        public ViewResult Index(int? page)
+                public ViewResult Index(int? page)
         {
             var news = context.NewsFiles.Include(newsfile => newsfile.Feed).OrderByDescending(x => x.PubDate);
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)

@@ -61,6 +61,7 @@ namespace MobilniPortalNovic.Controllers
         // GET: /Public/
         public ActionResult Login(User u)
         {
+            ModelState.Clear();
             if (u != null)
             {
                 var context = new MobilniPortalNovicContext12();

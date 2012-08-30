@@ -166,7 +166,7 @@ namespace MobilniPortalNovicLib.Models
         [Required]
         public String Username { get; set; }
 
-        [Required]
+        [Required, DataType(DataType.Password)]
         public String Password { get; set; }
 
         public Guid AccessToken { get; set; }
