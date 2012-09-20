@@ -64,7 +64,6 @@ namespace Tests
 
         }
 
-        [TestMethod]
         public void FilterClicksByDateTest()
         {
             var dateTime = DateTime.Parse("2012-6-14T15:35:00.0000000Z");
