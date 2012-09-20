@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="5edec932-b5cb-4316-87fd-f1105631521a" name="UMLClassDiagram1" linkedPackageId="f78f1629-6823-43e4-9549-211ddb764612" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="6ef7da6b-3366-430f-afa3-4d8edbad1330" name="IPersonalize" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2c6c032b-c3f4-42d1-8965-5637a7d89607" />
+        <ownedOperations>
+          <operation Id="5f7434b6-98d5-4887-8da0-1a1ac3bc7404" name="GetNews" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="adc7ea82-f28f-4e6c-bf5a-3d4e10a3a254" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="d173f15d-e389-4fe4-a60e-349c924b832c" name="NewsRequest request" direction="In" isUnique="false">
+                  <elementDefinition Id="1446525e-0645-449e-a2de-0743e3855d3b" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="640ddfce-6ea2-416b-933d-29057e86e7b9" direction="Return" isUnique="false">
+                  <elementDefinition Id="22e46df9-c703-46bd-8583-967df5839229" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="936cfd88-cb89-4103-bad2-24d5b98b34c6" LastKnownName="List&lt;NewsFile&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="0fcd160f-7e29-4bdd-ab4e-ff888d3ea243" name="Filter" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="57b229d7-bcd3-4303-baf0-569eb225ac0b" />
+        <ownedAttributes>
+          <property Id="0d0c31de-1a00-44f3-83d8-f68e7e46fa8a" name="Message" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a82bc0cf-98be-4ff8-acfd-a1ec59ba80da" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="87eb8f88-8693-4e4f-b779-2d9b9e87ab3d" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation Id="7d3a25bd-b432-4f61-8daa-cab89fc6ed0c" name="Filter" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="558fff21-adfb-417f-bc4d-c7d531e0619f" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="ec372709-a167-4ca7-adfd-6155fe0f24cb" name="List&lt;ClickCounter&gt; clicks" direction="In" isUnique="false">
+                  <elementDefinition Id="d600d91f-b960-4fd0-b920-046322bfdc97" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="d6b16208-0817-411f-98f8-42126231c1d6" direction="Return" isUnique="false">
+                  <elementDefinition Id="6a964800-4370-4b15-9e36-bf3e92d5e04d" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="aafcbf59-8aec-4e61-aa61-a189fc60dee5" LastKnownName="List&lt;ClickCounter&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="87eb8f88-8693-4e4f-b779-2d9b9e87ab3d" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="7e60d954-3356-4259-b2fb-97ce9e69859a" name="TimeOfDayFilter" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="0a179990-3250-45cd-89fa-6cbe108e1540" />
+        <suppliersInternal>
+          <interfaceRealization Id="163a5e9d-b65c-4a0e-84f8-4a9990b00618">
+            <interfaceMoniker Id="0fcd160f-7e29-4bdd-ab4e-ff888d3ea243" LastKnownName="Filter" />
+            <elementDefinition Id="4ea49a21-aac4-48a4-b167-4a67ca4a7729" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="605cace4-3051-4162-8fa6-f01daae3514f" name="Filter" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="86cdc297-71ae-4478-bb67-618ca38416cb" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="2f9e8991-3cf1-49fa-9965-304a4d9db71d" name="List&lt;ClickCounter&gt; clicks" direction="In" isUnique="false">
+                  <elementDefinition Id="865c805d-1928-43d1-b88f-e973d0cc8ac2" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="2d4e8a0e-076a-462d-8bde-12fdef9b8461" direction="Return" isUnique="false">
+                  <elementDefinition Id="dc02d5fa-ead3-4e34-b283-c754cf08b0c5" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="aafcbf59-8aec-4e61-aa61-a189fc60dee5" LastKnownName="List&lt;ClickCounter&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="da999d49-8dfb-4937-b6ae-e42ee4874549" name="DayOfWeekFilter" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="9c977918-967b-49dd-a21f-81488619be62" />
+        <suppliersInternal>
+          <interfaceRealization Id="baadd8bc-22b9-48b8-9782-ec34ad9b5af0">
+            <interfaceMoniker Id="0fcd160f-7e29-4bdd-ab4e-ff888d3ea243" LastKnownName="Filter" />
+            <elementDefinition Id="333c30cc-1589-42ef-bd06-3fd7e8b1e121" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="ceadb944-cda8-4511-a1f9-6a95db44fd52" name="Filter" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="ea39837f-de66-4b3d-bb6d-b7fa7b5eb9fa" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="31bb351a-a107-423b-b15e-52616a98b566" name="List&lt;ClickCounter&gt; clicks" direction="In" isUnique="false">
+                  <elementDefinition Id="7cc9f94e-a309-4bd4-9e6d-8031313e07b9" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="1206a311-3350-49be-ad2c-6f37653aea2c" direction="Return" isUnique="false">
+                  <elementDefinition Id="cf3909fb-da2a-4b18-9d04-77a67c0d190c" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="aafcbf59-8aec-4e61-aa61-a189fc60dee5" LastKnownName="List&lt;ClickCounter&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="a5ab3956-000e-4f39-b73e-d64610d52ef7" name="RadiusFilter" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e2dfde18-66d7-4af0-ac95-4388e8c13742" />
+        <suppliersInternal>
+          <interfaceRealization Id="711653eb-210b-4f0f-99fc-2803d570e094">
+            <interfaceMoniker Id="0fcd160f-7e29-4bdd-ab4e-ff888d3ea243" LastKnownName="Filter" />
+            <elementDefinition Id="df0b077c-f036-4845-b771-4ca3d4e54a81" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="04cd147d-2d25-4227-b098-6428af480452" name="Filter" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="9713465b-640d-409c-aa42-e59743ac7c1b" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="59209dbb-c9ed-4887-94a3-2aa043ccaa7a" name="List&lt;ClickCounter&gt; clicks" direction="In" isUnique="false">
+                  <elementDefinition Id="52f47314-8cab-48e7-95c8-f927c594639d" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="0c07279b-2da8-4624-b9bd-9d439d8ac366" direction="Return" isUnique="false">
+                  <elementDefinition Id="9f1c1a45-9ed0-4d90-9808-dc96530ab24b" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="aafcbf59-8aec-4e61-aa61-a189fc60dee5" LastKnownName="List&lt;ClickCounter&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="c907cbbb-3483-4694-877f-76974faf9dd1" name="CategoryPersonalizer" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="bcb64df8-391f-4f4e-ac3c-e5a25e4b54ad" />
+        <suppliersInternal>
+          <interfaceRealization Id="5716e88a-c90f-436d-840c-68a79b25f7a0">
+            <interfaceMoniker Id="6ef7da6b-3366-430f-afa3-4d8edbad1330" LastKnownName="IPersonalize" />
+            <elementDefinition Id="d8573b7e-9735-4ad9-8602-09e620e1c663" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <targetEnds>
+          <association Id="adcff5c4-b650-4f12-9bb4-67699bfa90bb" isDerived="false" sourceEndRoleName="CategoryPersonalizer" targetEndRoleName="Filter" isLeaf="false" isAbstract="false">
+            <interfaceMoniker Id="0fcd160f-7e29-4bdd-ab4e-ff888d3ea243" LastKnownName="Filter" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="53acfc3a-460f-4000-9769-f70f8dc905d6" name="CategoryPersonalizer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ddcc37d0-c7f9-4949-919f-b279ea6c829f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="80c362b4-ccaf-4c93-9dee-165a774dd918" name="Filter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="5c200116-9ab4-4bbb-b2d9-95db38a8c4ef" name="Lower" value="*">
+                      <elementDefinition Id="802d4d5c-e651-45fd-93e5-ab34954e4b15" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="86bcb463-0466-4d2c-a207-c103c9c16ca2" name="Upper" value="*">
+                      <elementDefinition Id="4f7eab02-3e29-4994-9bea-8bfafff8ed62" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="fb37982b-6bad-407a-9f39-71628b6cb34f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="67b6d70b-1cf6-47a9-a06f-7c2dc2849516" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="d5fad808-52d8-4cda-93df-ad8c8918b1fc" name="List&lt;String&gt;Messages" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8c6bd634-3f49-4479-8164-7f4ce0623834" />
+          </property>
+          <property Id="5e407a37-0a26-4775-a0e1-c7d18bc54a75" name="int MinimalClicks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="eaaa8d17-2a16-4121-b05a-9cd3ae10a620" />
+          </property>
+          <property Id="e25c64eb-9d7d-4f6a-b756-d7e78fee716c" name="float CategoryTreshold" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1d8edfc2-5a07-458a-a73a-d906b65b16ef" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="8cc0726e-1fdd-4a41-ad2d-3e09b50416cb" name="GetNews" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="8ac4f28a-b763-4eeb-ad32-035351b6eb4b" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="edd6473f-ced3-4c19-8161-96377d1a021a" name="NewsRequest request" direction="In" isUnique="false">
+                  <elementDefinition Id="73e00d65-4ee6-4c6b-80fd-24515a484384" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="12df307e-854b-4039-9223-4c9172aadc6b" direction="Return" isUnique="false">
+                  <elementDefinition Id="585e17b2-c00f-4263-b464-ea7764e80444" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="936cfd88-cb89-4103-bad2-24d5b98b34c6" LastKnownName="List&lt;NewsFile&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="9e5345f3-d30b-4cd4-9c80-a1cd88ab305b" name="GetDesiredCategories" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="0c1e7653-a926-40bb-83b4-3071da8012b7" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="45f2c0ea-da49-4ecd-86cb-061c97cbf501" direction="Return" isUnique="false">
+                  <elementDefinition Id="f009e7ba-507f-480a-9fed-d4ebc23cdb72" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="d9051dd5-c827-4691-8dcb-650d148df27c" LastKnownName="List&lt;Category&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="5a4f086e-1efc-4989-96c0-0f9c17dbd361" name="NewsRequest" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6c64db0b-ed93-4db7-bf93-3bd8d0e7e408" />
+        <ownedAttributesInternal>
+          <property Id="3881787e-051c-4bc9-b922-49533d70e721" name="TargetTime" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bc2eb602-bafa-4737-8718-a17fab56a1b8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0a91fc0a-2579-4143-b8f3-6923bcd5446b" LastKnownName="DateTime" />
+            </type_NamedElement>
+          </property>
+          <property Id="4fc79831-4858-4c9c-9471-f312d5b897b7" name="Coordinates" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ad0ace44-0672-489e-9364-4f86f049645a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="233a8dda-9a89-4689-9e89-e8348b3ebdb6" LastKnownName="Location" />
+            </type_NamedElement>
+          </property>
+          <property Id="9cb86791-e0d2-41af-96d4-56726a04393a" name="User" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="99b3bc34-75b2-411e-b0fa-297b0978b02c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="45383c3b-1b9d-4c7d-83d7-8db4fc11d54e" LastKnownName="User" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="c1112556-51b1-431b-9bf0-6ebb3dc08136" name="ParsingService" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="9e4694e8-9f97-4776-a56b-cbd03be11bc5" />
+        <targetEnds>
+          <association Id="9791e8fe-0b58-4ab1-8893-5af0a13821a9" isDerived="false" sourceEndRoleName="ParsingService" targetEndRoleName="IFeedParser" isLeaf="false" isAbstract="false">
+            <interfaceMoniker Id="2786cbf8-4256-46b1-b920-e494634909ad" LastKnownName="IFeedParser" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e8b3ef28-025b-45d2-8913-9dcd885c7495" name="ParsingService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3740c986-5585-46ec-b5f9-5c081ab88e07" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bc0abc31-7d39-406f-b7ac-90ca2df5ebb6" name="IFeedParser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="95476e52-7a54-4561-afb3-ef6c4438c1b0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="63f2ad8a-c7c9-4e56-86a4-14d401e6e67f" />
+          </association>
+          <association Id="4990e104-42cd-4d68-9f45-01134806c58c" isDerived="false" sourceEndRoleName="ParsingService" targetEndRoleName="INewsParser" isLeaf="false" isAbstract="false">
+            <interfaceMoniker Id="b08474ea-717c-4c2a-823d-562fd26cae4e" LastKnownName="INewsParser" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ef16d39a-1fd2-4254-b23e-93ad6afd3c8f" name="ParsingService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="37c1defa-2bf2-4db0-9df7-b72462bbf9c4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ca0d97a2-7468-4691-a272-44fb269160f3" name="INewsParser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="745a38c9-669c-42c4-a927-a7d3fcee6002" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1517c480-55a5-4a5a-a59a-9356a9ece13a" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="48df62dc-de5f-4ad1-bbd0-929996c24907" name="State" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2c83a156-8b08-4b50-9286-8fb0b8306f0b" />
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="eb8a77c1-c2ad-4652-a037-942db86fd33f" name="getParsingService" isLeaf="false" isStatic="true" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="7b6049b5-cc0f-4f1d-9955-1e22bf55141a" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="7a3838bf-c976-4bda-b5ec-de3be1518a87" direction="Return">
+                  <elementDefinition Id="c660aa78-d458-488c-ad0e-736b8313ab08" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="7147dd70-b888-4586-89d3-37cec30b69c3" LastKnownName="ParsingService" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="0dd6bb9f-c52e-48c7-b61c-53b9fadbee95" name="UpdateAll" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="e2ebcceb-4214-412b-b09e-509ec687ec3f" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="0f8f1ee0-4efc-4b1b-af7f-fdebe3d2c062" direction="Return" isUnique="false">
+                  <elementDefinition Id="8f4fbb37-1490-4a19-adb0-f9be8030cba8" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="ffc4454d-1812-42a4-83b4-b497c7ab5651" LastKnownName="void" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="9a33d9b9-9e08-425a-9308-78d72d148a16" name="IsElementOk" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="85f63495-c18e-4dc8-a770-29c4740ae502" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="5e7f7b53-8aed-49fd-af91-6f5b3cc52ad4" name="NewsFile" direction="In" isUnique="false">
+                  <elementDefinition Id="64b0637c-c1dd-4a57-ac52-f35de0c1a544" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="54c2e644-1aff-429d-a0aa-f3f1eff1899e" direction="Return" isUnique="false">
+                  <elementDefinition Id="3a380289-9c6f-4e19-a6d2-0672db454e8d" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="4158c072-1a49-4fdf-ad90-0ae9f38561cc" LastKnownName="Boolean" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="2786cbf8-4256-46b1-b920-e494634909ad" name="IFeedParser" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="99f84151-99e4-4bcf-b4f5-67af6e056326" />
+        <ownedOperations>
+          <operation Id="33434ae1-7e63-4194-b174-9db5774c7125" name="ParseFeed" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="68342fb1-de65-4bfb-80fb-64f833840419" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f5ab5241-ad87-4ec0-9ac8-2a473ec0660a" name="Feed feed" direction="In" isUnique="false">
+                  <elementDefinition Id="23b2e805-014e-404c-ba19-88c1facb7a8f" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="3ae0e835-ce33-4d6b-ba9e-77a9a0bb0b0f" direction="Return" isUnique="false">
+                  <elementDefinition Id="c6ee69ab-d324-4c3b-a3b3-ed33eb91190d" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="936cfd88-cb89-4103-bad2-24d5b98b34c6" LastKnownName="List&lt;NewsFile&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="b08474ea-717c-4c2a-823d-562fd26cae4e" name="INewsParser" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9ff43de0-0bb6-4110-8fe0-43d9f35b6dae" />
+        <ownedOperations>
+          <operation Id="85c290a3-223b-438a-920d-b0b6f1073831" name="ParseNews" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="75209f9c-a57e-4afd-b9b3-a2ddf97698fc" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="2e66910d-2217-4b01-ab41-43fbef09c5b2" name="NewsFile file" direction="In" isUnique="false">
+                  <elementDefinition Id="1967410e-7257-409f-a1a3-7593f57b47d5" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="25a4e10e-3937-491b-aab8-def3614c21c9" direction="Return" isUnique="false">
+                  <elementDefinition Id="6ba7b3a6-8c82-4fd9-a394-dbf7bca05085" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="173450f6-7c18-44c8-bfc9-00f87e8504ba" LastKnownName="NewsFile" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="3814b40e-53df-43f7-95ef-51edec652580" name="RssFeedParser" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="1b75f776-dc58-45f1-8e1c-162a35233cd7" />
+        <suppliersInternal>
+          <interfaceRealization Id="834873d6-5c44-4503-82f0-2497b00b52ad">
+            <interfaceMoniker Id="2786cbf8-4256-46b1-b920-e494634909ad" LastKnownName="IFeedParser" />
+            <elementDefinition Id="4180d9f0-0bf8-4e78-870c-ef2bc62c7d4e" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="0b9d4482-8568-4e91-9861-ebc90a17e6f8" name="ParseFeed" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="478a6897-7a31-4158-aed3-c5f8d0b20687" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="75f1da36-3fd1-4866-b15b-540aa6785da7" name="Feed feed" direction="In" isUnique="false">
+                  <elementDefinition Id="5bdb982c-6763-46aa-ae78-162ca7a38f57" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="89a28d1a-a3e7-427d-86af-32875ce425cb" direction="Return" isUnique="false">
+                  <elementDefinition Id="43a976c9-19b7-4c41-8d33-b94b70b41718" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="936cfd88-cb89-4103-bad2-24d5b98b34c6" LastKnownName="List&lt;NewsFile&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e04ae6de-2608-458e-acb9-b79c573ff738" name="SiolNewsParser" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="57284e05-67a6-4fcb-aa13-b2f61deaae3d" />
+        <suppliersInternal>
+          <interfaceRealization Id="aa782ad5-6e95-4d28-abd6-c733e8bc4116">
+            <interfaceMoniker Id="b08474ea-717c-4c2a-823d-562fd26cae4e" LastKnownName="INewsParser" />
+            <elementDefinition Id="2ff6ca78-bd40-4d0e-8907-ac40a52d0244" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="8cec838b-4649-4c43-a0b0-eb82c39eb2b2" name="ParseNews" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="0606c716-d16e-4e6f-afe9-1826b1cc1ebc" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="9977bf4f-7fd6-44ee-8fe8-93d805d22570" name="NewsFile file" direction="In" isUnique="false">
+                  <elementDefinition Id="4ddd88f8-6102-46d1-aea6-96bb1b25f4e3" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="ec37fca2-4bb4-46a3-a091-05a2024e8ac4" direction="Return" isUnique="false">
+                  <elementDefinition Id="7ef9e1df-7c3c-4cad-8024-af35bd9afc00" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="173450f6-7c18-44c8-bfc9-00f87e8504ba" LastKnownName="NewsFile" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="ab85b681-6cc6-477d-8000-4332d4469432" name="GetCategories" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="ceaea6ff-7d5a-434d-a59e-fea89652fa8d" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="5a5e24c6-6c14-4fc0-8307-7146494dfde8" name="NewsFile news" direction="In" isUnique="false">
+                  <elementDefinition Id="922b1a1e-3d8d-4807-843d-e2f749d20562" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="9e738b9f-5466-436f-b6c8-8e6d1e2cf876" direction="Return" isUnique="false">
+                  <elementDefinition Id="e4f425d1-f2e9-4812-b601-f8668549fab6" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="3061c484-47a7-4d41-aaee-2bf614cf86b1" LastKnownName="List&lt;String&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="adbc0012-fc43-413b-846f-8f1e09dafc7b" name="GetBody" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="7015c992-0c7b-4b00-8021-bbbe93043f3d" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="d1086026-905a-49ec-9d18-1ab0ef1998df" name="String html" direction="In" isUnique="false">
+                  <elementDefinition Id="a999d084-838b-40f0-8b40-90a806e36100" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="2246e674-4083-40ae-96e6-99fd98173b21" direction="Return" isUnique="false">
+                  <elementDefinition Id="4e7d7dab-4239-4a60-a41e-f1a46691312f" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="87eb8f88-8693-4e4f-b779-2d9b9e87ab3d" LastKnownName="String" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="d9051dd5-c827-4691-8dcb-650d148df27c" name="List&lt;Category&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;Category&gt;">
+        <elementDefinition Id="adfbfc3a-c89f-42a3-a70e-b7e8caed2671" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="936cfd88-cb89-4103-bad2-24d5b98b34c6" name="List&lt;NewsFile&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;NewsFile&gt;">
+        <elementDefinition Id="f9db3108-4ebc-4f11-9eaf-90959d09d4e9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="4158c072-1a49-4fdf-ad90-0ae9f38561cc" name="Boolean" isAbstract="false" isLeaf="false" cachedFullName="Boolean">
+        <elementDefinition Id="8943dc84-709e-4f62-b15a-a3273aa6f165" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="7147dd70-b888-4586-89d3-37cec30b69c3" name="ParsingService" isAbstract="false" isLeaf="false" cachedFullName="ModelingProject1::ParsingService">
+        <elementDefinition Id="9e4694e8-9f97-4776-a56b-cbd03be11bc5" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="173450f6-7c18-44c8-bfc9-00f87e8504ba" name="NewsFile" isAbstract="false" isLeaf="false" cachedFullName="NewsFile">
+        <elementDefinition Id="f9e5df6d-3aaf-40c5-bac9-278403fc7800" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="3061c484-47a7-4d41-aaee-2bf614cf86b1" name="List&lt;String&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;String&gt;">
+        <elementDefinition Id="94a8ee6f-1c50-452a-a1d3-356e6d669cd0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="ffc4454d-1812-42a4-83b4-b497c7ab5651" name="void" isAbstract="false" isLeaf="false" cachedFullName="void">
+        <elementDefinition Id="cd5877a7-23c0-4204-8188-5f59120700bb" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="cd08f621-e6f4-4684-92f0-d4b9df07fc1d" name="Scheduler" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="873af3b2-0e46-4b43-9c55-b88723f90bc8" />
+        <targetEnds>
+          <association Id="be78e333-6fc1-400c-83c7-a8c9c3c548f4" isDerived="false" sourceEndRoleName="Scheduler" targetEndRoleName="ParsingService" isLeaf="false" isAbstract="false">
+            <classMoniker Id="c1112556-51b1-431b-9bf0-6ebb3dc08136" LastKnownName="ParsingService" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0868976f-9490-46c1-89c2-ded76b039163" name="Scheduler" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8386899c-f18d-49c5-8160-053039c49eda" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="169312c2-c92e-49e1-9afc-bd8b4f814dce" name="ParsingService" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1cd712ea-cd65-42f0-8ce4-2101bada026a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2e2fc5e3-9a26-4bd4-9d9d-b22d2a94eb1c" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="6bf12d57-f35d-4006-b66f-2070a3e0c517" name="UpdateInterval" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="752682ca-8b6e-40e3-94f0-39e9a4466c0c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="535cc686-9ae0-437b-8313-29e694bfbdda" LastKnownName="int" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation Id="e31ca814-e4ef-47dc-b36b-36543049ead3" name="Start" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="445aedf7-8977-4e8e-90cb-387d63a3fc91" />
+          </operation>
+          <operation Id="218a76b2-f566-418f-ac0d-0cad14b3f537" name="Stop" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="f1ca6a54-eaff-4df1-8672-45a7122d0e58" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="535cc686-9ae0-437b-8313-29e694bfbdda" name="int" isAbstract="false" isLeaf="false" cachedFullName="int">
+        <elementDefinition Id="ecf8aef3-a12e-4006-a040-d9d9ef2e9ed2" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="0a91fc0a-2579-4143-b8f3-6923bcd5446b" name="DateTime" isAbstract="false" isLeaf="false" cachedFullName="DateTime">
+        <elementDefinition Id="5acfb63a-e249-4d86-9e7d-ae7e313cae9f" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="233a8dda-9a89-4689-9e89-e8348b3ebdb6" name="Location" isAbstract="false" isLeaf="false" cachedFullName="Location">
+        <elementDefinition Id="ba0417bd-c240-4cdd-9b03-cd5f2fead56d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="45383c3b-1b9d-4c7d-83d7-8db4fc11d54e" name="User" isAbstract="false" isLeaf="false" cachedFullName="User">
+        <elementDefinition Id="fc78625a-05ef-4907-8557-227061c5f602" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="aafcbf59-8aec-4e61-aa61-a189fc60dee5" name="List&lt;ClickCounter&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;ClickCounter&gt;">
+        <elementDefinition Id="d14ec42b-548a-417f-ae9b-283950df440e" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="f78f1629-6823-43e4-9549-211ddb764612" name="ModelingProject1">
+    <elementDefinition Id="df751005-65ed-4da4-a241-ba373d12754e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="53123cce-daab-4b9a-ab72-a3bd5c4f6c29">
+        <profileInstance Id="77a1243f-b328-4603-9cd6-4f2ca1b49f2c" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="624e21b7-e116-4b95-aaa5-4484401ed6ca">
+        <profileInstance Id="60effe95-c5ed-4a20-a84e-9dd63d527985" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

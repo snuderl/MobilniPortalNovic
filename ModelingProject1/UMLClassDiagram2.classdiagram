@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="90a6cb7c-e1f9-4f76-a698-a3f3d77d262d" name="UMLClassDiagram2" linkedPackageId="d1e06527-d08e-476e-8d52-24c656b2e2d6" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="f13aaaf4-94ae-449e-bb76-6d6dc8c8ffe0">
+      <profileInstance Id="1d72fb7a-8dc7-46ea-9c2b-b8baa5c41b8d" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="dc90360d-eb06-443e-b92c-1deffeac4e50">
+      <profileInstance Id="912d5f94-1b41-48e8-80bb-14b68c6e8dec" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="cb23759f-eefb-4ad1-8fa8-0b477cc897e5" name="FeedActivity" isAbstract="true" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8266835b-a877-4fc2-aebd-3a18aeace82d" />
+        <suppliersInternal>
+          <interfaceRealization Id="efd2016f-d1dd-40d7-8a39-923c525d7511">
+            <interfaceMoniker Id="742902f7-9bb0-4a6d-ab75-29125cf1fbf5" LastKnownName="UserChanged" />
+            <elementDefinition Id="c96ee482-c733-40cd-a015-f8b8c4c924c6" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <generalsInternal>
+          <generalization Id="2db13f7c-e602-4f62-8915-906ca720329c" isSubstitutable="false">
+            <classMoniker Id="88bb4f48-2146-47b2-8252-85f1cb078ff8" LastKnownName="OnEndFetchMore" />
+            <elementDefinition Id="e6163d0a-1e7f-4eec-9ba9-958fd976cf21" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association Id="b3626495-5773-4a42-883a-a46d1cf1056e" isDerived="false" sourceEndRoleName="FeedActivity" targetEndRoleName="PortalApi" isLeaf="false" isAbstract="false">
+            <classMoniker Id="3396221f-f294-4390-adc1-786d038fad1a" LastKnownName="PortalApi" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a0643afc-a5c3-4901-8816-302a450069d6" name="FeedActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="fb78f7ab-8e17-4e14-83c9-78566895cdda" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="980a4e91-4a9b-43b6-a8f7-7fcd76d684e8" name="PortalApi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b41899e3-1e62-49e2-a799-59b17984ffc9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e5fa1665-e828-4ae9-9670-88f11155e762" />
+          </association>
+          <association Id="4cc2a592-206a-4371-aeb1-bd31107487d8" isDerived="false" sourceEndRoleName="FeedActivity" targetEndRoleName="FeedParser" isLeaf="false" isAbstract="false">
+            <classMoniker Id="64e5b475-f265-4945-981b-9f800eecf4ff" LastKnownName="FeedParser" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e4fb4d08-ee12-4e17-bb8c-5cadcd072a67" name="FeedActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="048ff05d-237c-4fc3-80cf-de6a4147e346" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dee944f3-7b4d-44cb-9083-96ec1fc7fe19" name="FeedParser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="85791bbe-8e20-4328-b477-71ad01eb01a2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c2515d48-fada-4465-ac40-90777c049b61" />
+          </association>
+          <association Id="5c1e4e76-453a-404a-b70c-806e9d165bd6" isDerived="false" sourceEndRoleName="FeedActivity" targetEndRoleName="NewsAdapter" isLeaf="false" isAbstract="false">
+            <classMoniker Id="fd36c0e4-a956-4ec2-8906-49e04f014701" LastKnownName="NewsAdapter" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2b3ff81b-f76a-4b4c-87b3-fcb72025f22e" name="FeedActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="40eeac84-2d9b-4abe-b474-630a4cf8b733" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1782d594-653e-4636-a93b-f8a8a1fa5ad8" name="NewsAdapter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="68be19d4-1197-462f-b572-af745470816e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="dc6fec8b-5e30-4df1-a870-ae40b45247c0" />
+          </association>
+          <association Id="244c778f-458a-426c-84c2-941706d98e75" isDerived="false" sourceEndRoleName="FeedActivity" targetEndRoleName="DetailsActivity" isLeaf="false" isAbstract="false">
+            <classMoniker Id="91e5fd33-1709-4f82-bc86-1d2dd7e8c4d3" LastKnownName="DetailsActivity" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bd0a954c-003e-47d0-820a-ef8d63472e09" name="FeedActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="045ef965-1c49-432f-be5d-421a5a27e1f1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bcee3f57-9bf1-4557-81cd-6aefd03c7853" name="DetailsActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4411f8c6-1720-4076-8873-cbb10a257023" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="671ceed9-e40c-49e4-8d12-d12f16df6d39" />
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation Id="5ba7beb3-b221-46b1-8e7e-17e51421809f" name="onItemClick" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="92a87bc7-ce8a-4c82-b1e6-4adf64d45285" />
+          </operation>
+          <operation Id="81ee3a32-b765-40d2-9da3-a1cf0a82f4ea" name="showNews" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="8ec1e092-c2be-4881-b1a6-391aa4ac3442" />
+          </operation>
+          <operation Id="a22cc5fb-a73d-42d6-8557-d077dfa4d834" name="onChange" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="27b59d1d-ac79-42d3-b951-05b7801704a2" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="190486f4-6c4f-45f9-8770-de7d17fe0a74" name="MainActivity" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="278fada2-20b5-4e41-b6e2-e5b18ed87eb8" />
+        <generalsInternal>
+          <generalization Id="715e2a38-ca27-4038-b238-39169adcb44a" isSubstitutable="false">
+            <classMoniker Id="cb23759f-eefb-4ad1-8fa8-0b477cc897e5" LastKnownName="FeedActivity" />
+            <elementDefinition Id="67e6e0c8-2069-433f-9f02-72cf40eacacb" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="00642fa4-919a-4c7d-bd0c-22323a06c952" name="PersonalizedActivity" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="9921b903-abec-4266-a670-a0af75cceb4f" />
+        <generalsInternal>
+          <generalization Id="e7103a08-1d55-450c-818c-11b6f148134c" isSubstitutable="false">
+            <classMoniker Id="cb23759f-eefb-4ad1-8fa8-0b477cc897e5" LastKnownName="FeedActivity" />
+            <elementDefinition Id="13554949-6faf-4a7b-b861-235455938e46" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="742902f7-9bb0-4a6d-ab75-29125cf1fbf5" name="UserChanged" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="db5611e4-31bc-4526-80f1-0de4f7782253" />
+        <ownedOperations>
+          <operation Id="15a2a8f7-0a80-4ebc-bc63-185f31b200cf" name="onChange" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="e91e208f-8a1e-4d48-82b8-bfafc2399387" />
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d7787c55-25e7-4111-92a6-8fe227d00198" name="TabWidget" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e73096a6-6aea-4fd1-b8d0-9c6797e6ff0e" />
+        <targetEnds>
+          <association Id="2393add1-a59c-4f23-9f39-929754f3c393" isDerived="false" sourceEndRoleName="TabWidget" targetEndRoleName="FeedActivity" isLeaf="false" isAbstract="false">
+            <classMoniker Id="cb23759f-eefb-4ad1-8fa8-0b477cc897e5" LastKnownName="FeedActivity" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4068ade5-8903-4eb5-b80c-5be88879e5b0" name="TabWidget" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="704b43b2-ae15-47d1-9239-c6faa0ef5804" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="018665c6-7b83-441b-926d-96bcda2dfaea" name="FeedActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="9ff74edd-1ab3-4c44-bd8b-a4b302f9c688" name="Lower" value="*">
+                      <elementDefinition Id="7d389875-a29e-401e-9d21-77cdefa8c28e" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="37a5ccb4-e18b-4190-b4bc-f7c0aabad581" name="Upper" value="*">
+                      <elementDefinition Id="c37d16a2-cfda-436b-bfe9-2fb5dd439727" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="f36d5a9d-528c-4b63-9985-5f6f0a0e78cd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1e3b1e59-938d-439e-af93-6749ccbc53b7" />
+          </association>
+        </targetEnds>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="64e5b475-f265-4945-981b-9f800eecf4ff" name="FeedParser" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="3a0d131e-3501-4f33-ac88-36020d5b457e" />
+        <targetEnds>
+          <association Id="51b64ad6-f32a-4c40-91e6-d6012ba3d938" isDerived="false" sourceEndRoleName="FeedParser" targetEndRoleName="RestClient" isLeaf="false" isAbstract="false">
+            <classMoniker Id="555e35a6-b8a2-4bfc-9d86-c2c3e0c0381d" LastKnownName="RestClient" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7c82b221-ee43-4274-95fa-c0eda3a18755" name="FeedParser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d360f3cf-e5fc-47e8-8a88-9ce9f57bdf8f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8dae6eb0-d1f9-46e9-ab64-049f27084c19" name="RestClient" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="344babac-2f94-4da2-abe1-8c186d193319" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9ec683e0-bfbf-4fa9-baf4-680fada7979a" />
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation Id="e0eba635-ba4f-4d4d-9dfa-73c9c9905d8f" name="GetNew" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="a80a393d-3b0b-4414-a5c6-922e886bda56" />
+          </operation>
+          <operation Id="f6d7c9aa-e0d2-4080-a373-c1050373dca6" name="HasNew" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="3aa9436f-944f-4ff8-bfb3-ec9e63825436" />
+          </operation>
+          <operation Id="4805dff9-8198-49e3-b0cc-8c8a171f38c4" name="More" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="f9f4dff7-9be8-4088-a55a-05aacb3b54df" />
+          </operation>
+          <operation Id="c18b418b-94be-45b8-9799-96d493afab4a" name="parse" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="5edeaea0-be20-442e-b991-2ca755496d25" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="3396221f-f294-4390-adc1-786d038fad1a" name="PortalApi" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="35511a08-22ca-49a4-a087-a88099dfe052" />
+        <targetEnds>
+          <association Id="8cdc17b7-93c9-42df-b6b4-405d80d3937c" isDerived="false" sourceEndRoleName="PortalApi" targetEndRoleName="RestClient" isLeaf="false" isAbstract="false">
+            <classMoniker Id="555e35a6-b8a2-4bfc-9d86-c2c3e0c0381d" LastKnownName="RestClient" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="806ba253-f5e0-4a6e-ae85-3ff1c7d7a98c" name="PortalApi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1d3128c4-5514-453c-afbd-6a92ca92b68a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="28c2b91f-d89b-4525-bf17-31556bc5a760" name="RestClient" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ae183fa2-69fe-42b4-b374-3b43f0defeb9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="64d009c8-30e4-4742-a5e8-818214fac170" />
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation Id="170a3e27-beb3-4eff-a842-6e742c6c9356" name="LoadNews" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="412d00c8-ada6-41d0-918a-ad01340ac68d" />
+          </operation>
+          <operation Id="47604e0a-0f35-4912-b79a-6783924d4f8f" name="Register" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="f34e6775-697e-433e-ab54-ae913e4909b3" />
+          </operation>
+          <operation Id="5a725ce4-0279-493f-aa1a-097ec6fa730b" name="Login" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="dbeaa157-3882-4e17-811d-3fb617e2b286" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="555e35a6-b8a2-4bfc-9d86-c2c3e0c0381d" name="RestClient" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="fd28f446-9d50-470b-b835-cc3392f77de7" />
+        <ownedOperationsInternal>
+          <operation Id="fe849bb4-9b93-4d07-8799-7dbe57957d8b" name="AddParam" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="5a7b4f42-3100-43af-9bc5-d06a28cbe149" />
+          </operation>
+          <operation Id="e93e186b-24fb-49b1-9682-bddccd3510ef" name="AddHeader" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="bc47e8e9-16c0-487d-8090-708f989c1e95" />
+          </operation>
+          <operation Id="b3d293a3-c376-44b4-9de5-b67ccdae057c" name="Execute" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="24e06938-07db-457e-a33f-913ffbd7185b" />
+          </operation>
+          <operation Id="6e56b51d-b627-4961-93a2-58c7f6f30933" name="GetResponse" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="7564c3d5-3efc-470f-a7a1-478431500a17" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fd36c0e4-a956-4ec2-8906-49e04f014701" name="NewsAdapter" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="0347d2af-5468-4dc2-b70f-874167dd3fbe" />
+        <ownedOperationsInternal>
+          <operation Id="ece14f47-efb6-4952-8fc5-bb7410ffde4f" name="Sort" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="afc05f13-e729-408d-b15a-5ceeae642a6c" />
+          </operation>
+          <operation Id="29c36bae-4792-4d89-914d-f6caeeac9e89" name="GetCategories" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="1bfa2aea-d563-40d4-9dc8-571a1e97d41a" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="91e5fd33-1709-4f82-bc86-1d2dd7e8c4d3" name="DetailsActivity" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="aceedf8e-f990-4dd5-915a-8e4f1953b7b4" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="88bb4f48-2146-47b2-8252-85f1cb078ff8" name="OnEndFetchMore" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="674c8ec0-4e14-448b-8497-a3ff1d81882e" />
+        <ownedOperationsInternal>
+          <operation Id="80173ca3-c453-4327-a902-7440e7f3cdf5" name="OnScroll" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="747b47eb-7d37-41d2-a510-4652fef51f45" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="d1e06527-d08e-476e-8d52-24c656b2e2d6" name="ModelingProject1">
+    <elementDefinition Id="df751005-65ed-4da4-a241-ba373d12754e" />
+  </package>
+</logicalClassDesignerModel>

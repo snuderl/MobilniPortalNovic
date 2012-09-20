@@ -14,7 +14,7 @@ namespace MobilniPortalNovicLib.Personalize
 
         public TimeOfDayFilter(DateTime target)
         {
-            timeOffsetHours = 1;
+            timeOffsetHours = 2;
             Target = target;
         }
 

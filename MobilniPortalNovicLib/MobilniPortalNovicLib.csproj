@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bla.cs" />
     <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Helpers\CategoryWraper.cs" />
     <Compile Include="Helpers\DateTimeHelpers.cs" />
@@ -89,6 +90,8 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
