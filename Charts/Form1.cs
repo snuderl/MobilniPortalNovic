@@ -43,7 +43,7 @@ namespace Charts
                 chart1.Series[name].Points.AddY(i.Count);
             }
 
-            File.WriteAllLines(@"C:/stats.csv", s.Select(x => x.Key + ";" + x.Value + ";"));
+             File.WriteAllLines(@"C:/stats.csv", s.Select(x => x.Key + ";" + x.Value + ";"));
 
             chart2.Series.Clear();
             foreach (var i in dict.OrderBy(x=>x.Value))
